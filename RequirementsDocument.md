@@ -72,6 +72,19 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
 
 \<Persona is-an-instance-of actor>
+The following personas and stories are meant to cover different profiles of the Warehouse employee actor
+
+Giuseppe is 42, hates disorganization, he is the type of person that has all meticulously
+placed in every drawer, he's precise and likes to optimize physical space avoiding waste. His need is to easy locate a free space to locate an items.
+
+Elizabeth is 37, manages internal order from the request to che choice of the pick up point, she would like to be able to do it in the fastest and most intuitive way possible.
+
+Mark is 29, has worked for the warehouse for three months and has been assigned to the receiving area. Therefore his main interest is to access inventory to manage items quantity and to assign a place to the new supplies.
+
+The following personas and stories are meant to cover different profiles of the Warehouse manager actor
+
+Karim is 52, is the manager of the warehouse since he was 40, he has always done his job using Excel to keep track of all the suppliers and the related orders but the warehouse was smaller and now it is growing very fast so he can't work like this anymore. He would like to have an easy and complete way to issue orders to suppliers for a specific items in a low quantity without having to look for who sells what.
+
 
 \<stories will be formalized later as scenarios in use cases>
 
