@@ -112,9 +112,44 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 
 | ID        | Description  |
 | ------------- |:-------------:| 
-|  FR1     |  |
-|  FR2     |   |
-| FRx..  | | 
+|  FR1     | Manage items |
+|  FR1.1     | Define new item descriptor |
+|  FR1.2     | Show information on an item |
+|  FR1.3     | Add item to the warehouse |
+|  FR1.4     | Remove item from the warehouse |
+|  FR1.5     | Notify low availability of an item |
+|  FR1.6     | Modify information about an item |
+|  FR1.7     | Specify result of quality test on an item |
+|  FR1.8     | Trace different locations of an item |
+|  FR1.9     | Change location of an item |
+|  FR2     | Manage users  |
+|  FR2.1     | Create user account |
+|  FR2.2     | Authenticate and login user |
+|  FR3     | Manage suppliers  | 
+|  FR3.1     | Show information on a supplier  |
+|  FR3.2     | Associate a supplier to an item descriptor|
+|  FR3.3     | Disassociate a supplier form an item descriptor|
+|  FR3.4     | Show history of orders placed within a supplier |
+|  FR4     | Manage orders to suppliers  |
+|  FR4.1     | Place order for an item descriptor|
+|  FR4.2     | Show history of orders for each  item descriptor|
+|  FR5    | Manage locations  |
+|  FR5.1     | Manage warehouse locations |
+|  FR5.1.1     | Define new location |
+|  FR5.1.2     | Remove location |
+|  FR5.1.3     | Check availability of a location |
+|  FR5.1.4     | Show which locations are available/unavailable |
+|  FR5.1.5     | Check what is stored in a specific location |
+|  FR5.1.6     | Show history of what was stored in a specific location |
+|  FR5.2     | Manage pick up points |
+|  FR5.2.1     | Define pick up point |
+|  FR5.2.2     | Show status of pick up point |
+|  FR5.2.3     | Remove pick up point |
+|  FR5.2.4     | Show history of items staged in a pick up point |
+|  FR6     | Manage internal transactions |
+|  FR6.1     | Show pending internal requests |
+|  FR6.2     | Select pick up point |
+|  FR6.3     | Show history of internal transactions |
 
 ## Non Functional Requirements
 
