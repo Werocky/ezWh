@@ -78,7 +78,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |   Warehouse manager     | GUI | Keyboard, monitor |
 |   Mail server     |API  | Internet connection |
 |  Items DB     | API | Internet connection/Ethernet cable |
-|  Administrator     | Console/Textual interface | Keyboard, monitor |
+|  Administrator     | GUI/Console/Textual interface | Keyboard, monitor |
 
 
 # Stories and personas
@@ -171,14 +171,14 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 
 
 \<next describe here each use case in the UCD>
-### Use case 1, UC1
-| Actors Involved        |  |
+### Add item to warehouse, UC1
+| Actors Involved        | Warehouse employee, items DB |
 | ------------- |:-------------:| 
-|  Precondition     | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition     | \<Boolean expression, must evaluate to true after UC is finished> |
-|  Nominal Scenario     | \<Textual description of actions executed by the UC> |
-|  Variants     | \<other normal executions> |
-|  Exceptions     | \<exceptions, errors > |
+|  Precondition     | Item descriptor defined, item not already present |
+|  Post condition     | Item loaded into the warehouse, items DB updated |
+|  Nominal Scenario     | The item stored into the warehouse at a chosen location, the available is updated |
+|  Variants     | The item needs to be tested first, it's stored in a special location and the available quantity is unchanged |
+|  Exceptions     | The item descriptor is not defined, the item cannot be stored |
 
 ##### Scenario 1.1 
 
