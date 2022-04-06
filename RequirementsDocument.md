@@ -1,8 +1,8 @@
  #Requirements Document 
 
-Date: 22 march 2022
+Date: 6 april 2022
 
-Version: 0.0
+Version: 0.8
 
  
 | Version number | Change |
@@ -75,10 +75,11 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
 |   Warehouse employee     | GUI | Keyboard, monitor  |
+|   Quality check department     | GUI | Keyboard, monitor  |
 |   Warehouse manager     | GUI | Keyboard, monitor |
 |   Mail server     |API  | Internet connection |
-|  Items DB     | API | Internet connection/Ethernet cable |
-|  Administrator     | GUI/Console/Textual interface | Keyboard, monitor |
+|   Items DB     | API | Internet connection/Ethernet cable |
+|   Administrator     | GUI/Console/Textual interface | Keyboard, monitor |
 
 
 # Stories and personas
@@ -213,7 +214,7 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 |  Post condition     | Location L deleted from the system |
 |  Nominal Scenario     | Administrator deletes an existing location L |
 
-### Use case 1, UC1 - Login
+### Use case 7, UC7 - Login
 | Actors Involved        | Warehouse employee, Warehouse manager, Administrator, accounts DB |
 | ------------- |:-------------:| 
 |  Precondition     | Account U does not exist |
@@ -221,7 +222,7 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 |  Nominal Scenario     | Administrator creates a new account U and populates its fields. |
 
 
-### Use case 4, UC4 - Add item to warehouse
+### Use case 8, UC8 - Add item to warehouse
 | Actors Involved        | Warehouse employee, items DB |
 | ------------- |:-------------:| 
 |  Precondition     | Item descriptor defined, item not already present |
@@ -230,23 +231,35 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 |  Variants     | The item needs to be tested first, it's stored in a special location and the available quantity is unchanged |
 |  Exceptions     | The item descriptor is not defined, the item cannot be stored |
 
-### Use case 4, UC4 - Add item to warehouse
+### Use case 9, UC9 - Change location of an item
 | Actors Involved        | Warehouse employee, items DB |
 | ------------- |:-------------:| 
-|  Precondition     | Item descriptor defined, item not already present |
-|  Post condition     | Item loaded into the warehouse, items DB updated |
-|  Nominal Scenario     | The item stored into the warehouse at a chosen location, the available is updated |
-|  Variants     | The item needs to be tested first, it's stored in a special location and the available quantity is unchanged |
-|  Exceptions     | The item descriptor is not defined, the item cannot be stored |
+|  Precondition     | Item present somewhere |
+|  Post condition     | Item location updated, items DB updated |
+|  Nominal Scenario     | The item is moved to a new location |
 
-### Use case 2, UC2 - Process internal order
+### Use case 10, UC10 - Test items
+| Actors Involved        | Quality check department, items DB |
+| ------------- |:-------------:| 
+|  Precondition     | Items arrive to the quality check department |
+|  Post condition     | Item loaded into the warehouse, items DB updated |
+|  Nominal Scenario     | The internal order is processed by choosing a pick up point and changing the location of the items |
+|  Exceptions     | The tests are not passed, the items must be rejected |
+
+### Use case 11, UC11 - Manage internal order
 | Actors Involved        | Warehouse employee, items DB |
 | ------------- |:-------------:| 
 |  Precondition     | Internal order available |
-|  Post condition     | Items moved or not to the pick up point, items removed or not |
+|  Post condition     | Items moved to the pick up point, items removed from the availability |
 |  Nominal Scenario     | The internal order is processed by choosing a pick up point and changing the location of the items |
 |  Exceptions     | The items is not available, the internal order can not be processed |
 
+### Use case 12, UC12 - Issue an external order
+| Actors Involved        | Warehouse manager, orders DB |
+| ------------- |:-------------:| 
+|  Precondition     | Item in short supply |
+|  Post condition     | Item ordered from a supplier |
+|  Nominal Scenario     | The manager issues an order to one of the available supplier of the needed item |
 
 ##### Scenario 1.1 
 
