@@ -2,12 +2,12 @@
 
 Date: 6 april 2022
 
-Version: 0.8
+Version: 0.8.1
 
  
 | Version number | Change |
 | ----------------- |:-----------|
-| | | 
+| Issue 1 | Modified table alignment | 
 
 
 # Contents
@@ -108,7 +108,7 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 ## Functional Requirements
 
 | ID        | Description  |
-| ------------- |:-------------:| 
+| ------------- |:------------- | 
 |  FR1     | Manage items |
 |  FR1.1     | Define new item descriptor |
 |  FR1.2     | Show information on an item |
