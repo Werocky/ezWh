@@ -68,9 +68,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<actors are a subset of stakeholders>
 
 ## Interfaces
-\<describe here each interface in the context diagram>
-
-\<GUIs will be described graphically in a separate document>
 
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
@@ -211,9 +208,9 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 ### Use case 7, UC7 - Login
 | Actors Involved        | Warehouse employee, Warehouse manager, Administrator, accounts DB |
 | ------------- |:-------------:| 
-|  Precondition     | Account U does not exist |
-|  Post condition     | Account U added in the system |
-|  Nominal Scenario     | Administrator creates a new account U and populates its fields. |
+|  Precondition     | The user is not logged |
+|  Post condition     | The user is logged |
+|  Nominal Scenario     | The user fill the username and password to login |
 
 
 ### Use case 8, UC8 - Add item to warehouse
