@@ -156,6 +156,8 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 |  NFR2     | Security | Access to each level only to authorized users | All FR |
 |  NFR3     | Privacy | The data of one user should not be disclosed to other users | All FR |
 |  NFR4     | Portability | The application should run on Windows 7 or later (this should not be a compatibility problem) | All FR | 
+|  NFR5		| Usability | Application should be used with no specific training for the users | All FR |
+|  NFR6		| Compatibility | The application should be compatible with the most used DBMS softwares | All FR |
 
 
 # Use case diagram and use cases
