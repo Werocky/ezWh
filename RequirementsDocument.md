@@ -150,14 +150,12 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 
 ## Non Functional Requirements
 
-\<Describe constraints on functional requirements>
-
 | ID        | Type (efficiency, reliability, ..)           | Description  | Refers to |
-| ------------- |:-------------:| :-----:| -----:|
-|  NFR1     |   |  | |
-|  NFR2     | |  | |
-|  NFR3     | | | |
-| NFRx .. | | | | 
+| ------------- |:-------------:| :----- | -----:|
+|  NFR1     | Performance | All functions should complete in < 0.5 sec | All FR |
+|  NFR2     | Security | Access to each level only to authorized users | All FR |
+|  NFR3     | Privacy | The data of one user should not be disclosed to other users | All FR |
+|  NFR4     | Portability | The application should run on Windows 7 or later (this should not be a compatibility problem) | All FR | 
 
 
 # Use case diagram and use cases
@@ -237,7 +235,7 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 | ------------- |:-------------:| 
 |  Precondition     | Items arrive to the quality check department |
 |  Post condition     | Item loaded into the warehouse, items DB updated |
-|  Nominal Scenario     | The internal order is processed by choosing a pick up point and changing the location of the items |
+|  Nominal Scenario     | The corresponding tests are performed on the item |
 |  Exceptions     | The tests are not passed, the items may be rejected |
 
 ### Use case 11, UC11 - Manage internal order
