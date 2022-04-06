@@ -171,7 +171,66 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 
 
 \<next describe here each use case in the UCD>
-### Use case 1, UC1 - Add item to warehouse
+### Use case 1, UC1 - Create user account
+| Actors Involved        | Administrator, accounts DB |
+| ------------- |:-------------:| 
+|  Precondition     | Account U does not exist |
+|  Post condition     | Account U added in the system |
+|  Nominal Scenario     | Administrator creates a new account U and populates its fields. |
+
+### Use case 2, UC2 - Modify user account
+| Actors Involved        | Administrator, accounts DB |
+| ------------- |:-------------:| 
+|  Precondition     | Account U exists |
+|  Post condition     | - |
+|  Nominal Scenario     | Administrator modifies one or more fields of an account U |
+
+### Use case 3, UC3 - Delete user account
+| Actors Involved        | Administrator, accounts DB |
+| ------------- |:-------------:| 
+|  Precondition     | Account U exists |
+|  Post condition     | Account U deleted from the system |
+|  Nominal Scenario     | Administrator creates a new account U and populates its fields. |
+
+### Use case 4, UC4 - Create location
+| Actors Involved        | Administrator, accounts DB |
+| ------------- |:-------------:| 
+|  Precondition     | Location L does not exist |
+|  Post condition     | Location L added in the system |
+|  Nominal Scenario     | Administrator deletes an existing account U |
+
+### Use case 5, UC5 - Modify location
+| Actors Involved        | Administrator, accounts DB |
+| ------------- |:-------------:| 
+|  Precondition     | Location L exists |
+|  Post condition     | - |
+|  Nominal Scenario     | Administrator modifies one or more fields of an location L |
+
+### Use case 6, UC6 - Delete location
+| Actors Involved        | Administrator, accounts DB |
+| ------------- |:-------------:| 
+|  Precondition     | Location L exists |
+|  Post condition     | Location L deleted from the system |
+|  Nominal Scenario     | Administrator deletes an existing location L |
+
+### Use case 1, UC1 - Login
+| Actors Involved        | Warehouse employee, Warehouse manager, Administrator, accounts DB |
+| ------------- |:-------------:| 
+|  Precondition     | Account U does not exist |
+|  Post condition     | Account U added in the system |
+|  Nominal Scenario     | Administrator creates a new account U and populates its fields. |
+
+
+### Use case 4, UC4 - Add item to warehouse
+| Actors Involved        | Warehouse employee, items DB |
+| ------------- |:-------------:| 
+|  Precondition     | Item descriptor defined, item not already present |
+|  Post condition     | Item loaded into the warehouse, items DB updated |
+|  Nominal Scenario     | The item stored into the warehouse at a chosen location, the available is updated |
+|  Variants     | The item needs to be tested first, it's stored in a special location and the available quantity is unchanged |
+|  Exceptions     | The item descriptor is not defined, the item cannot be stored |
+
+### Use case 4, UC4 - Add item to warehouse
 | Actors Involved        | Warehouse employee, items DB |
 | ------------- |:-------------:| 
 |  Precondition     | Item descriptor defined, item not already present |
@@ -187,27 +246,6 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 |  Post condition     | Items moved or not to the pick up point, items removed or not |
 |  Nominal Scenario     | The internal order is processed by choosing a pick up point and changing the location of the items |
 |  Exceptions     | The items is not available, the internal order can not be processed |
-
-### Use case 3, UC3 - Create user account
-| Actors Involved        | Administrator, accounts DB |
-| ------------- |:-------------:| 
-|  Precondition     | Account U does not exist |
-|  Post condition     | Account U added in the system |
-|  Nominal Scenario     | Administrator creates a new account U and populates its fields. |
-
-### Use case 3, UC3 - Modify user account
-| Actors Involved        | Administrator, accounts DB |
-| ------------- |:-------------:| 
-|  Precondition     | Account U  exists |
-|  Post condition     | - |
-|  Nominal Scenario     | Administrator modifies one or more fields of an account U |
-
-### Use case 3, UC3 - Delete user account
-| Actors Involved        | Administrator, accounts DB |
-| ------------- |:-------------:| 
-|  Precondition     | Account U exists |
-|  Post condition     | Account U added in the system |
-|  Nominal Scenario     | Administrator creates a new account U and populates its fields. |
 
 
 ##### Scenario 1.1 
