@@ -107,10 +107,6 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 
 ## Functional Requirements
 
-\<In the form DO SOMETHING, or VERB NOUN, describe high level capabilities of the system>
-
-\<they match to high level use cases>
-
 | ID        | Description  |
 | ------------- |:-------------:| 
 |  FR1     | Manage items |
@@ -170,8 +166,6 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 ## Use case diagram
 \<define here UML Use case diagram UCD summarizing all use cases, and their relationships>
 
-
-\<next describe here each use case in the UCD>
 ### Use case 1, UC1 - Create user account
 | Actors Involved        | Administrator, accounts DB |
 | ------------- |:-------------:| 
@@ -191,7 +185,7 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 | ------------- |:-------------:| 
 |  Precondition     | Account U exists |
 |  Post condition     | Account U deleted from the system |
-|  Nominal Scenario     | Administrator creates a new account U and populates its fields. |
+|  Nominal Scenario     | Administrator deletes an existing account U |
 
 ### Use case 4, UC4 - Create location
 | Actors Involved        | Administrator, accounts DB |
@@ -244,7 +238,7 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 |  Precondition     | Items arrive to the quality check department |
 |  Post condition     | Item loaded into the warehouse, items DB updated |
 |  Nominal Scenario     | The internal order is processed by choosing a pick up point and changing the location of the items |
-|  Exceptions     | The tests are not passed, the items must be rejected |
+|  Exceptions     | The tests are not passed, the items may be rejected |
 
 ### Use case 11, UC11 - Manage internal order
 | Actors Involved        | Warehouse employee, items DB |
@@ -261,36 +255,60 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 |  Post condition     | Item ordered from a supplier |
 |  Nominal Scenario     | The manager issues an order to one of the available supplier of the needed item |
 
-##### Scenario 1.1 
-
-\<describe here scenarios instances of UC1>
-
-\<a scenario is a sequence of steps that corresponds to a particular execution of one use case>
-
-\<a scenario is a more formal description of a story>
-
-\<only relevant scenarios should be described>
-
-| Scenario 1.1 | |
+### Use case 13, UC13 - Create item descriptor
+| Actors Involved        | Warehouse manager, items DB |
 | ------------- |:-------------:| 
-|  Precondition     | \<Boolean expression, must evaluate to true before the scenario can start> |
-|  Post condition     | \<Boolean expression, must evaluate to true after scenario is finished> |
+|  Precondition     | Item descriptor not defined |
+|  Post condition     | Item descriptor added to the DB |
+|  Nominal Scenario     | The manager creates the item descriptor and populates its fields with also the available supplier |
+
+### Use case 14, UC14 - Modify item descriptor
+| Actors Involved        | Warehouse manager, items DB |
+| ------------- |:-------------:| 
+|  Precondition     | Item descriptor exists |
+|  Post condition     | - |
+|  Nominal Scenario     | The manager modifies the item descriptor |
+|  Variant  |  The manager modifies the list of possible suppliers |
+
+### Use case 15, UC15 - Delete item descriptor
+| Actors Involved        | Warehouse manager, items DB |
+| ------------- |:-------------:| 
+|  Precondition     | Item descriptor exists |
+|  Post condition     | Item descriptor deleted from the DB |
+|  Nominal Scenario     | The warehouse manager deletes an existing item descriptor |
+
+### Use case 16, UC16 - Show inventory
+| Actors Involved        | Warehouse employee, Warehouse manager, items DB |
+| ------------- |:-------------:| 
+|  Precondition     | - |
+|  Post condition     | - |
+|  Nominal Scenario     | The user see the list of all the items stored in the warehouse |
+|  Variant  | Restrict to a certain location |
+|  Variant  | Restrict to a certain range of availability |
+
+##### Scenario 14.1 
+
+| Scenario |  Item descriptor fields are wrong |
+| ------------- |:-------------:| 
+|  Precondition     | Item descriptor exists | 
+|  Post condition     | Item descriptor fields are updated  |
 | Step#        | Description  |
-|  1     |  |  
-|  2     |  |
-|  ...     |  |
+|  1     | WM choose an item descriptor |  
+|  2     |  WM edit some field |
+|  3    |  WM saves changes |
+|  4    |  Item descriptor in the DB is updated |
 
-##### Scenario 1.2
+##### Scenario 14.2 
 
-##### Scenario 1.x
-
-### Use case 2, UC2
-..
-
-### Use case x, UCx
-..
-
-
+| Scenario |  New supplier available |
+| ------------- |:-------------:| 
+|  Precondition     | Item descriptor exists | 
+|  Post condition     | Item descriptor list of possible suppliers is updated  |
+| Step#        | Description  |
+|  1     | WM choose an item descriptor |  
+|  2     |  WM add the new supplier to the list of possible suppliers |
+|  3    |  WM saves changes |
+|  4    |  Item descriptor in the DB is updated |
 
 # Glossary
 
