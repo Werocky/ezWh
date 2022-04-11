@@ -67,6 +67,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 \<actors are a subset of stakeholders>
 
+Business decision: suppliers and other OUs do not interact directly with the application (i.e it's transparent to them), orders and requests are conveyed in a standardized format (ex. email).
+
 ## Interfaces
 
 | Actor | Logical Interface | Physical Interface  |
@@ -74,7 +76,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |   Warehouse employee     | GUI | Keyboard, monitor  |
 |   Quality check department     | GUI | Keyboard, monitor  |
 |   Warehouse manager     | GUI | Keyboard, monitor |
-|   Mail server     |API  | Internet connection |
 |   Items DB     | API | Internet connection/Ethernet cable |
 |   Administrator     | GUI/Console/Textual interface | Keyboard, monitor |
 
