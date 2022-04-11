@@ -21,9 +21,9 @@ Consider the EZWH  project as described in YOUR requirement document, assume tha
 ### 
 |         component name    | Estimated effort (person hours)   |             
 | ----------- | ------------------------------- | 
-|requirement document    | 30 |
+|requirement document    | 40 |
 | GUI prototype |20|
-|design document |50|
+|design document |60|
 |code |175|
 | unit tests |20|
 | api tests |20|
@@ -56,11 +56,11 @@ Report here the results of the three estimation approaches. The  estimates may d
 |             | Estimated effort                        |   Estimated duration |          
 | ----------- | ------------------------------- | ---------------|
 | estimate by size |175 ph| 1.1 weeks
-| estimate by product decomposition |325 ph |2 weeks
-| estimate by activity decomposition |325 ph | 3.4 weeks
+| estimate by product decomposition |335 ph |2.1 weeks
+| estimate by activity decomposition |335 ph | 2.1 weeks or 3.4 weeks according to the Gantt chart
 
 ## Conclusion (to complete)
-The estimate by size only considers the cumulative number of lines of code for each class to implement, ignoring the other parts of the project. The estimate by product decomposition sums up the effort needed to produce each deliverable but
+The estimate by size only considers the cumulative number of lines of code for each class to implement, ignoring the other parts of the project, while the other estimates consider every part of the project.
 
 
 
