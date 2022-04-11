@@ -58,7 +58,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |   Items DB     |  Contains persistent information about each item           |
 |   Competitors     |   Providers of other warehouse management applications          |
 |   Warehouse     |   Physical space where items are stored          |
-|  Mail service     |   Conveys orders and inernal requests        |
 
 # Context Diagram and interfaces
 
@@ -67,7 +66,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 \<actors are a subset of stakeholders>
 
-Business decision: suppliers and other OUs do not interact directly with the application (i.e it's transparent to them), orders and requests are conveyed in a standardized format (ex. email).
 
 ## Interfaces
 
@@ -78,6 +76,8 @@ Business decision: suppliers and other OUs do not interact directly with the app
 |   Warehouse manager     | GUI | Keyboard, monitor |
 |   Items DB     | API | Internet connection/Ethernet cable |
 |   Administrator     | GUI/Console/Textual interface | Keyboard, monitor |
+|   Supplier  | Web services | Internet connection |
+| OU | Web services | LAN/Internet connection |
 
 
 # Stories and personas
