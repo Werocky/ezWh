@@ -22,7 +22,7 @@ Version: 1.1
 
 
 ### Use case 4, UC4 - Create location
-![Create Location](/GUIs/Add%20location.png.png)
+![Create Location](/GUIs/Add%20location.png)
 
 
 ### Use case 5, UC5 - Modify location
@@ -34,7 +34,7 @@ Version: 1.1
 
 
 ### Use case 7, UC7 - Login
-![Login](/GUIs/New%20User.png)
+![Login](/GUIs/Login.png)
 
 
 ### Use case 8, UC8 - Add item to warehouse
@@ -65,6 +65,7 @@ Version: 1.1
 
 ### Use case 14, UC14 - Modify item descriptor
 ![Modify item descriptor](/GUIs/Modify%20item%20descriptor%20copy.png)
+![Modify item descriptor](/GUIs/Add%20item%20supplier.png)
 
 
 ### Use case 15, UC15 - Delete item descriptor
