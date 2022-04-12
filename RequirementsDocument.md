@@ -284,6 +284,20 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 |  Variant  | Restrict to a certain location |
 |  Variant  | Restrict to a certain range of availability |
 
+### Use case 17, UC17 - Add a supplier
+| Actors Involved        | Warehouse manager |
+| ------------- |:-------------:| 
+|  Precondition     | - |
+|  Post condition     | New supplier inserted in the list |
+|  Nominal Scenario     | The manager add a new supplier with all is informations to the list of  suppliers |
+
+### Use case 18, UC18 - Show supplier info
+| Actors Involved        | Warehouse manager |
+| ------------- |:-------------:| 
+|  Precondition     | A supplier exists in the list |
+|  Post condition     | - |
+|  Nominal Scenario     | The manager see all the informations of the selected supplier |
+
 ##### Scenario 14.1 
 
 | Scenario |  Item descriptor fields are wrong |

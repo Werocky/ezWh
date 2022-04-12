@@ -54,3 +54,10 @@ Version: 1.1
 
 
 ### Use case 16, UC16 - Show inventory
+
+
+### Use case 17, UC17 - Add a supplier
+
+
+### Use case 18, UC18 - Show supplier info
+
