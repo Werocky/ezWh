@@ -298,6 +298,14 @@ Karim is 52, is the manager of the warehouse since he was 40, he has always done
 |  Post condition     | - |
 |  Nominal Scenario     | The manager see all the informations of the selected supplier |
 
+### Use case 19, UC19 - Modify a supplier
+| Actors Involved        | Warehouse manager |
+| ------------- |:-------------:| 
+|  Precondition     | Supplier S exists |
+|  Post condition     | Supplier is updated |
+|  Nominal Scenario     | The manager modifies the supplier's informations |
+|  Variant  | The manager modifies the list of items available from the supplier |
+
 ##### Scenario 14.1 
 
 | Scenario |  Item descriptor fields are wrong |
