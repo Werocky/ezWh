@@ -114,6 +114,7 @@ Elizabeth forgot where the imminent delivery of that batch of wool is going to h
 |  FR1     | Manage items |
 |  FR1.1     | Define new item descriptor |
 |  FR1.2     | Show information on an item |
+| FR1.2.1 |  Show items of a certain type |
 |  FR1.3     | Add item to the warehouse |
 |  FR1.4     | Remove item from the warehouse |
 |  FR1.5     | Notify low availability of an item |
@@ -139,12 +140,11 @@ Elizabeth forgot where the imminent delivery of that batch of wool is going to h
 |  FR5.1.3     | Check availability of a location |
 |  FR5.1.4     | Show which locations are available/unavailable |
 |  FR5.1.5     | Check what is stored in a specific location |
-|  FR5.1.6     | Show history of what was stored in a specific location |
 |  FR5.2     | Manage pick up points |
 |  FR5.2.1     | Define pick up point |
 |  FR5.2.2     | Show status of pick up point |
 |  FR5.2.3     | Remove pick up point |
-|  FR5.2.4     | Show history of items staged in a pick up point |
+|  FR5.2.4     | Show items staged in a pick up point |
 |  FR6     | Manage internal transactions |
 |  FR6.1     | Show pending internal requests |
 |  FR6.2     | Select pick up point |
@@ -231,7 +231,7 @@ Elizabeth forgot where the imminent delivery of that batch of wool is going to h
 | Actors Involved        | Warehouse employee, items DB |
 | ------------- |:-------------:| 
 |  Precondition     | Item present somewhere |
-|  Post condition     | Item location updated, items DB updated |
+|  Post condition     | Item location updated,item locations history updated items DB updated |
 |  Nominal Scenario     | The item is moved to a new location |
 
 ### Use case 10, UC10 - Test items
@@ -240,7 +240,7 @@ Elizabeth forgot where the imminent delivery of that batch of wool is going to h
 |  Precondition     | Items arrive to the quality check department |
 |  Post condition     | Item loaded into the warehouse, items DB updated |
 |  Nominal Scenario     | The corresponding tests are performed on the item |
-|  Exceptions     | The tests are not passed, the items may be rejected |
+|  Variants     | Test an item that is already in the warehouse |
 
 ### Use case 11, UC11 - Manage internal order
 | Actors Involved        | Warehouse employee, items DB |
@@ -248,7 +248,7 @@ Elizabeth forgot where the imminent delivery of that batch of wool is going to h
 |  Precondition     | Internal order available |
 |  Post condition     | Items moved to the pick up point, items removed from the availability |
 |  Nominal Scenario     | The internal order is processed by choosing a pick up point and changing the location of the items |
-|  Exceptions     | The items is not available, the internal order can not be processed |
+|  Exceptions     | The items are not available, the internal order can not be processed |
 
 ### Use case 12, UC12 - Issue an external order
 | Actors Involved        | Warehouse manager, orders DB |
@@ -285,13 +285,13 @@ Elizabeth forgot where the imminent delivery of that batch of wool is going to h
 |  Precondition     | - |
 |  Post condition     | - |
 |  Nominal Scenario     | The user see the list of all the items stored in the warehouse |
-|  Variant  | Restrict to a certain location |
-|  Variant  | Restrict to a certain range of availability |
+|  Variant  | View only items of a certain category |
+
 
 ### Use case 17, UC17 - Add a supplier
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------:| 
-|  Precondition     | - |
+|  Precondition     | Supplier not defined |
 |  Post condition     | New supplier inserted in the list |
 |  Nominal Scenario     | The manager add a new supplier with all is informations to the list of  suppliers |
 
@@ -299,7 +299,7 @@ Elizabeth forgot where the imminent delivery of that batch of wool is going to h
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------:| 
 |  Precondition     | A supplier exists in the list |
-|  Post condition     | - |
+|  Post condition     | Supplier info is visible |
 |  Nominal Scenario     | The manager see all the informations of the selected supplier |
 
 ### Use case 19, UC19 - Modify a supplier
@@ -309,6 +309,89 @@ Elizabeth forgot where the imminent delivery of that batch of wool is going to h
 |  Post condition     | Supplier is updated |
 |  Nominal Scenario     | The manager modifies the supplier's informations |
 |  Variant  | The manager modifies the list of items available from the supplier |
+
+##### Scenario 12.1 
+
+| Scenario |  Order an item that is low in quantity |
+| ------------- |:-------------:| 
+|  Precondition     | Item defined, low in quantity | 
+|  Post condition     | Order placed  |
+| Step#        | Description  |
+|  1     | Item is added to the "low quantity" list |  
+|  2     | The manager selects between the suppliers for that item |
+|  3    |  The manager chooses the desired quantity |
+|  4    |  Order is sent ot the supplier |
+
+##### Scenario 8.1 
+
+| Scenario |  add new item |
+| ------------- |:-------------:| 
+|  Precondition     | Item not in the warehouse | 
+|  Post condition     | Item stored in the warehouse  |
+| Step#        | Description  |
+|  1     | The descriptor corresponding to the item is found| 
+|  2     | A location among the available ones is chosen |
+|  3    |  Item is place at the chosen location, the availablity of the item is increased |
+| 4 | The location is now full, it's mark as not available |
+
+##### Scenario 8.2 
+
+| Scenario |  fail to add new item |
+| ------------- |:-------------:| 
+|  Precondition     | Item not in the warehouse | 
+|  Post condition     | Item still not in the warehouse  |
+| Step#        | Description  |
+|  1     | The descriptor corresponding to the item is not found| 
+|  2     | The item cannot be stored |
+
+##### Scenario 10.1 
+
+| Scenario |  test new item |
+| ------------- |:-------------:| 
+|  Precondition     | Item not in the warehouse | 
+|  Post condition     | Item tested  |
+| Step#        | Description  |
+|  1     | A new Item arrives to the warehouse| 
+|  2     | Item is loaded into the testing area |
+|  3    |  Item is tested |
+|  4    |  Test is passed, item is added to a "standard" location the warehouse |
+| 5 | The result of the test is recorded |
+
+##### Scenario 10.2 
+
+| Scenario |  test pre-stored item |
+| ------------- |:-------------:| 
+|  Precondition     | Item in the warehouse | 
+|  Post condition     | Item tested  |
+| Step#        | Description  |
+|  1     | An item in the warehouse is chosen for testing |  
+|  2     | Item is not counted as available anymore and is moved to the testing area |
+|  3    |  Item is tested |
+|  4    |  Test is failed, item is permanetly removed from the warehouse |
+
+##### Scenario 11.1 
+
+| Scenario |  Satisfy internal request |
+| ------------- |:-------------:| 
+|  Precondition     | Internal request received | 
+|  Post condition     | Request satisfied, item delivered to pick up point  |
+| Step#        | Description  |
+|  1     | WM choose an internal transacion that is pending |  
+|  2     |  WM chooses the pick up point and the items to deliver |
+|  3    |  Internal transaction is marked as completed |
+|  4    |  Items are removed from the warehouse and the placed to the pick up point |
+
+##### Scenario 11.2 
+
+| Scenario |  Fail to satisfy internal request |
+| ------------- |:-------------:| 
+|  Precondition     | Internal request received | 
+|  Post condition     | Request remains pending  |
+| Step#        | Description  |
+|  1     | WM choose an internal transacion that is pending |  
+|  2     |  WM chooses the pick up point and the items to deliver |
+|  3    |  The available quantity for the requested item is insufficient |
+|  4    | The internal request remains pending |
 
 ##### Scenario 14.1 
 
