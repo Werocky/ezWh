@@ -88,14 +88,18 @@ The following personas and stories are meant to cover different profiles of the 
 
 Giuseppe is 42, hates disorganization, he is the type of person that has all meticulously
 placed in every drawer, he's precise and likes to optimize physical space avoiding waste. His need is to easy locate a free space to locate an items.
-
-Elizabeth is 37, manages internal order from the request to che choice of the pick up point, she would like to be able to do it in the fastest and most intuitive way possible.
+Giuseppe is almost done working for the day but he still has to load a box of screw and he cannot see any place where to put it. So, he analyzes the list of locations and find out that on the other side of the warehouse there is plenty of space for the box.
 
 Mark is 29, has worked for the warehouse for three months and has been assigned to the receiving area. Therefore his main interest is to access inventory to manage items quantity and to assign a place to the new supplies.
+Mark just received a huge amonut of items to load from the latest supply, but he's able to quickly and precisely identify what the items in front of him are easyly identify where to store them.
 
 The following personas and stories are meant to cover different profiles of the Warehouse manager actor
 
 Karim is 52, is the manager of the warehouse since he was 40, he has always done his job using Excel to keep track of all the suppliers and the related orders but the warehouse was smaller and now it is growing very fast so he can't work like this anymore. He would like to have an easy and complete way to issue orders to suppliers for a specific items in a low quantity without having to look for who sells what.
+Karim just started his working day and he immediately sees that a long list of items is about run out. An employee rushes to his office, telling Karim that the manifacture office will soon need a huge amount of raw materials but they don't have enough. However, before the employee could utter a single word, Karim had already found out about the shortage, chosen and appropriate supplier and issued a detailed order.
+
+Elizabeth is 37, manages internal order from the request to che choice of the pick up point, she would like to be able to do it in the fastest and most intuitive way possible. 
+Elizabeth forgot where the imminent delivery of that batch of wool is going to happen, so she quckly browses the list of all internal requests and she sees that it's going to happen in the corridor between the warehouse and the production plant. Releived, she asks an employee to collect the wool that has been requested.
 
 
 \<stories will be formalized later as scenarios in use cases>
