@@ -39,6 +39,7 @@ Version: 1.4
 
 ### Use case 8, UC8 - Add item to warehouse
 ![Add item to warehouse](/GUIs/Add%20Item.png)
+![Add item to warehouse](/GUIs/TestingItems.png)
 
 
 ### Use case 9, UC9 - Change location of an item
@@ -51,13 +52,16 @@ Version: 1.4
 
 
 ### Use case 11, UC11 - Manage internal order
-![Manage internal order](/GUIs/InternalOrder.png)
 ![Manage internal order](/GUIs/InternalManagement.png)
+![Manage internal order](/GUIs/InternalManagement%20copy.png)
 
 
 ### Use case 12, UC12 - Issue an external order
+![Issue an external order](/GUIs/Orders.png)
 ![Issue an external order](/GUIs/ExternalOrders.png)
-
+![Issue an external order](/GUIs/ExternalOrders%20copy.png)
+![Issue an external order](/GUIs/Low%20quantity%20items.png)
+![Issue an external order](/GUIs/ExternalOrders%20Completed.png)
 
 ### Use case 13, UC13 - Create item descriptor
 ![Create item descriptor](/GUIs/Add%20item%20descriptor.png)
