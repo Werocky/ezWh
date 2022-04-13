@@ -62,11 +62,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 # Context Diagram and interfaces
 
 ## Context Diagram
-\<Define here Context diagram using UML use case diagram>
 
 ![Context Diagram](/Images/Context_Diagram1.jpg)
-
-\<actors are a subset of stakeholders>
 
 
 ## Interfaces
@@ -83,9 +80,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 
 # Stories and personas
-\<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
 
-\<Persona is-an-instance-of actor>
 The following personas and stories are meant to cover different profiles of the Warehouse employee actor
 
 Giuseppe is 42, hates disorganization, he is the type of person that has all meticulously
@@ -102,9 +97,6 @@ Karim just started his working day and he immediately sees that a long list of i
 
 Elizabeth is 37, manages internal order from the request to che choice of the pick up point, she would like to be able to do it in the fastest and most intuitive way possible. 
 Elizabeth forgot where the imminent delivery of that batch of wool is going to happen, so she quckly browses the list of all internal requests and she sees that it's going to happen in the corridor between the warehouse and the production plant. Releived, she asks an employee to collect the wool that has been requested.
-
-
-\<stories will be formalized later as scenarios in use cases>
 
 
 # Functional and non functional requirements
