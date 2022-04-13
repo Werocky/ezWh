@@ -22,11 +22,11 @@ Version: 1.4
 ### Use case 4, UC4 - Create location
 ![Create Location](/GUIs/Add%20warehouse%20location.png)
 ![Create pickup point](/GUIs/Add%20pick%20up%20point.png)
-![Create pickup point](/GUIs/Modify%20pick%20up%20point%20.png)
 
 
 ### Use case 5, UC5 - Modify location
 ![Modify Location](/GUIs/Modify%20warehouse%20location%20.png)
+![Create pickup point](/GUIs/Modify%20pick%20up%20point%20.png)
 
 
 ### Use case 6, UC6 - Delete location
