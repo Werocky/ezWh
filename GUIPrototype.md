@@ -64,6 +64,7 @@ Version: 1.1
 
 
 ### Use case 14, UC14 - Modify item descriptor
+![Modify item descriptor](/GUIs/Items%20manager%20copy.png)
 ![Modify item descriptor](/GUIs/Modify%20item%20descriptor%20copy.png)
 ![Modify item descriptor](/GUIs/Add%20item%20supplier.png)
 
