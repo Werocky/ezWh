@@ -64,6 +64,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 ## Context Diagram
 \<Define here Context diagram using UML use case diagram>
 
+![Context Diagram](/Images/Context_Diagram1.jpg)
+
 \<actors are a subset of stakeholders>
 
 
@@ -166,7 +168,8 @@ Elizabeth forgot where the imminent delivery of that batch of wool is going to h
 
 
 ## Use case diagram
-\<define here UML Use case diagram UCD summarizing all use cases, and their relationships>
+
+![UseCaseDiagram](/Images/UseCaseDiagram1.jpg)
 
 ### Use case 1, UC1 - Create user account
 | Actors Involved        | Administrator, accounts DB |
@@ -336,18 +339,16 @@ Elizabeth forgot where the imminent delivery of that batch of wool is going to h
 
 # Glossary
 
-\<use UML class diagram to define important terms, or concepts in the domain of the system, and their relationships> 
-
-\<concepts are used consistently all over the document, ex in use cases, requirements etc>
+![Glossary](/Images/Glossary.jpg)
 
 # System Design
-\<describe here system design>
 
-\<must be consistent with Context diagram>
+![System Design](/Images/System_Design.jpg)
 
 # Deployment Diagram 
 
-\<describe here deployment diagram >
+![Deployment Diagram](/Images/DeploymentDiagram.jpg)
+
 
 
 

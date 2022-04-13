@@ -47,7 +47,7 @@ Consider the EZWH  project as described in YOUR requirement document, assume tha
 | Configuration management|15 |
 
 ###
-Insert here Gantt chart with above activities
+![Gantt](/Images/Gantt.jpg)
 
 # Summary
 
