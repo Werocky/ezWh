@@ -1,10 +1,13 @@
 'use strict';
 const express = require('express');
+const UserAPI = require('./modules/UserAPI');
 // init express
 const app = new express();
 const port = 3001;
 
 app.use(express.json());
+
+UserAPI(app)
 
 //GET /api/test
 app.get('/api/hello', (req,res)=>{
