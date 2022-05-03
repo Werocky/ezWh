@@ -51,6 +51,24 @@ class UsersDB {
             });
         });
     }
+
+    login(username, password) {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT id as id, email as email, name as name, surname as surname, type as type FROM USERS WHERE EMAIL=? AND PASSWORD=?';
+            this.db.all(sql, [username, User.encrypt(password)], (err, rows) => {
+                if (err) {
+                reject(err);
+                return;
+                }
+                if (rows.length === 0) {
+                    resolve(null);
+                }
+                const row = rows[0];
+                const user = new User(row.email, row.name, row.surname, row.password, row.type, row.id);
+                resolve(user);
+            });
+        });
+    }
 }
 
 module.exports = UsersDB;

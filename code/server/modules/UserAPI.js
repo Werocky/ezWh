@@ -1,9 +1,11 @@
 'use strict';
 
 const UsersDB = require('./UsersDB');
+const User = require('./User');
 
 const types = ["customer", "qualityEmployee", "clerk", "deliveryEmployee", "supplier"];
 
+let currentUser = undefined;
 
 module.exports = function(app) {
     app.post('/api/newUser', async (req,res)=>{
@@ -21,9 +23,7 @@ module.exports = function(app) {
         let users;
         try {
             users = new UsersDB('WarehouseDB');
-            console.log("A");
             await users.createUserTable();
-            console.log("B");
             if(await users.alreadyExists(req.body.username, req.body.type)) {
                 // user with same mail and type already exists
                 return res.status(409).json();
@@ -34,5 +34,31 @@ module.exports = function(app) {
             return res.status(503).json(); // Service Unavailable
         }
         return res.status(201).json();
+    });
+
+    app.post('/api/managerSessions', async (req,res) => {
+        
+        if(Object.keys(req.body).length!==2) { 
+            return res.status(401);
+        }
+        let users;
+        let user;
+        try {
+            users = new UsersDB('WarehouseDB');
+            user = await users.login(req.body.username, req.body.password);
+            if(!user) {
+                return res.status(401).json();
+            }
+        } catch (err) {
+            // generic error
+            return res.status(500).json(); // Internal Server Error
+        }
+        currentUser = user;
+        const userInfo = {
+            id: user.id,
+            username: user.email,
+            name: user.name
+        };
+        return res.status(200).json(userInfo);
     });
 }
