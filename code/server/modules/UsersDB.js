@@ -52,7 +52,7 @@ class UsersDB {
         });
     }
 
-    login(username, password) {
+    login(username, password, type) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT id as id, email as email, name as name, surname as surname, type as type FROM USERS WHERE EMAIL=? AND PASSWORD=?';
             this.db.all(sql, [username, User.encrypt(password)], (err, rows) => {
@@ -60,12 +60,38 @@ class UsersDB {
                 reject(err);
                 return;
                 }
-                if (rows.length === 0) {
+                if (rows.length === 0 || rows[0].type !== type) {
                     resolve(null);
                 }
                 const row = rows[0];
                 const user = new User(row.email, row.name, row.surname, row.password, row.type, row.id);
                 resolve(user);
+            });
+        });
+    }
+
+    updateRight(username, newType) {
+        return new Promise((resolve, reject) => {
+            const sql = 'UPDATE USERS SET type=? WHERE email=?';
+            this.db.run(sql, [newType, username], (err) => {
+                if (err) {
+                reject(err);
+                return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
+
+    deleteUser(username, type) {
+        return new Promise((resolve, reject) => {
+            const sql = 'DELETE FROM USERS WHERE email=? AND type=?';
+            this.db.run(sql, [username, type], (err) => {
+                if (err) {
+                reject(err);
+                return;
+                }
+                resolve(this.lastID);
             });
         });
     }
