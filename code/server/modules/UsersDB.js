@@ -27,12 +27,12 @@ class UsersDB {
     async alreadyExists(username, type) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT COUNT(*) AS count FROM USERS WHERE email=? AND type=?';
-            this.db.all(sql, [username, type], (err, rows) => {
+            this.db.get(sql, [username, type], (err, row) => {
                 if(err) {
                     reject(err);
                     return;
                 } 
-                resolve(rows[0].count > 0);
+                resolve(row.count > 0);
             });
         });
     }
@@ -55,15 +55,14 @@ class UsersDB {
     login(username, password, type) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT id as id, email as email, name as name, surname as surname, type as type FROM USERS WHERE EMAIL=? AND PASSWORD=?';
-            this.db.all(sql, [username, User.encrypt(password)], (err, rows) => {
+            this.db.get(sql, [username, User.encrypt(password)], (err, row) => {
                 if (err) {
                 reject(err);
                 return;
                 }
-                if (rows.length === 0 || rows[0].type !== type) {
+                if (!row || row.type !== type) {
                     resolve(null);
                 }
-                const row = rows[0];
                 const user = new User(row.email, row.name, row.surname, row.password, row.type, row.id);
                 resolve(user);
             });
