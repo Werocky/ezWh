@@ -18,25 +18,16 @@ module.exports = function(app) {
          * 500 -> Internal Server Error (generic error) 
          */
         
-        let restockOrders;
-        try {
-            restockOrders = new RestockOrdersDB('WarehouseDB');
-            await restockOrders.createRestockTable();
-            restockOrders = await restockOrders.getRestockOrders();
-        } catch (err) {
-            // generic error
-            return res.status(500).json();
-        }
-        
-        for (let restockOrder of restockOrders) {
-            if (restockOrder.state === 'ISSUED' || restockOrder.state === 'DELIVERY') {
-                restockOrder.skuItems = '[]';
-                if (restockOrder.state === 'ISSUED') {
-                    delete restockOrder['transportNote'];
-                }
-            }
-        }
-        return res.status(200).json(restockOrders);
+        return getRestockOrders(res);
+    });
+
+    //GET ALL ISSUED RESTOCK ORDERS
+    app.get('/api/restockOrdersIssued', async (req,res)=>{
+        /**Error responses: 
+         * 401 -> Unauthorized (not logged in or wrong permissions),
+         * 500 -> Internal Server Error (generic error) 
+         */
+        return getRestockOrders(res, true);
     });
 
     //GET AN ORDER BY ID
@@ -229,4 +220,33 @@ module.exports = function(app) {
         }
         return res.status(204).json();
     });
+}
+
+async function getRestockOrders(res, onlyIssued=false) {
+    let restockOrders;
+    try {
+        restockOrders = new RestockOrdersDB('WarehouseDB');
+        await restockOrders.createRestockTable();
+        restockOrders = await restockOrders.getRestockOrders();
+    } catch (err) {
+        // generic error
+        return res.status(500).json();
+    }
+    
+    for (let restockOrder of restockOrders) {
+        if (restockOrder.state === 'ISSUED' || restockOrder.state === 'DELIVERY') {
+            restockOrder.skuItems = '[]';
+            if (restockOrder.state === 'ISSUED') {
+                delete restockOrder['transportNote'];
+            }
+        }
+    }
+
+    if (onlyIssued) {
+        restockOrders = restockOrders.filter((el) => {
+            return el.state === 'ISSUED';
+          });
+    }
+
+    return res.status(200).json(restockOrders);
 }
