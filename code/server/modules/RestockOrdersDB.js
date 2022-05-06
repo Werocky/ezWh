@@ -23,18 +23,21 @@ class RestockOrdersDB {
             });
         });
     }
-    
-    createRestockOrder(issueDate, products, supplierId) {
-        //Encrypt password creating a user
-        let restockOrder = new RestockOrder(issueDate, products, supplierId);
+
+    getRestockOrders() {
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO RESTOCKORDERS(issueDate, products, supplierId) VALUES(?, ?, ?)';
-            this.db.run(sql, [issueDate, products, supplierId], (err) => {
+            const sql = 'SELECT id as id, issueDate as issueDate, state as state, products as products, supplierId as supplierId, transportNote as transportNote, skuItems as skuItems FROM RESTOCKORDERS';
+            this.db.all(sql, (err, rows) => {
                 if (err) {
                 reject(err);
                 return;
                 }
-                resolve(this.lastID);
+                if (!rows) {
+                    resolve(null);
+                }
+                else {
+                    resolve(JSON.parse(JSON.stringify(rows)));
+                }
             });
         });
     }
@@ -57,11 +60,72 @@ class RestockOrdersDB {
             });
         });
     }
+    
+    createRestockOrder(issueDate, products, supplierId) {
+        //Encrypt password creating a user
+        let restockOrder = new RestockOrder(issueDate, products, supplierId);
+        return new Promise((resolve, reject) => {
+            const sql = 'INSERT INTO RESTOCKORDERS(issueDate, products, supplierId, state) VALUES(?, ?, ?, ?)';
+            this.db.run(sql, [issueDate, products, supplierId, 'ISSUED'], (err) => {
+                if (err) {
+                reject(err);
+                return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
 
     changeState(id, newState) {
         return new Promise((resolve, reject) => {
             const sql = 'UPDATE RESTOCKORDERS SET state=? WHERE id=?';
             this.db.run(sql, [newState, id], (err) => {
+                if (err) {
+                reject(err);
+                return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
+
+    addSKUItems(id, skuItems, restockOrder) {
+        return new Promise((resolve, reject) => {
+            
+            if (restockOrder.skuItems) {
+                skuItems = skuItems.concat(JSON.parse(restockOrder.skuItems));
+            }
+            
+            skuItems = JSON.stringify(skuItems);
+            const sql = 'UPDATE RESTOCKORDERS SET skuItems=? WHERE id=?';
+            this.db.run(sql, [skuItems, id], (err) => {
+                if (err) {
+                reject(err);
+                return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
+
+    addTransportNote(id, transportNote) {
+        return new Promise((resolve, reject) => {
+            transportNote = JSON.stringify(transportNote);
+            const sql = 'UPDATE RESTOCKORDERS SET transportNote=? WHERE id=?';
+            this.db.run(sql, [transportNote, id], (err) => {
+                if (err) {
+                reject(err);
+                return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
+
+    deleteRestockOrder(id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'DELETE FROM RESTOCKORDERS WHERE id=?';
+            this.db.run(sql, [id], (err) => {
                 if (err) {
                 reject(err);
                 return;
