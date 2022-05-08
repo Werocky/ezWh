@@ -71,8 +71,8 @@ module.exports = class InternalOrderDB{
 
     changeState(id, newState, products){
         return new Promise((resolve, reject) =>{
-            const query = 'UPDATE INTERNALORDERS SET state=? WHERE id=?';
-            this.db.run(query, [newState, id], (err) =>{
+            const query = 'UPDATE INTERNALORDERS SET state=?, products=? WHERE id=?';
+            this.db.run(query, [newState, products, id], (err) =>{
                 if(err){
                     reject(err);
                     return;
@@ -85,7 +85,7 @@ module.exports = class InternalOrderDB{
     deleteInternalOrder(id){
         return new Promise((resolve, reject) =>{
             const query = 'DELETE FROM INTERNALORDERS WHERE id = ?'
-            this.db.run(sql, [id], (err) =>{
+            this.db.run(query, [id], (err) =>{
                 if(err){
                     reject(err);
                     return;

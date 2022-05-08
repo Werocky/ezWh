@@ -71,11 +71,11 @@ module.exports = function(app){
         let internalOrders;
         try{
             internalOrders = new InternalOrderDB('WarehouseDB');
+            internalOrders = await internalOrders.getInternalOrders(req.params.id);
             if(Object.keys(internalOrders).length === 0){
                 //not found, no internal order associated to the id = :id
                 return res.status(404).json();
             }
-            internalOrders = await internalOrders.getInternalOrders(req.params.id);
         }catch(err){
             //service unavailable (generic error)
             return res.status(500).json();
@@ -99,7 +99,7 @@ module.exports = function(app){
     app.post('/api/internalOrders', (req, res) =>{
     
         //unprocessable entity (validation of request body failed)
-        if(Object.keys(req.body).length!==3) {return res.status(422).json;}
+        if(Object.keys(req.body).length!==3) {return res.status(422).json();}
         
         let internalOrder
         try{
@@ -126,11 +126,14 @@ module.exports = function(app){
         let internalOrders;
         try{
             internalOrders = new InternalOrderDB('WarehouseDB');
+            if(req.body.newState !== 'completed'){
+                req.body.products = '';
+            }
+            await internalOrders.changeState(req.params.id, req.body.newState, JSON.stringify(req.body.products));
             if(!await internalOrders.getInternalOrders(req.params.id)){
                 //order not found
                 return res.status(404).json();
             }
-            await internalOrders.changeState(req.params.id, req.body.newState, JSON.stringify(req.body.products));
 
         }catch(err){
             //service unavailable, generic error
@@ -148,11 +151,11 @@ module.exports = function(app){
         let internalOrders;
         try{
             internalOrders = new InternalOrderDB('WarehouseDB');
+            await internalOrders.deleteInternalOrder(req.params.id);
             if(Object.keys(internalOrders).length === 0){
                 //not found, no internal order associated to the id = :id
                 return res.status(404).json();
             }
-            await internalOrders.deleteInternalOrder(req.params.id);
         }catch(err){
             //service unavailable, generic error
             return res.status(503).json();
