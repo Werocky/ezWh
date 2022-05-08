@@ -1,7 +1,5 @@
 'use strict';
 
-const internalOrder = require('./InternalOrder');
-
 module.exports = class InternalOrderDB{
     sqlite = require('sqlite3');
 

@@ -1,8 +1,6 @@
 'use strict';
 
-const InternalOrder = require("./InternalOrder");
 const InternalOrderDB = require("./InternalOrderDB");
-const RestockOrder = require("./RestockOrder");
 
 module.exports = function(app){
 
