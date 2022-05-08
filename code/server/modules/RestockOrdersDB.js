@@ -36,7 +36,11 @@ class RestockOrdersDB {
                     resolve(null);
                 }
                 else {
-                    resolve(JSON.parse(JSON.stringify(rows)));
+                    let restockOrders = [];
+                    rows.forEach(row => {
+                        restockOrders.push(new RestockOrder(row.issueDate, row.state, row.products, row.supplierId, row.transportNote, row.skuItems, row.id));
+                    });
+                    resolve(restockOrders);
                 }
             });
         });
@@ -54,7 +58,7 @@ class RestockOrdersDB {
                     resolve(null);
                 }
                 else {
-                    const restockOrder = new RestockOrder(row.issueDate, row.state, row.products, row.supplierId, row.transportNote, row.skuItems);
+                    const restockOrder = new RestockOrder(row.issueDate, row.state, row.products, row.supplierId, row.transportNote, row.skuItems, id);
                     resolve(restockOrder);
                 }
             });

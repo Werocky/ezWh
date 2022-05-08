@@ -5,8 +5,6 @@ const dayjs = require('dayjs');
 const RestockOrdersDB = require('./RestockOrdersDB');
 const RestockOrder = require('./RestockOrder');
 
-const types = ["customer", "qualityEmployee", "clerk", "deliveryEmployee", "supplier"];
-
 let currentUser = undefined;
 
 module.exports = function(app) {
@@ -34,13 +32,14 @@ module.exports = function(app) {
     app.get('/api/restockOrders/:id', async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
-         * 422 -> Unprocessable Entity (validation of request body failed), 
+         * 404 -> Not Found (no restock order associated to id),
+         * 422 -> Unprocessable Entity (validation of id failed), 
          * 503 -> Service Unavailable (generic error). 
          */
         
         let id = req.params.id;
 
-        if(!id || Object.keys(req.body).length!==3) { 
+        if(!id) {
             return res.status(422).json();
         }
 
@@ -50,11 +49,15 @@ module.exports = function(app) {
             restockOrders = new RestockOrdersDB('WarehouseDB');
             await restockOrders.createRestockTable();
             restockOrder = await restockOrders.getRestockOrder(id);
+            if (!restockOrder) {
+                return res.status(404).json();
+            }
         } catch (err) {
             // generic error
             return res.status(503).json(); // Service Unavailable
         }
-        return res.status(201).json(restockOrder);
+        delete restockOrder['id'];
+        return res.status(200).json(restockOrder);
     });
 
     //CREATE A NEW ORDER
@@ -85,7 +88,7 @@ module.exports = function(app) {
     app.put('/api/restockOrder/:id', async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
-         * 404 -> Not Found (no restock order associated to id)
+         * 404 -> Not Found (no restock order associated to id),
          * 422 -> Unprocessable Entity (validation of request body or of id failed), 
          * 503 -> Service Unavailable (generic error). 
          */
@@ -118,7 +121,7 @@ module.exports = function(app) {
     app.put('/api/restockOrder/:id/skuItems', async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
-         * 404 -> Not Found (no restock order associated to id)
+         * 404 -> Not Found (no restock order associated to id),
          * 422 -> Unprocessable Entity (validation of request body or of id failed), 
          * 503 -> Service Unavailable (generic error). 
          */
@@ -157,7 +160,7 @@ module.exports = function(app) {
     app.put('/api/restockOrder/:id/transportNote', async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
-         * 404 -> Not Found (no restock order associated to id)
+         * 404 -> Not Found (no restock order associated to id),
          * 422 -> Unprocessable Entity (validation of request body or of id failed), 
          * 503 -> Service Unavailable (generic error). 
          */
@@ -205,7 +208,7 @@ module.exports = function(app) {
         
         let id = req.params.id;
 
-        if(!id || Object.keys(req.body).length!==3) { 
+        if(!id) { 
             return res.status(422).json();
         }
 

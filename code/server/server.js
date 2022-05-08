@@ -2,6 +2,7 @@
 const express = require('express');
 const UserAPI = require('./modules/UserAPI');
 const RestockOrderAPI = require('./modules/RestockOrderAPI');
+const ReturnOrderAPI = require('./modules/ReturnOrderAPI');
 const InternalOrderAPI = require('./modules/InternalOrderAPI');
 
 // init express
@@ -12,6 +13,7 @@ app.use(express.json());
 
 UserAPI(app);
 RestockOrderAPI(app);
+ReturnOrderAPI(app);
 InternalOrderAPI(app);
 
 //GET /api/test
