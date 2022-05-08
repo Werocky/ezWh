@@ -4,6 +4,7 @@ const UserAPI = require('./modules/UserAPI');
 const RestockOrderAPI = require('./modules/RestockOrderAPI');
 const ReturnOrderAPI = require('./modules/ReturnOrderAPI');
 const InternalOrderAPI = require('./modules/InternalOrderAPI');
+const TestDescriptorAPI = require('./modules/TestDescriptorAPI');
 
 // init express
 const app = new express();
@@ -15,6 +16,7 @@ UserAPI(app);
 RestockOrderAPI(app);
 ReturnOrderAPI(app);
 InternalOrderAPI(app);
+TestDescriptorAPI(app);
 
 //GET /api/test
 app.get('/api/hello', (req,res)=>{
