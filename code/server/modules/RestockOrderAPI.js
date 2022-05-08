@@ -4,6 +4,7 @@ const dayjs = require('dayjs');
 
 const RestockOrdersDB = require('./RestockOrdersDB');
 const RestockOrder = require('./RestockOrder');
+const TestResultDB = require('./TestResultDB');
 
 let currentUser = undefined;
 
@@ -58,6 +59,58 @@ module.exports = function(app) {
         }
         delete restockOrder['id'];
         return res.status(200).json(restockOrder);
+    });
+
+    //GET RETURN ITEMS OF AN ORDER
+    app.get('/api/restockOrders/:id/returnItems', async (req,res)=>{
+        /**Error responses: 
+         * 401 -> Unauthorized (not logged in or wrong permissions),
+         * 404 -> Not Found (no restock order associated to id),
+         * 422 -> Unprocessable Entity (validation of id failed or restock order state != COMPLETEDRETURN), 
+         * 500 -> Internal Server Error (generic error). 
+         */
+        
+        let id = req.params.id;
+
+        if(!id) {
+            return res.status(422).json();
+        }
+
+        let restockOrders;
+        let restockOrder;
+        let returnItems = [];
+        try {
+            restockOrders = new RestockOrdersDB('WarehouseDB');
+            await restockOrders.createRestockTable();
+            restockOrder = await restockOrders.getRestockOrder(id);
+            if (!restockOrder) {
+                return res.status(404).json();
+            }
+
+            if (restockOrder.state !== 'COMPLETEDRETURN') {
+                return res.status(422).json();
+            }
+
+            /**
+            let testResults = new TestResultDB('WarehouseDB');
+            await testResults.createTestResultTable();
+            for (const skuItem of restockOrder.skuItems) {
+                rfidTestResults = await testResults.getTestResult(skuItem.rfid);
+                rfidTestResults.every(rfidTestResult => {
+                    if (rfidTestResult.Result === false) {
+                        returnItems.push(skuItem);
+                        return false;
+                    }
+                    return true;
+                });
+            }
+            */
+
+        } catch (err) {
+            // generic error
+            return res.status(503).json(); // Service Unavailable
+        }
+        return res.status(200).json(returnItems);
     });
 
     //CREATE A NEW ORDER
