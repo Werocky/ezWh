@@ -1,7 +1,7 @@
 'use strict'
 
-const Position = require('./Position');
 const sqlite = require('sqlite3');
+const Position = require('./Position');
 
 class PositionDB {
 
@@ -56,7 +56,6 @@ class PositionDB {
   }
 
   createPosition(positionID, aisleID, row, col, maxWeight, maxVolume) {
-    let position = new Position(positionID, aisleID, row, col, maxWeight, maxVolume)
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO POSITIONS(positionID, aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume) VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
         this.db.run(sql, [positionID, aisleID, row, col, maxWeight, maxVolume, 0, 0], (err) => {
@@ -97,6 +96,10 @@ class PositionDB {
             resolve(this.lastID);
         });
     });
+  }
+
+  async modifyPosition(position) {
+    return changePosition(position.positionID, position.aisleID, position.row, position.col, position.maxWeight, position.maxVolume, position.occupiedWeight, position.occupiedVolume);
   }
 
   deletePosition(positionID) {

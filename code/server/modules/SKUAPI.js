@@ -3,7 +3,7 @@
 const SKUDB = require('./SKUsDB');
 const SKU = require('./SKU');
 const Position = require('./Position');
-const PositionDB = require('./PositionsDB');
+const PositionDB = require('./PositionDB');
 
 module.exports=function(app){
 
@@ -72,13 +72,13 @@ module.exports=function(app){
         try{
             skus = new SKUDB('WarehouseDB');
             positions = new PositionDB('WarehouseDB');
-            await skus.createPositionsTable();
+            await positions.createPositionTable();
             await skus.createSKUTable();
             sku = await skus.getSKUById(id);
             if(!sku)
                 return res.status(404).json();
             if(sku.getPositionId() && (req.body.newAvailableQuantity !== sku.getAvailableQuantity() || req.body.newWeight != sku.getWeight() || req.body.newVolume != sku.getVolume())){
-                position = await positions.getPositionById(sku.getPositionId());
+                position = new Position(await positions.getPosition(sku.getPositionId()));
                 let totW = sku.getTotalWeight();
                 let totV = sku.getTotalVolume();
                 let newW = res.body.newAvailableQuantity * res.body.newWeight;
@@ -116,9 +116,9 @@ module.exports=function(app){
             if(!sku){
                 return res.status(404).json();
             }
-            positions = new PositionsDB('WarehouseDB');
-            await positions.createPositionsTable();
-            position = await positions.getPositionById(req.body.position);
+            positions = new PositionDB('WarehouseDB');
+            await positions.createPositionTable();
+            position = new Position(await positions.getPosition(req.body.position));
             if(!position){
                 return res.status(404).json();
             }
@@ -131,7 +131,7 @@ module.exports=function(app){
                 }
                 else{
                     if(sku.getPositionId()){
-                        const oldPosition = await positions.getPositionById(sku.getPositionId());
+                        const oldPosition = await positions.getPosition(sku.getPositionId());
                         oldPosition.setOccWeight(0);
                         oldPosition.setOccVol(0);
                         await positions.modifyPosition(oldPosition);
@@ -168,8 +168,8 @@ module.exports=function(app){
                 return res.status(404).json();
             }
             if(sku.getPositionId()){
-                positions = new PositionsDB('WarehouseDB');
-                position = await positions.getPositionById(sku.getPositionId());
+                positions = new PositionDB('WarehouseDB');
+                position = new Position(await positions.getPosition(sku.getPositionId()));
                 position.setOccWeight(0);
                 position.setOccVol(0);
                 await positions.modifyPosition(position);
