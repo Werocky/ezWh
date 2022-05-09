@@ -26,7 +26,7 @@ class PositionDB {
 
   getPositions() {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT positionID as positionID, aisleID as aisleID, row as row, col as col, maxWeight as maxWeight, maxVolume as maxVolume, occupiedWeight as occupiedWeight FROM POSITIONS';
+        const sql = 'SELECT positionID as positionID, aisleID as aisleID, row as row, col as col, maxWeight as maxWeight, maxVolume as maxVolume, occupiedWeight as occupiedWeight, occupiedVolume as occupiedVolume FROM POSITIONS';
         this.db.all(sql, (err, rows) => {
             if (err) {
             reject(err);
@@ -39,11 +39,27 @@ class PositionDB {
     });
   }
 
+  getPosition(id) {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT positionID as positionID, aisleID as aisleID, row as row, col as col, maxWeight as maxWeight, maxVolume as maxVolume, occupiedWeight as occupiedWeight, occupiedVolume as occupiedVolume FROM POSITIONS WHERE positionID=?';
+        this.db.get(sql, [id], (err, row) => {
+            if (err) {
+            reject(err);
+            return;
+            }
+            if (!row) {
+                resolve(null);
+            }
+            resolve(row);
+        });
+    });
+  }
+
   createPosition(positionID, aisleID, row, col, maxWeight, maxVolume) {
     let position = new Position(positionID, aisleID, row, col, maxWeight, maxVolume)
     return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO POSITIONS(positionID, aisleID, row, col, maxWeight, maxVolume) VALUES(?, ?, ?, ?, ?, ?)';
-        this.db.run(sql, [positionID, aisleID, row, col, maxWeight, maxVolume], (err) => {
+        const sql = 'INSERT INTO POSITIONS(positionID, aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume) VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
+        this.db.run(sql, [positionID, aisleID, row, col, maxWeight, maxVolume, 0, 0], (err) => {
             if (err) {
             reject(err);
             return;
@@ -53,10 +69,11 @@ class PositionDB {
     });
   }
 
-  changePosition(positionID, aisleID, row, col, maxWeight, maxVolume) {
+  changePosition(positionID, aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume) {
     return new Promise((resolve, reject) => {
-        const sql = 'UPDATE POSITIONS SET aisleID=?, row=?, col=?, maxWeight=?, maxVolume=? WHERE positionID=?';
-        this.db.run(sql, [aisleID, row, col, maxWeight, maxVolume, positionID], (err) => {
+        let newPositionID = aisleID.concat(row, col);
+        const sql = 'UPDATE POSITIONS SET positionID=?, aisleID=?, row=?, col=?, maxWeight=?, maxVolume=?, occupiedWeight=?, occupiedVolume=? WHERE positionID=?';
+        this.db.run(sql, [newPositionID, aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume, positionID], (err) => {
             if (err) {
             reject(err);
             return;
@@ -68,8 +85,11 @@ class PositionDB {
 
   changePositionID(positionID, newPositionID) {
     return new Promise((resolve, reject) => {
-        const sql = 'UPDATE POSITIONS SET positionID=? WHERE positionID=?';
-        this.db.run(sql, [newPositionID, positionID], (err) => {
+        const aisleID = newPositionID.substring(0,4);
+        const row = newPositionID.substring(4,8);
+        const col = newPositionID.substring(8,12);
+        const sql = 'UPDATE POSITIONS SET positionID=?, aisleID=?, row=?, col=? WHERE positionID=?';
+        this.db.run(sql, [newPositionID, aisleID, row, col, positionID], (err) => {
             if (err) {
             reject(err);
             return;
