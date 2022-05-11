@@ -27,7 +27,7 @@ class SKUItemsDB{
     getSKUItems(){
         return new Promise((resolve,reject) => {
             const sql = 'SELECT * FROM SKUITEMS';
-            this.db.run(sql,(err,rows)=>{
+            this.db.all(sql,(err,rows)=>{
                 if(err){
                     reject(err);
                     return;
@@ -48,7 +48,7 @@ class SKUItemsDB{
     getAvailableSKUItemsBySKUId(SKUId){
         return new Promise((resolve,reject)=>{
             const sql = 'SELECT * FROM SKUITEMS WHERE Available=1 AND SKUId=?';
-            this.db.run(sql,[SKUId],(err,rows)=>{
+            this.db.all(sql,[SKUId],(err,rows)=>{
                 if(err){
                     reject(err);
                     return;
@@ -69,7 +69,7 @@ class SKUItemsDB{
     getSKUItemByRFID(rfid){
         return new Promise((resolve,reject)=>{
             const sql = 'SELECT * FROM SKUITEMS WHERE RFID=?';
-            this.db.run(sql,[rfid],(err,row) =>{
+            this.db.get(sql,[rfid],(err,row) =>{
                 if(err){
                     reject(err);
                     return;

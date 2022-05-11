@@ -8,7 +8,7 @@ class SKUDB {
     sqlite = require('sqlite3');
 
     constructor(dbName){
-        this.db = new this.sqlite.Database((dbName,err) => {
+        this.db = new this.sqlite.Database(dbName,(err) => {
             if(err)
                 throw err;
         });
@@ -39,8 +39,8 @@ class SKUDB {
                     resolve(null);
                 else{
                     let skus = [];
-                    rows.array.forEach(row=>{
-                        skus.push(new SKU(row.description,row.weight,row.volume,row.notes,row.quantity,row.price,row.testDescriptors,row.positionId,row.ID));
+                    rows.forEach(row=>{
+                        skus.push(new SKU(row.description,row.weight,row.volume,row.notes,row.quantity,row.price,JSON.parse(row.testDescriptors),row.positionId,row.ID));
                     });
                     resolve(skus);
                 }
@@ -51,8 +51,8 @@ class SKUDB {
 
     async getSKUById(id){
         return new Promise((resolve,reject) => {
-            const sql = "SELECT * from SKUS WHERE ID=?";
-            this.db.all(sql,[id],(err,row)=>{
+            const sql = "SELECT * FROM SKUS WHERE ID=?";
+            this.db.get(sql,[id],(err,row)=>{
                 if(err){
                     reject(err);
                     return;
@@ -69,8 +69,8 @@ class SKUDB {
 
     async createSKU(sku){
         return new Promise((resolve,reject) => {
-            const sql = "INSERT INTO SKUS(description,weight,volume,notes,positionId,price,quantity,testDescriptors) VALUES(?,?,?,?,?,?,?);";
-            this.db.run(sql,[sku.getDescription(),sku.getWeight(), sku.getVolume(), sku.getNotes(),"", sku.getPrice(), sku.getAvailableQuantity(), json_encode([]) ],(err) => {
+            const sql = "INSERT INTO SKUS(description,weight,volume,notes,positionId,price,quantity,testDescriptors) VALUES(?,?,?,?,?,?,?,?);";
+            this.db.run(sql,[sku.getDescription(), sku.getWeight(), sku.getVolume(), sku.getNotes(),"", sku.getPrice(), sku.getAvailableQuantity(),'[]'],(err) => {
                 if(err){
                     reject(err);
                     return;
@@ -82,11 +82,11 @@ class SKUDB {
 
     modifySKU(sku){
         return new Promise(async (resolve,reject) =>{
-            const sql = "UPDATE SKUS SET(description=?,weight=?,volume=?,notes=?,price=?,quantity=?,testDescriptors=?) WHERE ID=?";
+            const sql = "UPDATE SKUS SET description=?,weight=?,volume=?,notes=?,price=?,quantity=?,testDescriptors=? WHERE ID=?;";
             try{
             const positions = new PositionDB('WarehouseDB');
             await positions.createPositionTable();
-            const oldSku =  await this.getSKUById(sku.getID());
+            const oldSku =  await this.getSKUById(sku.getId());
             const position = await positions.getPosition(oldSku.getPositionId());
                 if(sku.getPositionId()){
                     if(oldSku.getAvailableQuantity() !== sku.getAvailableQuantity() || oldSku.getWeight() != sku.getWeight() || oldSku.getVolume() != sku.getVolume()){
@@ -95,11 +95,12 @@ class SKUDB {
                             }
                         }
                         else{
+                            console.log("Not fit");  //Still to be tested
                             reject("Does not fit");
                             return;
                         }
                     }
-                this.db.run(sql,[sku.getDescription(),sku.getWeight(),sku.getVolume(),sku.getNotes(),sku.getPrice(),sku.getAvailableQuantity(),sku.getTestDescriptors()],(err)=>{
+                this.db.run(sql,[sku.getDescription(),sku.getWeight(),sku.getVolume(),sku.getNotes(),sku.getPrice(),sku.getAvailableQuantity(),JSON.stringify(sku.getTestDescriptors()),sku.getId()],(err)=>{
                     if(err){
                         reject(err);
                         return;

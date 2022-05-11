@@ -25,7 +25,7 @@ module.exports=function(app){
     app.get('/api/skus/:id', async(req,res)=>{
 
         let id=req.params.id;
-        if(!id || Object.keys(req.body).length===0){
+        if(!id){
             return res.status(422).json();
         }
         let skus;
@@ -62,7 +62,7 @@ module.exports=function(app){
     app.put('/api/sku/:id',async (req,res)=>{
 
         let id = req.params.id;
-        if(!id || Object.keys(req.body)!== 7){
+        if(!id || Object.keys(req.body).length!== 6){
             return res.status(422).json();
         }
         let skus;
@@ -72,13 +72,13 @@ module.exports=function(app){
             await skus.createSKUTable();
             sku = await skus.getSKUById(id);
             if(!sku)
-                return res.status(404).json();
-            await skus.modifySKU(new SKU(req.body.newDescription,req.body.newWeight,req.body.newVolume,req.body.newNotes,req.body.newAvailableQuantity,req.body.newPrice));
+                return res.status(404).end();
+            await skus.modifySKU(new SKU(req.body.newDescription,req.body.newWeight,req.body.newVolume,req.body.newNotes,req.body.newAvailableQuantity,req.body.newPrice,[],"",id));
         }
         catch(err){
-            return res.status(503).json();
+            return res.status(503).end();
         }
-        return res.status(200).json();
+        return res.status(200).end();
     });
 
     app.put('/api/sku/:id/position',async (req,res)=>{
@@ -133,7 +133,7 @@ module.exports=function(app){
 
         let id = req.params.id;
         if(!id){
-            return res.status(422).json();
+            return res.status(422).end();
         }
         let skus;
         let sku;
@@ -144,7 +144,7 @@ module.exports=function(app){
             await skus.createSKUTable();
             sku = await skus.getSKUById(id);
             if(!sku){
-                return res.status(404).json();
+                return res.status(404).end();
             }
             if(sku.getPositionId()){
                 positions = new PositionDB('WarehouseDB');
@@ -154,10 +154,10 @@ module.exports=function(app){
                 await positions.modifyPosition(position);
             }
             await skus.deleteSKU(id);
-            return res.status(204).json();
+            return res.status(204).end();
         }
         catch(err){
-            return res.status(503).json();
+            return res.status(503).end();
         }
     });
 }
