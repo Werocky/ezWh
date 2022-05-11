@@ -2,6 +2,7 @@
 
 const sqlite = require('sqlite3');
 const Position = require('./Position');
+const SKUsDB = require('./SKUsDB');
 
 class PositionDB {
 
@@ -84,6 +85,16 @@ class PositionDB {
 
   changePositionID(positionID, newPositionID) {
     return new Promise((resolve, reject) => {
+        let skus = new SKUsDB('WarehouseDB');
+        skus.createSKUTable();
+        skus = skus.getSKUs();
+        let i = 0;
+        while (i < skus.length) {
+            if (skus[i].positionID === positionID) {
+                setSKUPosition(skus[i].id,newPositionID);
+            }
+            i++;
+        }
         const aisleID = newPositionID.substring(0,4);
         const row = newPositionID.substring(4,8);
         const col = newPositionID.substring(8,12);
@@ -104,6 +115,21 @@ class PositionDB {
 
   deletePosition(positionID) {
     return new Promise((resolve, reject) => {
+        let skus = new SKUsDB('WarehouseDB');
+        skus.createSKUTable();
+        skus = skus.getSKUs();
+        let emptyPos = true;
+        let i = 0;
+        while (emptyPos === true && i < skus.length) {
+            if (skus[i].positionID === positionID) {
+                emptyPos = false;
+                break;
+            }
+            i++;
+        }
+        if (emptyPos === false) {
+            reject(err);
+        }
         const sql = 'DELETE FROM POSITIONS WHERE positionID=?';
         this.db.run(sql, [positionID], (err) => {
             if (err) {
