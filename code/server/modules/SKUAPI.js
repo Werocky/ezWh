@@ -77,20 +77,6 @@ module.exports=function(app){
             sku = await skus.getSKUById(id);
             if(!sku)
                 return res.status(404).json();
-            if(sku.getPositionId() && (req.body.newAvailableQuantity !== sku.getAvailableQuantity() || req.body.newWeight != sku.getWeight() || req.body.newVolume != sku.getVolume())){
-                position = new Position(await positions.getPosition(sku.getPositionId()));
-                let totW = sku.getTotalWeight();
-                let totV = sku.getTotalVolume();
-                let newW = res.body.newAvailableQuantity * res.body.newWeight;
-                let newV = res.body.newAvailableQuantity * res.body.newVolume;
-                position.updateOccWeight(-1*totW);
-                position.updateOccVol(-1*totV);
-                if(!position.fits(newW,newV))
-                    return res.status(422).json();
-                position.updateOccVol(newV);
-                position.updateOccWeight(newW);
-                await positions.modifyPosition(position);
-            }
             await skus.modifySKU(new SKU(req.body.newDescription,req.body.newWeight,req.body.newVolume,req.body.newNotes,req.body.newAvailableQuantity,req.body.newPrice));
         }
         catch(err){
@@ -127,20 +113,17 @@ module.exports=function(app){
             }
             if(!(await occupiedByOthers(req.body.position,sku.getID()))){
                 if(!position.fits(sku.getTotalWeight(),sku.getTotalVolume())){
-                    return res.status(422).json();
+                    return res.status(503).json();
                 }
                 else{
                     if(sku.getPositionId()){
                         const oldPosition = await positions.getPosition(sku.getPositionId());
-                        oldPosition.setOccWeight(0);
-                        oldPosition.setOccVol(0);
-                        await positions.modifyPosition(oldPosition);
+                        //Free old position
+                        await positions.changePosition(oldPosition.aisleID,oldPosition.row,oldPosition.col,oldPosition.maxWeight,oldPosition.maxVolume,0,0);
                     }
-                    position.setOccWeight(sku.getTotalWeight());
-                    position.setOccVol(sku.getTotalVolume());
-                    await positions.modifyPosition(position);
+                    await positions.changePosition(position.aisleID,position.row,position.col,position.maxWeight,position.maxVolume,sku.getTotalWeight(),sku.getTotalVolume());
                     sku.setPositionId(req.body.position);
-                    await skus.modifySKU(sku);
+                    await skus.setSKUPosition(sku.getID(),req.body.position);
                     return res.status(200).json();
                 }
             }

@@ -42,3 +42,4 @@ class SKUItem{
     }
     
 }
+module.exports = SKUItem;

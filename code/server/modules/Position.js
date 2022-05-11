@@ -22,7 +22,7 @@ class Position {
   }
 
   fits(newW, newV) {
-    return (this.occupiedWeight + newW <= this.maxWeight && this.occupiedVolume + newV <= this.maxVolume);
+    return (newW <= this.maxWeight && newV <= this.maxVolume);
   }
 }
 

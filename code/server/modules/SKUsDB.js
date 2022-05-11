@@ -1,5 +1,7 @@
 'use strict';
 
+const PositionDB = require('./PositionDB');
+const Position = require('./Position');
 const SKU = require('./SKU');
 
 class SKUDB {
@@ -35,8 +37,14 @@ class SKUDB {
                 }
                 if(!rows)
                     resolve(null);
-                else
-                    resolve(JSON.parse(JSON.stringify(rows)));
+                else{
+                    let skus = [];
+                    rows.array.forEach(row=>{
+                        skus.push(new SKU(row.description,row.weight,row.volume,row.notes,row.quantity,row.price,row.testDescriptors,row.positionId,row.ID));
+                    });
+                    resolve(skus);
+                }
+                    
             });
         });
     }
@@ -75,14 +83,35 @@ class SKUDB {
     modifySKU(sku){
         return new Promise((resolve,reject) => {
             const sql = "UPDATE SKUS SET(description=?,weight=?,volume=?,notes=?,price=?,quantity=?,testDescriptors=?) WHERE ID=?";
-            this.db.run(sql,[sku.getDescription(),sku.getWeight(),sku.getVolume(),sku.getNotes(),sku.getPrice(), sku.getAvailableQuantity(),json_encode(sku.getTestDescriptors())],(err) =>{
-                if(err){
+            try{
+            const positions = new PositionDB('WarehouseDB');
+            await positions.createPositionTable();
+            const oldSku =  await this.getSKUById(sku.getID());
+            const position = await positions.getPosition(oldSku.getPositionId());
+                if(sku.getPositionId()){
+                    if(oldSku.getAvailableQuantity() !== sku.getAvailableQuantity() || oldSku.getWeight() != sku.getWeight() || oldSku.getVolume() != sku.getVolume()){
+                        if(position.fits(sku.getTotalWeight(),sku.getTotalVolume())){
+                            await positions.changePosition(position.aisleID,position.row,position.col,position.maxWeight,position.maxVolume,sku.getTotalWeight(),sku.getTotalVolume());
+                            }
+                        }
+                        else{
+                            reject("Does not fit");
+                            return;
+                        }
+                    }
+                this.db.run(sql,[sku.getDescription(),sku.getWeight(),sku.getVolume(),sku.getNotes(),sku.getPrice(),sku.getAvailableQuantity(),sku.getTestDescriptors()],(err)=>{
+                    if(err){
+                        reject(err);
+                        return;
+                    }
+                    resolve(this.lastID);
+                });
+            }
+                catch(err){
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
             });
-        });
     }
 
     setSKUPosition(id,positionId){

@@ -1,6 +1,8 @@
 'use strict';
 const express = require('express');
 const UserAPI = require('./modules/UserAPI');
+const SKUAPI = require('./modules/SKUAPI');
+const SKUItemAPI = requires('./modules/SKUItemAPI');
 const RestockOrderAPI = require('./modules/RestockOrderAPI');
 const ReturnOrderAPI = require('./modules/ReturnOrderAPI');
 const InternalOrderAPI = require('./modules/InternalOrderAPI');
@@ -15,6 +17,8 @@ const port = 3001;
 app.use(express.json());
 
 UserAPI(app);
+SKUAPI(app);
+SKUItemAPI(app);
 RestockOrderAPI(app);
 ReturnOrderAPI(app);
 InternalOrderAPI(app);
