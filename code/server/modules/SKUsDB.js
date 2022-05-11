@@ -5,7 +5,7 @@ const Position = require('./Position');
 const SKU = require('./SKU');
 
 class SKUDB {
-    sqlite = require('sqlite 3');
+    sqlite = require('sqlite3');
 
     constructor(dbName){
         this.db = new this.sqlite.Database((dbName,err) => {
@@ -14,9 +14,9 @@ class SKUDB {
         });
     }
 
-    createSKUTable() {
+    async createSKUTable() {
         return new Promise((resolve,reject) =>{
-            const sql = "CREATE TABLE IF NOT EXISTS SKUS(ID INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(50), weight FLOAT, volume FLOAT, notes VARCHAR(100), positionId VARCHAR(20), quantity INTEGER, price FLOAT, testDescriptors VARCHAR(30));";
+            const sql = "CREATE TABLE IF NOT EXISTS SKUS(ID INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(50), weight FLOAT, volume FLOAT, notes VARCHAR(100), positionId VARCHAR(20), quantity INTEGER, price FLOAT, testDescriptors VARCHAR(30), CHECK(quantity >= 0));";
             this.db.run(sql,(err)=> {
                 if(err){
                     reject(err);
@@ -27,7 +27,7 @@ class SKUDB {
         });
     }
 
-    getSKUs(){
+    async getSKUs(){
         return new Promise((resolve,reject) => {
             const sql ="SELECT * FROM SKUS;"
             this.db.all(sql,(err,rows)=> {
@@ -49,7 +49,7 @@ class SKUDB {
         });
     }
 
-    getSKUById(id){
+    async getSKUById(id){
         return new Promise((resolve,reject) => {
             const sql = "SELECT * from SKUS WHERE ID=?";
             this.db.all(sql,[id],(err,row)=>{
@@ -67,7 +67,7 @@ class SKUDB {
         });
     }
 
-    createSKU(sku){
+    async createSKU(sku){
         return new Promise((resolve,reject) => {
             const sql = "INSERT INTO SKUS(description,weight,volume,notes,positionId,price,quantity,testDescriptors) VALUES(?,?,?,?,?,?,?);";
             this.db.run(sql,[sku.getDescription(),sku.getWeight(), sku.getVolume(), sku.getNotes(),"", sku.getPrice(), sku.getAvailableQuantity(), json_encode([]) ],(err) => {
@@ -81,7 +81,7 @@ class SKUDB {
     }
 
     modifySKU(sku){
-        return new Promise((resolve,reject) => {
+        return new Promise(async (resolve,reject) =>{
             const sql = "UPDATE SKUS SET(description=?,weight=?,volume=?,notes=?,price=?,quantity=?,testDescriptors=?) WHERE ID=?";
             try{
             const positions = new PositionDB('WarehouseDB');
@@ -114,7 +114,7 @@ class SKUDB {
             });
     }
 
-    setSKUPosition(id,positionId){
+    async setSKUPosition(id,positionId){
         return new Promise((resolve,reject) => {
             const sql = "UPDATE SKUS SET(positionId=?) WHERE ID=?";
             this.db.run(sql,[positionId,id],(err) =>{
@@ -127,7 +127,7 @@ class SKUDB {
         });
     }
 
-    deleteSKU(id){
+    async deleteSKU(id){
         return new Promise((resolve,reject)=> {
             const sql = "DELETE FROM SKUS WHERE ID=?";
             this.db.run(sql,[id],(err) =>{
@@ -139,7 +139,7 @@ class SKUDB {
             });
         });
     }
-    occupiedByOthers(positionId,ID){
+    async occupiedByOthers(positionId,ID){
         return new Promise((resolve,reject) => {
             const sql ="SELECT positionId FROM SKUS WHERE ID<>? AND positionId=?";
             this.db.run(sql,[ID,positionId],(err,rows)=>{

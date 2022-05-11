@@ -20,7 +20,7 @@ module.exports=function(app){
         }
         return res.status(200).json(skus);
 
-    })
+    });
 
     app.get('/api/skus/:id', async(req,res)=>{
 
@@ -59,7 +59,7 @@ module.exports=function(app){
         return res.status(201).json();
     });
 
-    app.put('/api/sku/:id',(req,res)=>{
+    app.put('/api/sku/:id',async (req,res)=>{
 
         let id = req.params.id;
         if(!id || Object.keys(req.body)!== 7){
@@ -67,12 +67,8 @@ module.exports=function(app){
         }
         let skus;
         let sku;
-        let positions;
-        let position;
         try{
             skus = new SKUDB('WarehouseDB');
-            positions = new PositionDB('WarehouseDB');
-            await positions.createPositionTable();
             await skus.createSKUTable();
             sku = await skus.getSKUById(id);
             if(!sku)
@@ -85,7 +81,7 @@ module.exports=function(app){
         return res.status(200).json();
     });
 
-    app.put('/api/sku/:id/position',(req,res)=>{
+    app.put('/api/sku/:id/position',async (req,res)=>{
 
         let id = req.params.id;
         if(!id || Object.keys(req.body) !== 1){
@@ -133,7 +129,7 @@ module.exports=function(app){
         }
     });
 
-    app.delete('/api/skus/:id',(req,res) =>{
+    app.delete('/api/skus/:id',async (req,res) =>{
 
         let id = req.params.id;
         if(!id){

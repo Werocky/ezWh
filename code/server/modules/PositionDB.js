@@ -14,7 +14,7 @@ class PositionDB {
 
   createPositionTable() {
     return new Promise((resolve, reject)  => {
-        const sql = 'CREATE TABLE IF NOT EXISTS POSITIONS(positionID VARCHAR ,aisleID VARCHAR, row VARCHAR, col VARCHAR, maxWeight INTEGER, maxVolume INTEGER, occupiedWeight INTEGER, occupiedVolume INTEGER)';
+        const sql = 'CREATE TABLE IF NOT EXISTS POSITIONS(positionID VARCHAR ,aisleID VARCHAR, row VARCHAR, col VARCHAR, maxWeight INTEGER, maxVolume INTEGER, occupiedWeight INTEGER, occupiedVolume INTEGER, CHECK(maxWeight >= occupiedWeight AND maxVolume >= occupiedVolume));';
         this.db.run(sql, (err) => {
             if (err) {
                 reject(err);

@@ -1,7 +1,7 @@
 'use strict';
 
 const SKUItemsDB = require('./SKUItemsDB');
-const SKUDB = reqiure('./SKUsDB');
+const SKUDB = require('./SKUsDB');
 const SKU = require('./SKU');
 const SKUItem = require('./SKUItem');
 const Position = require('./Position');

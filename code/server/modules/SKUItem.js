@@ -1,6 +1,6 @@
 'use strict';
 
-dayjs = require('dayjs');
+const dayjs = require('dayjs');
 
 //Verify DB-dayjs-String interaction/compatibility
 
