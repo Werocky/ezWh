@@ -76,7 +76,7 @@ module.exports = function(app){
         try{
         skus = new SKUDB('WarehouseDB');
         await skus.createSKUTable();
-        const sku = skus.getSKUById(req.body.id);
+        const sku = skus.getSKUById(req.body.SKUId);
         if(!sku)
             return res.status(404).end();
         skuItems = new SKUItemsDB('WarehouseDB');
@@ -84,6 +84,7 @@ module.exports = function(app){
         await skuItems.createSKUItem(new SKUItem(req.body.RFID,req.body.SKUId,0,req.body.DateOfStock));
         }
         catch (err){
+            console.log(err);
             return res.status(503).end();
 
         }
@@ -107,7 +108,7 @@ module.exports = function(app){
             skuItem = await skuItems.getSKUItemByRFID(rfid);
             if(!skuItem)
                 return res.status(404).end();
-            if(req.body.newAvailable === 1 !== skuItem.getAvailable()){
+            if(req.body.newAvailable !== skuItem.getAvailable()){
                 skus = new SKUDB('WarehouseDB');
                 await skus.createSKUTable();
                 sku = await skus.getSKUById(skuItem.getSKUId());
@@ -120,8 +121,10 @@ module.exports = function(app){
                     sku.setAvailableQuantity(sku.getAvailableQuantity() - 1);
                 await skus.modifySKU(sku);
             }
+            await skuItems.modifySKUItem(new SKUItem(req.body.newRFID,sku.getId(),req.body.newAvailable,req.body.newDateOfStock),skuItem.getRfid())
         }
         catch (err){
+            console.log(err);
             return res.status(503).end();
         }
         return res.status(200).end();
@@ -139,22 +142,24 @@ module.exports = function(app){
         try{
             skuItems = new SKUItemsDB('WarehouseDB');
             await skuItems.createSKUItemsTable();
-            skuItem = skuItems.getSKUItemByRFID(rfid);
+            skuItem = await skuItems.getSKUItemByRFID(rfid);
             if(!skuItem)
                 return res.status(404).end();
-            skus = new SKUDB('WarehouseDB');
-            await skus.createSKUTable();
-            sku = await skus.getSKUById(skuItem.getSKUById());
-            if(!sku)
-                return res.status(503).end();
             if(skuItem.getAvailable() === 1){
+                skus = new SKUDB('WarehouseDB');
+                await skus.createSKUTable();
+                sku = await skus.getSKUById(skuItem.getSKUId());
+                if(!sku)
+                    return res.status(503).end();
                 sku.setAvailableQuantity(sku.getAvailableQuantity()-1);
                 await skus.modifySKU(sku);
             }
+            await skuItems.deleteSKUItem(rfid);
         }
         catch(err){
+            console.log(err);
             return res.status(503).end();
         }
-        return res.status(200).end();
+        return res.status(204).end();
     })
 }

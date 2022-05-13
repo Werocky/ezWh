@@ -36,7 +36,7 @@ class SKUDB {
                 return;
                 }
                 if(!rows)
-                    resolve(null);
+                    resolve([]);
                 else{
                     let skus = [];
                     rows.forEach(row=>{
@@ -49,7 +49,7 @@ class SKUDB {
         });
     }
 
-    async getSKUById(id){
+    getSKUById(id){
         return new Promise((resolve,reject) => {
             const sql = "SELECT * FROM SKUS WHERE ID=?";
             this.db.get(sql,[id],(err,row)=>{
