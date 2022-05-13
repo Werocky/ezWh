@@ -91,7 +91,7 @@ class PositionDB {
         let i = 0;
         while (i < skus.length) {
             if (skus[i].positionID === positionID) {
-                setSKUPosition(skus[i].id,newPositionID);
+                skus.setSKUPosition(skus[i].id,newPositionID);
             }
             i++;
         }

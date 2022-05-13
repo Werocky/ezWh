@@ -1,6 +1,8 @@
 'use strict'
 
 const RestockOrder = require('./RestockOrder');
+const SKUItemsDB = require('./SKUItemsDB');
+const SKUDB = require('./SKUsDB');
 
 class RestockOrdersDB {
     sqlite = require('sqlite3');
@@ -24,8 +26,28 @@ class RestockOrdersDB {
         });
     }
 
-    getRestockOrders() {
-        return new Promise((resolve, reject) => {
+    async getRestockOrders() {
+        const rows = await this.getRawRestockOrders();
+        
+        let restockOrders = [];
+        for (let i = 0; i < rows.length; i++) {
+            let restockOrder = new RestockOrder(rows[i].issueDate, rows[i].state, rows[i].products, rows[i].supplierId, rows[i].transportNote, rows[i].skuItems, rows[i].id)
+            restockOrder = await this.parseRestockOrder(restockOrder);
+            restockOrders.push(restockOrder);
+        }
+
+        return restockOrders;
+        /*
+        rows.forEach(row => {
+            let restockOrder = new RestockOrder(row.issueDate, row.state, row.products, row.supplierId, row.transportNote, row.skuItems, row.id)
+            restockOrder = await this.parseRestockOrder(restockOrder);
+            restockOrders.push(restockOrder);
+        });
+        */
+    }
+
+    getRawRestockOrders() {
+        return new Promise(async (resolve, reject) => {
             const sql = 'SELECT id as id, issueDate as issueDate, state as state, products as products, supplierId as supplierId, transportNote as transportNote, skuItems as skuItems FROM RESTOCKORDERS';
             this.db.all(sql, (err, rows) => {
                 if (err) {
@@ -36,11 +58,7 @@ class RestockOrdersDB {
                     resolve(null);
                 }
                 else {
-                    let restockOrders = [];
-                    rows.forEach(row => {
-                        restockOrders.push(new RestockOrder(row.issueDate, row.state, row.products, row.supplierId, row.transportNote, row.skuItems, row.id));
-                    });
-                    resolve(restockOrders);
+                    resolve(rows);
                 }
             });
         });
@@ -58,19 +76,57 @@ class RestockOrdersDB {
                     resolve(null);
                 }
                 else {
-                    const restockOrder = new RestockOrder(row.issueDate, row.state, row.products, row.supplierId, row.transportNote, row.skuItems, id);
-                    resolve(restockOrder);
+                    let restockOrder = new RestockOrder(row.issueDate, row.state, row.products, row.supplierId, row.transportNote, row.skuItems, id)
+                    resolve(this.parseRestockOrder(restockOrder));
                 }
             });
         });
     }
+
+    async parseRestockOrder(restockOrder) {
+        let skus = new SKUDB('WarehouseDB');
+        await skus.createSKUTable();
+        let productsID = JSON.parse(restockOrder.products);
+        let products = [];
+        for (let i = 0; i < productsID.length; i++) {
+            let sku = await skus.getSKUById(productsID[i]);
+            let product = {};
+            product['SKUId'] = sku.id;
+            product['description'] = sku.description;
+            product['price'] = sku.price;
+            product['qty'] = sku.availableQuantity;
+            products.push(product);
+        }
+            
+        restockOrder.products = products;
+
+        if (!(restockOrder.skuItems) || restockOrder.skuItems === '[]') {
+            return restockOrder;
+        }
+
+        let skuItemsDB = new SKUItemsDB('WarehouseDB');
+        await skuItemsDB.createSKUItemsTable();
+        let skuItems = [];
+        rfids = JSON.parse(restockOrder.skuItems);
+        for (let i = 0; i < rfids.length; i++) {
+            let skuItemInfo = await skuItemsDB.getSKUItemByRFID(rfids[i]);
+            let skuItem = {};
+            skuItem['SKUId'] = skuItemInfo.SKUId;
+            skuItem['rfid'] = skuItemInfo.RFID;
+            skuItems.push(skuItem);
+        }          
+        restockOrder.skuItems = skuItems;
+        
+        return restockOrder;
+    }
     
     createRestockOrder(issueDate, products, supplierId) {
-        //Encrypt password creating a user
-        let restockOrder = new RestockOrder(issueDate, products, supplierId);
+        
+        let productsID = JSON.stringify(products.map(product => product.SKUId));
+        
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO RESTOCKORDERS(issueDate, products, supplierId, state) VALUES(?, ?, ?, ?)';
-            this.db.run(sql, [issueDate, products, supplierId, 'ISSUED'], (err) => {
+            const sql = 'INSERT INTO RESTOCKORDERS(issueDate, products, supplierId, state, skuItems) VALUES(?, ?, ?, ?, ?)';
+            this.db.run(sql, [issueDate, productsID, supplierId, 'ISSUED', '[]'], (err) => {
                 if (err) {
                 reject(err);
                 return;
@@ -96,7 +152,9 @@ class RestockOrdersDB {
     addSKUItems(id, skuItems, restockOrder) {
         return new Promise((resolve, reject) => {
             
-            if (restockOrder.skuItems) {
+            skuItems = skuItems.map(skuItem => skuItem.rfid);
+
+            if (restockOrder.skuItems && restockOrder.skuItems !== '[]') {
                 skuItems = skuItems.concat(JSON.parse(restockOrder.skuItems));
             }
             

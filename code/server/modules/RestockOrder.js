@@ -6,10 +6,10 @@ class RestockOrder {
         this.id = id;
         this.issueDate = issueDate;
         this.state = state;
-        this.products = JSON.parse(products);
+        this.products = products;
         this.supplierId = supplierId;
         this.transportNote = transportNote ? JSON.parse(transportNote) : transportNote;
-        this.skuItems = JSON.parse(skuItems);
+        this.skuItems = skuItems;
     }
 
 }

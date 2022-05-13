@@ -5,6 +5,8 @@ const dayjs = require('dayjs');
 const RestockOrdersDB = require('./RestockOrdersDB');
 const RestockOrder = require('./RestockOrder');
 //const TestResultDB = require('./TestResultDB');
+const SKUDB = require('./SKUsDB');
+
 
 let currentUser = undefined;
 
@@ -129,7 +131,7 @@ module.exports = function(app) {
         try {
             restockOrders = new RestockOrdersDB('WarehouseDB');
             await restockOrders.createRestockTable();
-            await restockOrders.createRestockOrder(req.body.issueDate, JSON.stringify(req.body.products), req.body.supplierId);
+            await restockOrders.createRestockOrder(req.body.issueDate, req.body.products, req.body.supplierId);
         } catch (err) {
             // generic error
             return res.status(503).json(); // Service Unavailable
@@ -288,7 +290,6 @@ async function getRestockOrders(res, onlyIssued=false) {
         // generic error
         return res.status(500).json();
     }
-    
     for (let restockOrder of restockOrders) {
         if (restockOrder.state === 'ISSUED' || restockOrder.state === 'DELIVERY') {
             restockOrder.skuItems = '[]';
