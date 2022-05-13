@@ -2,6 +2,8 @@
 
 const ReturnOrder = require('./ReturnOrder');
 const RestockOrdersDB = require('./RestockOrdersDB');
+const SKUDB = require('./SKUsDB');
+
 
 class ReturnOrdersDB {
     sqlite = require('sqlite3');
@@ -25,7 +27,20 @@ class ReturnOrdersDB {
         });
     }
 
-    getReturnOrders() {
+    async getReturnOrders() {
+        const rows = await this.getRawReturnOrders();
+
+        let returnOrders = [];
+        for (let i = 0; i < rows.length; i++) {
+            let returnOrder = new ReturnOrder(rows[i].returnDate, rows[i].products, rows[i].restockOrderId, rows[i].id)
+            returnOrder = await this.parseReturnOrder(returnOrder);
+            returnOrders.push(returnOrder);
+        }
+        
+        return returnOrders;
+    }
+
+    getRawReturnOrders() {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT id as id, returnDate as returnDate, products as products, restockOrderId as restockOrderId FROM RETURNORDERS';
             this.db.all(sql, (err, rows) => {
@@ -37,11 +52,7 @@ class ReturnOrdersDB {
                     resolve(null);
                 }
                 else {
-                    let returnOrders = [];
-                    rows.forEach(row => {
-                        returnOrders.push(new ReturnOrder(row.returnDate, row.products, row.restockOrderId, row.id));
-                    });
-                    resolve(returnOrders);
+                    resolve(rows);
                 }
             });
         });
@@ -60,17 +71,44 @@ class ReturnOrdersDB {
                 }
                 else {
                     const returnOrder = new ReturnOrder(row.returnDate, row.products, row.restockOrderId, row.id);
-                    resolve(returnOrder);
+                    resolve(this.parseReturnOrder(returnOrder));
                 }
             });
         });
     }
+
+    async parseReturnOrder(returnOrder) {
+        let skus = new SKUDB('WarehouseDB');
+        await skus.createSKUTable();
+        let productsID = JSON.parse(returnOrder.products).map(product => product.SKUId);
+        let products = [];
+        for (let i = 0; i < productsID.length; i++) {
+            let sku = await skus.getSKUById(productsID[i]);
+            let product = {};
+            product['SKUId'] = sku.id;
+            product['description'] = sku.description;
+            product['price'] = sku.price;
+            product['RFID'] = JSON.parse(returnOrder.products)[i].RFID;
+            products.push(product);
+        }
+            
+        returnOrder.products = products;
+
+        return returnOrder;
+    }
     
     createReturnOrder(returnDate, products, restockOrderId) {
         return new Promise((resolve, reject) => {
-            let returnOrder = new ReturnOrder(returnDate, products, restockOrderId);
+
+            let productsID = JSON.stringify(products.map(product => {
+                let productsID = {};
+                productsID['SKUId'] = product.SKUId;
+                productsID['RFID'] = product.RFID;
+                return productsID;
+            }));
+
             const sql = 'INSERT INTO RETURNORDERS(returnDate, products, restockOrderId) VALUES(?, ?, ?)';
-            this.db.run(sql, [returnDate, products, parseInt(restockOrderId)], (err) => {
+            this.db.run(sql, [returnDate, productsID, parseInt(restockOrderId)], (err) => {
                 if (err) {
                 reject(err);
                 return;

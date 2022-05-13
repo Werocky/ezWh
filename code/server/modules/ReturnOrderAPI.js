@@ -78,6 +78,14 @@ module.exports = function(app) {
 
         let returnOrders;
         let restockOrders;
+
+        let productsID = JSON.stringify(req.body.products.map(product => {
+            let productsID = {};
+            productsID['SKUId'] = product.SKUId;
+            productsID['RFID'] = product.RFID;
+            return productsID;
+        }));
+        console.log(productsID);
         try {
 
             restockOrders = new RestockOrdersDB('WarehouseDB'); 
@@ -87,7 +95,7 @@ module.exports = function(app) {
             }
             returnOrders = new ReturnOrdersDB('WarehouseDB');
             await returnOrders.createReturnOrdersTable();
-            await returnOrders.createReturnOrder(req.body.returnDate, JSON.stringify(req.body.products), req.body.restockOrderId);
+            await returnOrders.createReturnOrder(req.body.returnDate, req.body.products, req.body.restockOrderId);
         } catch (err) {
             // generic error
             return res.status(503).json(); // Service Unavailable
