@@ -36,7 +36,7 @@ class SKUItemsDB{
                     resolve(null);
                 else{
                         let SKUItems = [];
-                        rows.Array.forEach(row => {
+                        rows.forEach(row => {
                             SKUItems.push(new SKUItem(row.RFID,row.SKUId,row.Available,row.DateOfStock));
                         });
                         resolve(SKUItems);
@@ -89,7 +89,20 @@ class SKUItemsDB{
     createSKUItem(skuItem){
         return new Promise((resolve,reject)=>{
             const sql = 'INSERT INTO SKUITEMS(RFID,SKUId,Available,DateOfStock) VALUES (?,?,?,?);';
-            this.db.run(sql,[skuItem.RFID,skuItem.SKUId,skuItem.Available,skuItem.DateOfStock],(err)=>{
+            this.db.run(sql,[skuItem.getRfid(),skuItem.getSKUId(),skuItem.getAvailable(),skuItem.getStockDate()],(err)=>{
+                if(err){
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            })
+        })
+    }
+
+    modifySKUItem(newSkuItem,rfid){
+        return new Promise((resolve,reject)=>{
+            const sql = 'UPDATE SKUITEMS SET RFID=?,Available=?,DateOfStock=? WHERE RFID=?;';
+            this.db.run(sql,[newSkuItem.getRfid(),newSkuItem.getAvailable(),newSkuItem.getStockDate(),rfid],(err)=>{
                 if(err){
                     reject(err);
                     return;
