@@ -12,18 +12,11 @@ module.exports = function(app){
         let internalOrders;
         try{
             internalOrders = new InternalOrderDB('WarehouseDB');
+            await internalOrders.createInternalTable();
             internalOrders = await internalOrders.getInternalOrders();
         }catch(err){
             //service unavailable (generic error)
             return res.status(500).json();
-        }
-
-        for(let internalOrder of internalOrders){
-            if(internalOrder.state === 'completed'){
-                delete internalOrder.products['rfid'];
-            }else{
-                delete internalOrder.products['quantity'];
-            }
         }
         //success, data retrieved
         return res.status(200).json(internalOrders);
@@ -35,6 +28,7 @@ module.exports = function(app){
         let internalOrders;
         try{
             internalOrders = new InternalOrderDB('WarehouseDB');
+            await internalOrders.createInternalTable();
             internalOrders = await internalOrders.getInternalOrders();
         }catch(err){
             //service unavailable (generic error)
@@ -53,6 +47,7 @@ module.exports = function(app){
         let internalOrders;
         try{
             internalOrders = new InternalOrderDB('WarehouseDB');
+            await internalOrders.createInternalTable();
             internalOrders = await internalOrders.getInternalOrders();
         }catch(err){
             //service unavailable (generic error)
@@ -71,7 +66,8 @@ module.exports = function(app){
         let internalOrders;
         try{
             internalOrders = new InternalOrderDB('WarehouseDB');
-            internalOrders = await internalOrders.getInternalOrders(req.params.id);
+            await internalOrders.createInternalTable();
+            internalOrders = await internalOrders.getInternalOrder(req.params.id);
             if(Object.keys(internalOrders).length === 0){
                 //not found, no internal order associated to the id = :id
                 return res.status(404).json();
@@ -96,7 +92,7 @@ module.exports = function(app){
 
     //Creates a new internal order in state = ISSUED
     //request body: issueDate, products, customerId (state = ISSUED)
-    app.post('/api/internalOrders', (req, res) =>{
+    app.post('/api/internalOrders', async (req, res) =>{
     
         //unprocessable entity (validation of request body failed)
         if(Object.keys(req.body).length!==3) {return res.status(422).json();}
@@ -104,8 +100,8 @@ module.exports = function(app){
         let internalOrder
         try{
             internalOrder = new InternalOrderDB('WarehouseDB');
-            internalOrder.createInternalTable();
-            internalOrder.createInternalOrder(req.body.issueDate, JSON.stringify(req.body.products), req.body.customerId, 'issued');
+            await internalOrder.createInternalTable();
+            await internalOrder.createInternalOrder(req.body.issueDate, req.body.products, req.body.customerId, 'issued');
         } catch(err){
             //service unavailable (generic error)
             return res.status(503).json();
@@ -126,14 +122,17 @@ module.exports = function(app){
         let internalOrders;
         try{
             internalOrders = new InternalOrderDB('WarehouseDB');
-            if(req.body.newState !== 'completed'){
-                req.body.products = '';
-            }
-            await internalOrders.changeState(req.params.id, req.body.newState, JSON.stringify(req.body.products));
-            if(!await internalOrders.getInternalOrders(req.params.id)){
+            await internalOrders.createInternalTable();
+            if(!await internalOrders.getInternalOrder(req.params.id)){
                 //order not found
                 return res.status(404).json();
             }
+
+            if(req.body.newState !== 'completed'){
+                await internalOrders.changeState(req.params.id, req.body.newState);
+            }
+            await internalOrders.changeState(req.params.id, req.body.newState, req.body.products);
+
 
         }catch(err){
             //service unavailable, generic error
@@ -151,6 +150,7 @@ module.exports = function(app){
         let internalOrders;
         try{
             internalOrders = new InternalOrderDB('WarehouseDB');
+            await internalOrders.createInternalTable();
             await internalOrders.deleteInternalOrder(req.params.id);
             if(Object.keys(internalOrders).length === 0){
                 //not found, no internal order associated to the id = :id

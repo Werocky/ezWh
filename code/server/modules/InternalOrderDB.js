@@ -1,5 +1,8 @@
 'use strict';
 
+const InternalOrder = require('./InternalOrder');
+const SKUDB = require('./SKUsDB');
+
 module.exports = class InternalOrderDB{
     sqlite = require('sqlite3');
 
@@ -24,8 +27,15 @@ module.exports = class InternalOrderDB{
 
     createInternalOrder(issueDate, products, customerId, state){
         return new Promise((resolve, reject) =>{
+
+            let productsID = JSON.stringify(products.map(product => {
+                let productsID = {};
+                productsID['SKUId'] = product.SKUId;
+                return productsID;
+            }));
+
             const query = 'INSERT INTO INTERNALORDERS(issueDate, state, products, customerId) VALUES(?, ?, ?, ?)';
-            this.db.run(query, [issueDate, state, products, customerId], (err) =>{
+            this.db.run(query, [issueDate, state, productsID, customerId], (err) =>{
                 if(err){
                     reject(err);
                     return;
@@ -35,7 +45,20 @@ module.exports = class InternalOrderDB{
         });
     };
 
-    getInternalOrders(){
+    async getInternalOrders(){
+        const rows = await this.getRawInternalOrders();
+        
+        let internalOrders = [];
+        for (let i = 0; i < rows.length; i++) {
+            let internalOrder = new InternalOrder(rows[i].id, rows[i].issueDate, rows[i].state, rows[i].products, rows[i].customerId);
+            internalOrder = await this.parseInternalOrder(internalOrder);
+            internalOrders.push(internalOrder);
+        }
+        
+        return internalOrders;
+    }
+
+    getRawInternalOrders () {
         return new Promise((resolve, reject) =>{
             const query = 'SELECT id as id, issueDate as issueDate, state as state, products as products, customerId as customerId FROM INTERNALORDERS';
             this.db.all(query, (err, rows) => {
@@ -46,33 +69,79 @@ module.exports = class InternalOrderDB{
                 if(!rows){
                     resolve(null);
                 }else{
-                    resolve(JSON.parse(JSON.stringify(rows)));
+                    resolve(rows);
                 }
             });
         });
     }
 
-    getInternalOrders(id){
+    getInternalOrder(id){
         return new Promise((resolve, reject) =>{
             const query = 'SELECT id as id, issueDate as issueDate, state as state, products as products, customerId as customerId FROM INTERNALORDERS WHERE id=?';
-            this.db.all(query, [id], (err, rows) => {
+            this.db.get(query, [id], (err, row) => {
                 if(err){
                     reject(err);
                     return;
                 }
-                if(!rows){
+                if(!row){
                     resolve(null);
                 }else{
-                    resolve(JSON.parse(JSON.stringify(rows)));
+                    const internalOrder = new InternalOrder(row.id, row.issueDate, row.state, row.products, row.customerId);
+                    resolve(this.parseInternalOrder(internalOrder));
                 }
             });
         });
     }
 
-    changeState(id, newState, products){
+    async parseInternalOrder(internalOrder) {
+        let skus = new SKUDB('WarehouseDB');
+        await skus.createSKUTable();
+        let productsID = JSON.parse(internalOrder.products).map(product => product.SKUId);
+        let products = [];
+        for (let i = 0; i < productsID.length; i++) {
+            let sku = await skus.getSKUById(productsID[i]);
+            let product = {};
+            product['SKUId'] = sku.id;
+            product['description'] = sku.description;
+            product['price'] = sku.price;
+            if (internalOrder.state === 'COMPLETED') {
+                product['RFID'] = JSON.parse(internalOrder.products)[i].RFID;
+            }else {
+                product['qty'] = sku.availableQuantity;
+            }
+            products.push(product);
+        }
+            
+        internalOrder.products = products;
+
+        return internalOrder;
+    }
+
+    changeState(id, newState, products = undefined){
         return new Promise((resolve, reject) =>{
-            const query = 'UPDATE INTERNALORDERS SET state=?, products=? WHERE id=?';
-            this.db.run(query, [newState, products, id], (err) =>{
+            let query = '';
+            let params = [];
+
+            if (products === undefined) {
+                query = 'UPDATE INTERNALORDERS SET state=? WHERE id=?'
+                params = [newState, id];
+            }
+            else {
+                /*
+                skuItems = skuItems.map(skuItem => skuItem.rfid);
+
+                if (restockOrder.skuItems && restockOrder.skuItems !== '[]') {
+                    skuItems = skuItems.concat(JSON.parse(restockOrder.skuItems));
+                }
+                
+                skuItems = JSON.stringify(skuItems);
+                */
+
+                query = 'UPDATE INTERNALORDERS SET state=?, products=? WHERE id=?'
+                params = [newState, products, id];
+            }
+
+            this.db.run(query, params, (err) =>{
                 if(err){
                     reject(err);
                     return;
