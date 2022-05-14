@@ -1,6 +1,7 @@
 'use strict';
 
 const dayjs = require('dayjs');
+const { body, param, check, validationResult } = require('express-validator');
 
 const ReturnOrdersDB = require('./ReturnOrdersDB');
 const ReturnOrder = require('./ReturnOrder');
@@ -73,9 +74,9 @@ module.exports = function(app) {
 
     //CREATE A NEW ORDER
     app.post('/api/returnOrder',
-            body('returnDate').isDate('YYYY/MM/DD HH:mm'),
+            body('returnDate').matches('/[0-9]{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/'),
             check('products.*.SKUId').isInt({ min: 0}),
-            check('products.*.RFID').isLength({ min: 12, max: 12}),
+            check('products.*.RFID').isLength({ min: 32, max: 32}),
             body('restockOrderId').isInt({ min: 0}),
             async (req,res)=>{
         /**Error responses: 

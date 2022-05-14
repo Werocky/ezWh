@@ -52,7 +52,7 @@ module.exports = class TestResultDB{
         });
     }
 
-    getTestResults(rfid){
+    getTestResultsByRfid(rfid){
         return new Promise((resolve, reject) =>{
             const query = 'SELECT id as id, idTestDescriptor as idTestDescriptor, date as date, result as result FROM TESTRESULT WHERE rfid = ?';
             this.db.all(query, [rfid], (err, rows) =>{

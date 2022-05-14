@@ -37,13 +37,6 @@ class RestockOrdersDB {
         }
 
         return restockOrders;
-        /*
-        rows.forEach(row => {
-            let restockOrder = new RestockOrder(row.issueDate, row.state, row.products, row.supplierId, row.transportNote, row.skuItems, row.id)
-            restockOrder = await this.parseRestockOrder(restockOrder);
-            restockOrders.push(restockOrder);
-        });
-        */
     }
 
     getRawRestockOrders() {

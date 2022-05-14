@@ -7,7 +7,7 @@ const STATES = ['ISSUED', 'DELIVERY', 'DELIVERED'];
 
 const RestockOrdersDB = require('./RestockOrdersDB');
 const RestockOrder = require('./RestockOrder');
-//const TestResultDB = require('./TestResultDB');
+const TestResultDB = require('./TestResultDB');
 const SKUDB = require('./SKUsDB');
 
 
@@ -112,11 +112,11 @@ module.exports = function(app) {
                 return res.status(422).json();
             }
 
-            /**
+            
             let testResults = new TestResultDB('WarehouseDB');
             await testResults.createTestResultTable();
             for (const skuItem of restockOrder.skuItems) {
-                rfidTestResults = await testResults.getTestResult(skuItem.rfid);
+                rfidTestResults = await testResults.getTestResultsByRfid(skuItem.rfid);
                 rfidTestResults.every(rfidTestResult => {
                     if (rfidTestResult.Result === false) {
                         returnItems.push(skuItem);
@@ -125,7 +125,6 @@ module.exports = function(app) {
                     return true;
                 });
             }
-            */
 
         } catch (err) {
             // generic error
@@ -136,7 +135,7 @@ module.exports = function(app) {
 
     //CREATE A NEW ORDER
     app.post('/api/restockOrder',
-            body('issueDate').isDate('YYYY/MM/DD HH:mm'),
+            body('issueDate').matches('/[0-9]{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/'),
             check('products.*.SKUId').isInt({ min: 0}),
             check('products.*.qty').isInt({ min: 0}),
             body('supplierId').isInt({ min: 0}),
@@ -214,7 +213,7 @@ module.exports = function(app) {
     //ADD SKUITEMS TO AN ORDER
     app.put('/api/restockOrder/:id/skuItems',
             check('skuItems.*.SKUId').isInt({ min: 0}),
-            check('skuItems.*.rfid').isLength({min:12, max: 12}),
+            check('skuItems.*.rfid').isLength({min:32, max: 32}),
             param('id').isInt(),
             async (req,res)=>{
         /**Error responses: 
