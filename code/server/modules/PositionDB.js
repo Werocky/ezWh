@@ -14,7 +14,7 @@ class PositionDB {
 
   createPositionTable() {
     return new Promise((resolve, reject)  => {
-        const sql = 'CREATE TABLE IF NOT EXISTS POSITIONS(positionID VARCHAR ,aisleID VARCHAR, row VARCHAR, col VARCHAR, maxWeight INTEGER, maxVolume INTEGER, occupiedWeight INTEGER, occupiedVolume INTEGER, CHECK(maxWeight >= occupiedWeight AND maxVolume >= occupiedVolume));';
+        const sql = 'CREATE TABLE IF NOT EXISTS POSITIONS(positionID VARCHAR(12) ,aisleID VARCHAR(4), row VARCHAR(4), col VARCHAR(4), maxWeight INTEGER, maxVolume INTEGER, occupiedWeight INTEGER, occupiedVolume INTEGER, CHECK(maxWeight >= occupiedWeight AND maxVolume >= occupiedVolume));';
         this.db.run(sql, (err) => {
             if (err) {
                 reject(err);
@@ -36,28 +36,33 @@ class PositionDB {
             if (!rows) {
                 resolve(null);
             }
-            let positions = [];
-            rows.forEach(row => {
-                positions.push(new Position(row.positionID, row.aisleID, row.row, row.col, row.maxWeight, row.maxVolume, row.occupiedWeight, row.occupiedVolume))
-            });
-            resolve(positions);
+            else{
+                let positions = [];
+                rows.forEach(row => {
+                    positions.push(new Position(row.aisleID, row.row, row.col, row.maxWeight, row.maxVolume, row.occupiedWeight, row.occupiedVolume))
+                });
+                resolve(positions);
+        }
         });
     });
   }
 
   getPosition(id) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT positionID as positionID, aisleID as aisleID, row as row, col as col, maxWeight as maxWeight, maxVolume as maxVolume, occupiedWeight as occupiedWeight, occupiedVolume as occupiedVolume FROM POSITIONS WHERE positionID=?';
-        this.db.get(sql, [id], (err, row) => {
+        const sql = 'SELECT * FROM POSITIONS WHERE positionID=?;';
+        this.db.get(sql, [id], (err,row) => {
             if (err) {
-            reject(err);
-            return;
+                reject(err);
+                return;
             }
             if (!row) {
+                console.log("Not found");
                 resolve(null);
             }
-            const position = new Position(row.positionID, row.aisleID, row.row, row.col, row.maxWeight, row.maxVolume, row.occupiedWeight, row.occupiedVolume);
+            else{
+            const position = new Position(row.aisleID, row.row, row.col, row.maxWeight, row.maxVolume, row.occupiedWeight, row.occupiedVolume);
             resolve(position);
+            }
         });
     });
   }

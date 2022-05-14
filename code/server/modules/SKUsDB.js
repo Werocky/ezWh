@@ -84,22 +84,24 @@ class SKUDB {
         return new Promise(async (resolve,reject) =>{
             const sql = "UPDATE SKUS SET description=?,weight=?,volume=?,notes=?,price=?,quantity=?,testDescriptors=? WHERE ID=?;";
             try{
-            const positions = new PositionDB('WarehouseDB');
-            await positions.createPositionTable();
-            const oldSku =  await this.getSKUById(sku.getId());
-            const position = await positions.getPosition(oldSku.getPositionId());
-                if(sku.getPositionId()){
-                    if(oldSku.getAvailableQuantity() !== sku.getAvailableQuantity() || oldSku.getWeight() != sku.getWeight() || oldSku.getVolume() != sku.getVolume()){
-                        if(position.fits(sku.getTotalWeight(),sku.getTotalVolume())){
-                            await positions.changePosition(position.aisleID,position.row,position.col,position.maxWeight,position.maxVolume,sku.getTotalWeight(),sku.getTotalVolume());
+                const positions = new PositionDB('WarehouseDB');
+                await positions.createPositionTable();
+                const oldSku =  await this.getSKUById(sku.getId());
+                    if(sku.getPositionId()){
+                        const position = await positions.getPosition(sku.getPositionId());
+                        if(oldSku.getAvailableQuantity() !== sku.getAvailableQuantity() || oldSku.getWeight() != sku.getWeight() || oldSku.getVolume() != sku.getVolume()){
+                            if(position.fits(sku.getTotalWeight(),sku.getTotalVolume())){
+                            
+                                await positions.changePosition(position.aisleID,position.row,position.col,position.maxWeight,position.maxVolume,sku.getTotalWeight(),sku.getTotalVolume());
                             }
-                        }
-                        else{
-                            console.log("Not fit");  //Still to be tested
-                            reject("Does not fit");
-                            return;
-                        }
+                            else{
+                                console.log(position.fits(sku.getTotalWeight(),sku.getTotalVolume()));
+                                //console.log("Not fit");  //Still to be tested
+                                reject("Does not fit");
+                                return;
+            }
                     }
+                }
                 this.db.run(sql,[sku.getDescription(),sku.getWeight(),sku.getVolume(),sku.getNotes(),sku.getPrice(),sku.getAvailableQuantity(),JSON.stringify(sku.getTestDescriptors()),sku.getId()],(err)=>{
                     if(err){
                         reject(err);
@@ -117,7 +119,7 @@ class SKUDB {
 
     async setSKUPosition(id,positionId){
         return new Promise((resolve,reject) => {
-            const sql = "UPDATE SKUS SET(positionId=?) WHERE ID=?";
+            const sql = "UPDATE SKUS SET positionId=? WHERE ID=?;";
             this.db.run(sql,[positionId,id],(err) =>{
                 if(err){
                     reject(err);
@@ -140,7 +142,7 @@ class SKUDB {
             });
         });
     }
-    occupiedByOthers(positionId,ID){
+    async occupiedByOthers(positionId,ID){
         return new Promise((resolve,reject) => {
             const sql ="SELECT positionId FROM SKUS WHERE ID<>? AND positionId=?";
             this.db.run(sql,[ID,positionId],(err,rows)=>{
@@ -149,7 +151,7 @@ class SKUDB {
                     return;
                 }
                 if(!rows)
-                    resolve(null);
+                    resolve(false);
                 else
                     resolve(true);
             })

@@ -48,10 +48,10 @@ module.exports=function(app){
     });
 
     app.post('/api/sku',[
-        body('description').isAscii().isLength({min:1}),
+        body('description').isString().isLength({min:1}),
         body('weight').isInt({min: 0}),
         body('volume').isInt({min: 0}),
-        body('notes').isAscii(),
+        body('notes').isString(),
         body('price').isFloat({min: 0}),
         body('availableQuantity').isInt({min: 0})], 
         async (req,res)=>{
@@ -76,10 +76,10 @@ module.exports=function(app){
 
     app.put('/api/sku/:id',[
         param('id').isInt({min: 0}),
-        body('newDescription').isAscii().isLength({min:1}),
+        body('newDescription').isString().isLength({min:1}),
         body('newWeight').isInt({min: 0}),
         body('newVolume').isInt({min: 0}),
-        body('newNotes').isAscii(),
+        body('newNotes').isString(),
         body('newPrice').isFloat({min: 0}),
         body('newAvailableQuantity').isInt({min: 0})
     ],
@@ -111,8 +111,7 @@ module.exports=function(app){
 
     app.put('/api/sku/:id/position',[
         param('id').isInt({min: 0}),
-        body('position').isLength({min: 12, max: 12})
-    ],
+        body('position').isString()],
     async (req,res)=>{
 
         let id = req.params.id;
@@ -136,34 +135,32 @@ module.exports=function(app){
             }
             positions = new PositionDB('WarehouseDB');
             await positions.createPositionTable();
-            position = new Position(await positions.getPosition(req.body.position));
-            if(!position){
+            if(req.body.position){
+                position = await positions.getPosition(req.body.position);
+                if(!position){
                 return res.status(404).end();
-            }
-            if(req.body.position === sku.getPositionId()){
-                console.log("same position");
-                return res.status(422).end();
-            }
-            if(!(await skus.occupiedByOthers(req.body.position,sku.getId()))){
-                if(!position.fits(sku.getTotalWeight(),sku.getTotalVolume())){
-                    console.log("Not fit");
-                    return res.status(503).end();
                 }
+                if(req.body.position === sku.getPositionId() || await skus.occupiedByOthers(req.body.position,sku.getId())){
+                    return res.status(422).end();
+                }
+                if(sku.getPositionId()){
+                    const oldPosition = await positions.getPosition(sku.getPositionId());
+                    await positions.changePosition(oldPosition.positionID,oldPosition.aisleID,oldPosition.row,oldPosition.col,oldPosition.maxWeight,oldPosition.maxVolume,0,0);
+                }
+                await positions.changePosition(req.body.position,position.aisleID,position.row,position.col,position.maxWeight,position.maxVolume,sku.getTotalWeight(),sku.getTotalVolume());
+                await skus.setSKUPosition(id,req.body.position);
+            }
                 else{
-                    if(sku.getPositionId()){
-                        const oldPosition = await positions.getPosition(sku.getPositionId());
-                        //Free old position
-                        await positions.changePosition(oldPosition.aisleID,oldPosition.row,oldPosition.col,oldPosition.maxWeight,oldPosition.maxVolume,0,0);
+                        if(sku.getPositionId()){
+                            const oldPosition = await positions.getPosition(sku.getPositionId());
+                            await positions.changePosition(oldPosition.aisleID,oldPosition.row,oldPosition.col,oldPosition.maxWeight,oldPosition.maxVolume,0,0);
+                            await skus.setSKUPosition(id,"");   
+                        }
                     }
-                    await positions.changePosition(position.aisleID,position.row,position.col,position.maxWeight,position.maxVolume,sku.getTotalWeight(),sku.getTotalVolume());
-                    sku.setPositionId(req.body.position);
-                    await skus.setSKUPosition(sku.getID(),req.body.position);
-                    return res.status(200).end();
-                }
-            }
+            return res.status(200).end();
         }
         catch(err){
-            console.log(err);
+            //console.log(err);
             return res.status(503).end();
         }
     });

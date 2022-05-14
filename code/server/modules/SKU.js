@@ -87,11 +87,11 @@ class SKU{
     }
 
     getTotalWeight(){
-        return this.availableQuantity * this.weight;
+        return (this.availableQuantity * this.weight);
     }
 
     getTotalVolume(){
-        return this.availableQuantity * this.volume;
+        return (this.availableQuantity * this.volume);
     }
 }
 

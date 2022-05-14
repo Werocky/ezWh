@@ -83,7 +83,7 @@ module.exports = function(app){
 
     app.post('/api/skuitem',[
 
-    body('RFID').isLength({min: 32, max: 32}),
+    body('RFID').isString().isLength({min: 32, max: 32}),
     body('SKUId').isInt({min: 0})
     ],async (req,res) =>{
 
@@ -121,7 +121,7 @@ module.exports = function(app){
     app.put('/api/skuitems/:rfid',[
 
         param('rfid').isLength({min:32, max:32}),
-        body('newRFID').isLength({min: 32, max: 32}),
+        body('newRFID').isString().isLength({min: 32, max: 32}),
         body('newAvailable').isInt({min: 0, max:1})
         ],async (req,res) =>{
     
