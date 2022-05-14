@@ -2,15 +2,15 @@
 
 class Position {
   
-  constructor(p) {
-    this.positionID = p.positionID;
-    this.aisleID = p.aisleID;
-    this.row = p.row;
-    this.col = p.col;
-    this.maxWeight = p.maxWeight;
-    this.maxVolume = p.maxVolume;
-    this.occupiedWeight = p.occupiedWeight;
-    this.occupiedVolume= p.occupiedVolume;
+  constructor(aisleID = "", row = "", col = "", maxWeight, maxVolume, occupiedWeight = 0, occupiedVolume = 0) {
+    this.positionID = aisleID.concat(row, col);
+    this.aisleID = aisleID;
+    this.row = row;
+    this.col = col;
+    this.maxWeight = maxWeight;
+    this.maxVolume = maxVolume;
+    this.occupiedWeight = occupiedWeight;
+    this.occupiedVolume= occupiedVolume;
   }
 
   updateOccWeight(deltaW) {

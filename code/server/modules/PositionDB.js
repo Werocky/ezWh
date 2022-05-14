@@ -27,15 +27,20 @@ class PositionDB {
 
   getPositions() {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT positionID as positionID, aisleID as aisleID, row as row, col as col, maxWeight as maxWeight, maxVolume as maxVolume, occupiedWeight as occupiedWeight, occupiedVolume as occupiedVolume FROM POSITIONS';
+        const sql = 'SELECT * FROM POSITIONS';
         this.db.all(sql, (err, rows) => {
             if (err) {
             reject(err);
             return;
             }
-            if (rows) {
-                resolve(rows);
+            if (!rows) {
+                resolve(null);
             }
+            let positions = [];
+            rows.forEach(row => {
+                positions.push(new Position(row.positionID, row.aisleID, row.row, row.col, row.maxWeight, row.maxVolume, row.occupiedWeight, row.occupiedVolume))
+            });
+            resolve(positions);
         });
     });
   }
@@ -51,13 +56,15 @@ class PositionDB {
             if (!row) {
                 resolve(null);
             }
-            resolve(row);
+            const position = new Position(row.positionID, row.aisleID, row.row, row.col, row.maxWeight, row.maxVolume, row.occupiedWeight, row.occupiedVolume);
+            resolve(position);
         });
     });
   }
 
-  createPosition(positionID, aisleID, row, col, maxWeight, maxVolume) {
+  createPosition(aisleID, row, col, maxWeight, maxVolume) {
     return new Promise((resolve, reject) => {
+        let positionID = aisleID.concat(row, col);
         const sql = 'INSERT INTO POSITIONS(positionID, aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume) VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
         this.db.run(sql, [positionID, aisleID, row, col, maxWeight, maxVolume, 0, 0], (err) => {
             if (err) {
