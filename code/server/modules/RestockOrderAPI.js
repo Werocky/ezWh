@@ -135,8 +135,7 @@ module.exports = function(app) {
     });
 
     //CREATE A NEW ORDER
-    app.post('/api/restockOrder', 
-            param('id').isInt(),
+    app.post('/api/restockOrder',
             body('issueDate').isDate('YYYY/MM/DD HH:mm'),
             check('products.*.SKUId').isInt({ min: 0}),
             check('products.*.qty').isInt({ min: 0}),

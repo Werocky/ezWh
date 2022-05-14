@@ -32,13 +32,21 @@ module.exports = function(app) {
     });
 
     //GET AN ORDER BY ID
-    app.get('/api/returnOrders/:id', async (req,res)=>{
+    app.get('/api/returnOrders/:id', 
+            param('id').isInt(), 
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 404 -> Not Found (no return order associated to id),
          * 422 -> Unprocessable Entity (validation of id failed), 
          * 503 -> Service Unavailable (generic error). 
          */
+
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
+            return res.status(422).json();
+        }
         
         let id = req.params.id;
 
@@ -64,13 +72,24 @@ module.exports = function(app) {
     });
 
     //CREATE A NEW ORDER
-    app.post('/api/returnOrder', async (req,res)=>{
+    app.post('/api/returnOrder',
+            body('returnDate').isDate('YYYY/MM/DD HH:mm'),
+            check('products.*.SKUId').isInt({ min: 0}),
+            check('products.*.RFID').isLength({ min: 12, max: 12}),
+            body('restockOrderId').isInt({ min: 0}),
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 404 -> Not Found (no restock order associated to restockOrderId),
          * 422 -> Unprocessable Entity (validation of request body failed), 
          * 503 -> Service Unavailable (generic error). 
          */
+
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
+            return res.status(422).json();
+        }
         
         if(Object.keys(req.body).length!==3) { 
             return res.status(422).json();
@@ -104,13 +123,21 @@ module.exports = function(app) {
     });
 
     //DELETE AN ORDER BY ID
-    app.delete('/api/returnOrder/:id', async (req,res)=>{
+    app.delete('/api/returnOrder/:id',
+            param('id').isInt(), 
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 422 -> Unprocessable Entity (validation of request body failed), 
          * 503 -> Service Unavailable (generic error). 
          */
         
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
+            return res.status(422).json();
+        }
+
         let id = req.params.id;
 
         if(!id) { 
