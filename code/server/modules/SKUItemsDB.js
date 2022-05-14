@@ -86,10 +86,10 @@ class SKUItemsDB{
         });
     }
 
-    createSKUItem(skuItem){
+    createSKUItem(rfid,skuId,available,stockDate){
         return new Promise((resolve,reject)=>{
             const sql = 'INSERT INTO SKUITEMS(RFID,SKUId,Available,DateOfStock) VALUES (?,?,?,?);';
-            this.db.run(sql,[skuItem.getRfid(),skuItem.getSKUId(),skuItem.getAvailable(),skuItem.getStockDate()],(err)=>{
+            this.db.run(sql,[rfid,skuId,available,stockDate],(err)=>{
                 if(err){
                     reject(err);
                     return;
@@ -99,10 +99,10 @@ class SKUItemsDB{
         })
     }
 
-    modifySKUItem(newSkuItem,rfid){
+    modifySKUItem(newRfid,newAvailable,newStockDate,oldRfid){
         return new Promise((resolve,reject)=>{
             const sql = 'UPDATE SKUITEMS SET RFID=?,Available=?,DateOfStock=? WHERE RFID=?;';
-            this.db.run(sql,[newSkuItem.getRfid(),newSkuItem.getAvailable(),newSkuItem.getStockDate(),rfid],(err)=>{
+            this.db.run(sql,[newRfid,newAvailable,newStockDate,oldRfid],(err)=>{
                 if(err){
                     reject(err);
                     return;

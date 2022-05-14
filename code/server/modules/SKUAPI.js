@@ -4,6 +4,7 @@ const SKUDB = require('./SKUsDB');
 const SKU = require('./SKU');
 const Position = require('./Position');
 const PositionDB = require('./PositionDB');
+const {body, param, validationResult} = require('express-validator');
 
 module.exports=function(app){
 
@@ -22,12 +23,15 @@ module.exports=function(app){
 
     });
 
-    app.get('/api/skus/:id', async(req,res)=>{
+    app.get('/api/skus/:id',
+    param('id').isInt({min: 0}), 
+    async(req,res)=>{
 
-        let id=req.params.id;
-        if(!id){
-            return res.status(422).json();
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+              return res.status(422).end();
         }
+        let id=req.params.id;
         let skus;
         let sku;
         try{
@@ -39,11 +43,22 @@ module.exports=function(app){
             return res.status(500).json();
         }
         if(!sku)
-            return res.status(404).json();
+            return res.status(404).end();
         return res.status(200).json(sku);
     });
 
-    app.post('/api/sku', async (req,res)=>{
+    app.post('/api/sku',[
+        body('description').isAscii().isLength({min:1}),
+        body('weight').isInt({min: 0}),
+        body('volume').isInt({min: 0}),
+        body('notes').isAscii(),
+        body('price').isFloat({min: 0}),
+        body('availableQuantity').isInt({min: 0})], 
+        async (req,res)=>{
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+              return res.status(422).end();
+        }
         if(Object.keys(req.body).length !== 6){
             return res.staus(422).json();
         }
@@ -51,7 +66,7 @@ module.exports=function(app){
         try{
             skus = new SKUDB('WarehouseDB');
             await skus.createSKUTable();
-            await skus.createSKU(new SKU(req.body.description,req.body.weight,req.body.volume,req.body.notes,req.body.availableQuantity,req.body.price));
+            await skus.createSKU(req.body.description,req.body.weight,req.body.volume,req.body.notes,req.body.availableQuantity,req.body.price);
         }
         catch(err){
             return res.status(503).json();
@@ -59,10 +74,23 @@ module.exports=function(app){
         return res.status(201).json();
     });
 
-    app.put('/api/sku/:id',async (req,res)=>{
+    app.put('/api/sku/:id',[
+        param('id').isInt({min: 0}),
+        body('newDescription').isAscii().isLength({min:1}),
+        body('newWeight').isInt({min: 0}),
+        body('newVolume').isInt({min: 0}),
+        body('newNotes').isAscii(),
+        body('newPrice').isFloat({min: 0}),
+        body('newAvailableQuantity').isInt({min: 0})
+    ],
+    async (req,res)=>{
 
         let id = req.params.id;
-        if(!id || Object.keys(req.body).length!== 6){
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+              return res.status(422).end();
+        }
+        if(Object.keys(req.body).length!== 6){
             return res.status(422).json();
         }
         let skus;
@@ -81,11 +109,19 @@ module.exports=function(app){
         return res.status(200).end();
     });
 
-    app.put('/api/sku/:id/position',async (req,res)=>{
+    app.put('/api/sku/:id/position',[
+        param('id').isInt({min: 0}),
+        body('position').isLength({min: 12, max: 12})
+    ],
+    async (req,res)=>{
 
         let id = req.params.id;
-        if(!id || Object.keys(req.body) !== 1){
-            return res.status(422).json();
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+              return res.status(422).end();
+        }
+        if(Object.keys(req.body).length !== 1){
+            return res.status(422).end();
         }
         let sku;
         let skus;
@@ -96,20 +132,22 @@ module.exports=function(app){
             await skus.createSKUTable();
             sku = await skus.getSKUById(id);
             if(!sku){
-                return res.status(404).json();
+                return res.status(404).end();
             }
             positions = new PositionDB('WarehouseDB');
             await positions.createPositionTable();
             position = new Position(await positions.getPosition(req.body.position));
             if(!position){
-                return res.status(404).json();
+                return res.status(404).end();
             }
             if(req.body.position === sku.getPositionId()){
-                return res.status(422).json();
+                console.log("same position");
+                return res.status(422).end();
             }
-            if(!(await occupiedByOthers(req.body.position,sku.getID()))){
+            if(!(await skus.occupiedByOthers(req.body.position,sku.getId()))){
                 if(!position.fits(sku.getTotalWeight(),sku.getTotalVolume())){
-                    return res.status(503).json();
+                    console.log("Not fit");
+                    return res.status(503).end();
                 }
                 else{
                     if(sku.getPositionId()){
@@ -120,21 +158,25 @@ module.exports=function(app){
                     await positions.changePosition(position.aisleID,position.row,position.col,position.maxWeight,position.maxVolume,sku.getTotalWeight(),sku.getTotalVolume());
                     sku.setPositionId(req.body.position);
                     await skus.setSKUPosition(sku.getID(),req.body.position);
-                    return res.status(200).json();
+                    return res.status(200).end();
                 }
             }
         }
         catch(err){
-            return res.status(503).json();
+            console.log(err);
+            return res.status(503).end();
         }
     });
 
-    app.delete('/api/skus/:id',async (req,res) =>{
+    app.delete('/api/skus/:id',
+    param('id').isInt({min: 0}),
+    async (req,res) =>{
 
-        let id = req.params.id;
-        if(!id){
-            return res.status(422).end();
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+              return res.status(422).end();
         }
+        let id = req.params.id;
         let skus;
         let sku;
         let positions;

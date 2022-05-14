@@ -67,10 +67,10 @@ class SKUDB {
         });
     }
 
-    async createSKU(sku){
+    async createSKU(description,weight,volume,notes,price,availableQuantity){
         return new Promise((resolve,reject) => {
             const sql = "INSERT INTO SKUS(description,weight,volume,notes,positionId,price,quantity,testDescriptors) VALUES(?,?,?,?,?,?,?,?);";
-            this.db.run(sql,[sku.getDescription(), sku.getWeight(), sku.getVolume(), sku.getNotes(),"", sku.getPrice(), sku.getAvailableQuantity(),'[]'],(err) => {
+            this.db.run(sql,[description, weight, volume, notes,"", price,availableQuantity,'[]'],(err) => {
                 if(err){
                     reject(err);
                     return;
@@ -140,7 +140,7 @@ class SKUDB {
             });
         });
     }
-    async occupiedByOthers(positionId,ID){
+    occupiedByOthers(positionId,ID){
         return new Promise((resolve,reject) => {
             const sql ="SELECT positionId FROM SKUS WHERE ID<>? AND positionId=?";
             this.db.run(sql,[ID,positionId],(err,rows)=>{

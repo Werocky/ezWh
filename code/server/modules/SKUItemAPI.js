@@ -7,6 +7,10 @@ const SKUItem = require('./SKUItem');
 const Position = require('./Position');
 const PositionDB = require('./PositionDB');
 const dayjs = require('dayjs');
+const CustomParseFormat = require('dayjs/plugin/CustomParseFormat');
+const {param,body,validationResult} = require('express-validator');
+
+dayjs.extend(CustomParseFormat);
 
 module.exports = function(app){
     
@@ -24,11 +28,16 @@ module.exports = function(app){
         return res.status(200).json(skuItems);
     })
 
-    app.get('/api/skuitems/sku/:id',async (req,res) =>{
+    app.get('/api/skuitems/sku/:id',
 
+    param('id').isInt({min: 0}),
+    async (req,res) =>{
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+              return res.status(422).end();
+        }
         let id = req.params.id;
-        if(!id)
-            return res.status(422).json();
         let skuItems;
         let skus;
         try{
@@ -46,11 +55,16 @@ module.exports = function(app){
         return res.status(200).json(skuItems);
     })
 
-    app.get('/api/skuitems/:rfid',async (req,res) =>{
+    app.get('/api/skuitems/:rfid',
 
+    param('rfid').isLength({min: 32, max: 32}),
+    async (req,res) =>{
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+              return res.status(422).end();
+        }
         let rfid = req.params.rfid;
-        if(!rfid)
-            return res.status(422).end();
         let skuItems;
         let skuItem;
         try{
@@ -67,21 +81,32 @@ module.exports = function(app){
      
     })
 
-    app.post('/api/skuitem',async (req,res) =>{
+    app.post('/api/skuitem',[
+
+    body('RFID').isLength({min: 32, max: 32}),
+    body('SKUId').isInt({min: 0})
+    ],async (req,res) =>{
 
         if(Object.keys(req.body).length != 3)
             return res.status(422).end();
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+                return res.status(422).end();
+        }
+        if(req.body.DateOfStock && !dayjs(req.body.DateOfStock,['YYYY/MM/DD','YYYY/MM/DD HH:mm'],true).isValid()){
+            return res.status(422).end();
+        }
         let skuItems;
         let skus;
         try{
         skus = new SKUDB('WarehouseDB');
         await skus.createSKUTable();
-        const sku = skus.getSKUById(req.body.SKUId);
+        const sku = await skus.getSKUById(req.body.SKUId);
         if(!sku)
             return res.status(404).end();
         skuItems = new SKUItemsDB('WarehouseDB');
         await skuItems.createSKUItemsTable();
-        await skuItems.createSKUItem(new SKUItem(req.body.RFID,req.body.SKUId,0,req.body.DateOfStock));
+        await skuItems.createSKUItem(req.body.RFID,req.body.SKUId,0,req.body.DateOfStock);
         }
         catch (err){
             console.log(err);
@@ -93,11 +118,21 @@ module.exports = function(app){
      
     })
 
-    app.put('/api/skuitems/:rfid',async (req,res) =>{
+    app.put('/api/skuitems/:rfid',[
 
-        let rfid = req.params.rfid;
-        if(!rfid || Object.keys(req.body).length != 3)
-        return res.status(422).end();
+        param('rfid').isLength({min:32, max:32}),
+        body('newRFID').isLength({min: 32, max: 32}),
+        body('newAvailable').isInt({min: 0, max:1})
+        ],async (req,res) =>{
+    
+            if(Object.keys(req.body).length != 3)
+                return res.status(422).end();
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                    return res.status(422).end();
+            }
+            if(req.body.DateOfStock && !dayjs(req.body.DateOfStock,['YYYY/MM/DD','YYYY/MM/DD HH:mm'],true).isValid())
+                return res.status(422).end();
         let skuItems;
         let skuItem;
         let skus;
@@ -121,7 +156,7 @@ module.exports = function(app){
                     sku.setAvailableQuantity(sku.getAvailableQuantity() - 1);
                 await skus.modifySKU(sku);
             }
-            await skuItems.modifySKUItem(new SKUItem(req.body.newRFID,sku.getId(),req.body.newAvailable,req.body.newDateOfStock),skuItem.getRfid())
+            await skuItems.modifySKUItem(req.body.newRFID,sku.getId(),req.body.newAvailable,req.body.newDateOfStock,skuItem.getRfid())
         }
         catch (err){
             console.log(err);
@@ -130,7 +165,10 @@ module.exports = function(app){
         return res.status(200).end();
     })
 
-    app.delete('/api/skuitems/:rfid',async (req,res) =>{
+    app.delete('/api/skuitems/:rfid',
+    
+    param('rfid').isLength({min:32, max:32}),
+    async (req,res) =>{
 
         let rfid = req.params.rfid;
         if(!rfid)
