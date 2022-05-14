@@ -31,6 +31,7 @@ module.exports = class InternalOrderDB{
             let productsID = JSON.stringify(products.map(product => {
                 let productsID = {};
                 productsID['SKUId'] = product.SKUId;
+                productsID['qty'] = product.qty;
                 return productsID;
             }));
 
@@ -96,18 +97,18 @@ module.exports = class InternalOrderDB{
     async parseInternalOrder(internalOrder) {
         let skus = new SKUDB('WarehouseDB');
         await skus.createSKUTable();
-        let productsID = JSON.parse(internalOrder.products).map(product => product.SKUId);
+        let productsID = JSON.parse(internalOrder.products);
         let products = [];
         for (let i = 0; i < productsID.length; i++) {
-            let sku = await skus.getSKUById(productsID[i]);
+            let sku = await skus.getSKUById(productsID[i].SKUId);
             let product = {};
             product['SKUId'] = sku.id;
             product['description'] = sku.description;
             product['price'] = sku.price;
             if (internalOrder.state === 'COMPLETED') {
-                product['RFID'] = JSON.parse(internalOrder.products)[i].RFID;
+                product['RFID'] = productsID[i].RFID;
             }else {
-                product['qty'] = sku.availableQuantity;
+                product['qty'] = productsID[i].qty;
             }
             products.push(product);
         }
@@ -122,23 +123,21 @@ module.exports = class InternalOrderDB{
             let query = '';
             let params = [];
 
-            if (products === undefined) {
+            if (products === undefined && newState !== 'COMPLETED') {
                 query = 'UPDATE INTERNALORDERS SET state=? WHERE id=?'
                 params = [newState, id];
             }
             else {
-                /*
-                skuItems = skuItems.map(skuItem => skuItem.rfid);
-
-                if (restockOrder.skuItems && restockOrder.skuItems !== '[]') {
-                    skuItems = skuItems.concat(JSON.parse(restockOrder.skuItems));
-                }
                 
-                skuItems = JSON.stringify(skuItems);
-                */
+                let productsID = JSON.stringify(products.map(product => {
+                    let productsID = {};
+                    productsID['SKUId'] = product.SKUId;
+                    productsID['RFID'] = product.RFID;
+                    return productsID;
+                }));                
 
                 query = 'UPDATE INTERNALORDERS SET state=?, products=? WHERE id=?'
-                params = [newState, products, id];
+                params = [newState, productsID, id];
             }
 
             this.db.run(query, params, (err) =>{

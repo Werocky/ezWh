@@ -89,12 +89,12 @@ class RestockOrdersDB {
         let productsID = JSON.parse(restockOrder.products);
         let products = [];
         for (let i = 0; i < productsID.length; i++) {
-            let sku = await skus.getSKUById(productsID[i]);
+            let sku = await skus.getSKUById(productsID[i].SKUId);
             let product = {};
             product['SKUId'] = sku.id;
             product['description'] = sku.description;
             product['price'] = sku.price;
-            product['qty'] = sku.availableQuantity;
+            product['qty'] = productsID[i].qty;
             products.push(product);
         }
             
@@ -122,7 +122,12 @@ class RestockOrdersDB {
     
     createRestockOrder(issueDate, products, supplierId) {
         
-        let productsID = JSON.stringify(products.map(product => product.SKUId));
+        let productsID = JSON.stringify(products.map(product => {
+            let productsID = {};
+            productsID['SKUId'] = product.SKUId;
+            productsID['qty'] = product.qty;
+            return productsID;
+        }));
         
         return new Promise((resolve, reject) => {
             const sql = 'INSERT INTO RESTOCKORDERS(issueDate, products, supplierId, state, skuItems) VALUES(?, ?, ?, ?, ?)';
