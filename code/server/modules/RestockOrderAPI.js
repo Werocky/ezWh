@@ -1,6 +1,9 @@
 'use strict';
 
 const dayjs = require('dayjs');
+const { body, param, check, validationResult } = require('express-validator');
+
+const STATES = ['ISSUED', 'DELIVERY', 'DELIVERED'];
 
 const RestockOrdersDB = require('./RestockOrdersDB');
 const RestockOrder = require('./RestockOrder');
@@ -32,13 +35,21 @@ module.exports = function(app) {
     });
 
     //GET AN ORDER BY ID
-    app.get('/api/restockOrders/:id', async (req,res)=>{
+    app.get('/api/restockOrders/:id',
+            param('id').isInt(),
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 404 -> Not Found (no restock order associated to id),
          * 422 -> Unprocessable Entity (validation of id failed), 
          * 503 -> Service Unavailable (generic error). 
          */
+
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
+            return res.status(422).json();
+        }
         
         let id = req.params.id;
 
@@ -64,13 +75,21 @@ module.exports = function(app) {
     });
 
     //GET RETURN ITEMS OF AN ORDER
-    app.get('/api/restockOrders/:id/returnItems', async (req,res)=>{
+    app.get('/api/restockOrders/:id/returnItems', 
+            param('id').isInt(), 
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 404 -> Not Found (no restock order associated to id),
          * 422 -> Unprocessable Entity (validation of id failed or restock order state != COMPLETEDRETURN), 
          * 500 -> Internal Server Error (generic error). 
          */
+
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
+            return res.status(422).json();
+        }
         
         let id = req.params.id;
 
@@ -116,12 +135,24 @@ module.exports = function(app) {
     });
 
     //CREATE A NEW ORDER
-    app.post('/api/restockOrder', async (req,res)=>{
+    app.post('/api/restockOrder', 
+            param('id').isInt(),
+            body('issueDate').isDate('YYYY/MM/DD HH:mm'),
+            check('products.*.SKUId').isInt({ min: 0}),
+            check('products.*.qty').isInt({ min: 0}),
+            body('supplierId').isInt({ min: 0}),
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 422 -> Unprocessable Entity (validation of request body failed), 
          * 503 -> Service Unavailable (generic error). 
          */
+
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
+            return res.status(422).json();
+        }
         
         if(Object.keys(req.body).length!==3) { 
             return res.status(422).json();
@@ -140,13 +171,22 @@ module.exports = function(app) {
     });
 
     //CHANGE STATE OF A RESTOCK ORDER
-    app.put('/api/restockOrder/:id', async (req,res)=>{
+    app.put('/api/restockOrder/:id',
+            body('newState').isIn(STATES),
+            param('id').isInt(),
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 404 -> Not Found (no restock order associated to id),
          * 422 -> Unprocessable Entity (validation of request body or of id failed), 
          * 503 -> Service Unavailable (generic error). 
          */
+
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
+            return res.status(422).json();
+        }
         
         let id = req.params.id;
 
@@ -173,7 +213,11 @@ module.exports = function(app) {
     });
 
     //ADD SKUITEMS TO AN ORDER
-    app.put('/api/restockOrder/:id/skuItems', async (req,res)=>{
+    app.put('/api/restockOrder/:id/skuItems',
+            check('skuItems.*.SKUId').isInt({ min: 0}),
+            check('skuItems.*.rfid').isLength({min:12, max: 12}),
+            param('id').isInt(),
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 404 -> Not Found (no restock order associated to id),
@@ -181,6 +225,12 @@ module.exports = function(app) {
          * 503 -> Service Unavailable (generic error). 
          */
         
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
+            return res.status(422).json();
+        }
+
         let id = req.params.id;
 
         if(!id || Object.keys(req.body).length!==1) { 
@@ -212,13 +262,22 @@ module.exports = function(app) {
     });
 
     //ADD A TRANSPORT NOTE TO AN ORDER
-    app.put('/api/restockOrder/:id/transportNote', async (req,res)=>{
+    app.put('/api/restockOrder/:id/transportNote',
+            check('transportNote.*.deliveryDate').isDate(),
+            param('id').isInt(),
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 404 -> Not Found (no restock order associated to id),
          * 422 -> Unprocessable Entity (validation of request body or of id failed), 
          * 503 -> Service Unavailable (generic error). 
          */
+
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
+            return res.status(422).json();
+        }
         
         let id = req.params.id;
 
@@ -254,12 +313,20 @@ module.exports = function(app) {
     });
 
     //DELETE AN ORDER BY ID
-    app.delete('/api/restockOrder/:id', async (req,res)=>{
+    app.delete('/api/restockOrder/:id',
+            param('id').isInt(),
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 422 -> Unprocessable Entity (validation of request body failed), 
          * 503 -> Service Unavailable (generic error). 
          */
+
+         const err = validationResult(req);
+
+         if (!err.isEmpty()) {
+             return res.status(422).json();
+         }
         
         let id = req.params.id;
 
