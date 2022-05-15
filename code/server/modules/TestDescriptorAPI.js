@@ -1,6 +1,9 @@
 'use strict';
 
 const TestDescriptorDB = require("./TestDescriptorDB");
+const SKUDB = require('./SKUsDB');
+
+const { body, param, check, validationResult } = require('express-validator');
 
 module.exports = function(app){
     
@@ -24,10 +27,15 @@ module.exports = function(app){
     //return test descriptor present in the database with id = :id
     //request body: none
     //request header: id
-    app.get('/api/testDescriptors/:id', async (req, res) =>{
-        if(!req.param.id)
-            //unprocessable entity, validation of id failed
+    app.get('/api/testDescriptors/:id',
+        param('id').isInt(),
+        async (req, res) =>{
+
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
             return res.status(422).json();
+        }
         
         let  testDescriptors;
         try {
@@ -50,26 +58,36 @@ module.exports = function(app){
 
     //create a new test descriptor
     //request body: name, procedure description and idSKU
-    app.post('/api/testDescriptors', async (req, res) =>{
-        if(Object.keys(req.body).length !==3)
-            //unprocessable entity, validation of request body failed
+    app.post('/api/testDescriptors',
+            body('name').isAscii(), 
+            body('procedureDescription').isAscii(), 
+            body('idSKU').isInt({min: 0}),
+            async (req, res) =>{
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
             return res.status(422).json();
-        
+        }
+
         let testDescriptors;
+        let skus;
+        let sku;
         try{
-            testDescriptors = new TestDescriptorDB('WarehouseDB');
-            testDescriptors.createTestDescriptorTable
-            testDescriptors = await testDescriptors.createTestDescriptor(req.body.name, req.body.procedureDescription, req.body.idSKU);
-            if(Object.keys(testDescriptors).length === 0){
-                //not found, nothing found associated to the idSKU
+            skus = new SKUDB('WarehouseDB');
+            await skus.createSKUTable();
+            sku = await skus.getSKUById(req.body.idSKU);
+            if (!sku) {
                 return res.status(404).json();
             }
+            testDescriptors = new TestDescriptorDB('WarehouseDB');
+            testDescriptors.createTestDescriptorTable();
+            testDescriptors = await testDescriptors.createTestDescriptor(req.body.name, req.body.procedureDescription, req.body.idSKU);
         }catch(err){
             //service unavailable (generic error)
             return res.status(503).json();
         }
         //success, entry created
-        return res.status(201).json
+        return res.status(201).json();
     })
 
 
@@ -77,27 +95,38 @@ module.exports = function(app){
     //modify a test descriptor for the id = :id
     //request body: new name, new procedureDescription, newIdSKU (all optional)
     //request header: id 
-    app.put('/api/testDescriptors/:id', async (req, res) =>{
-        if(Object.keys(req.body).length < 1 || !req.param.id) 
-            //unprocessable entity, validation of request body or id failed
+    app.put('/api/testDescriptors/:id',
+            body('newName').isAscii(), 
+            body('newProcedureDescription').isAscii(), 
+            body('newIdSKU').isInt({min: 0}),
+            param('id').isInt(),
+            async (req, res) =>{
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
             return res.status(422).json();
-        
+        }
+
         let testDescriptors;
+        let testDescriptor;
+        let skus;
+        let sku;
         try{
             testDescriptors = new TestDescriptorDB('WarehouseDB');
-            testDescriptors = await testDescriptors.getTestDescriptor(req.param.id);
-            
-            if(Object.keys(testDescriptors).length === 0){
+            testDescriptor = await testDescriptors.getTestDescriptor(req.param.id);
+            if(!testDescriptor){
                 //not found, no test descriptor associated to the id = :id
                 return res.status(404).json();
             }
-
-            if(req.body.name)
-                testDescriptors.changeName(req.body.name, req.param.id);
-            if(req.body.procedureDescription)
-                testDescriptors.changeProcedure(req.body.procedureDescription, req.param.id);
-            if(req.body.idSKU)
-                testDescriptors.changeIdSKU(req.body.idSKU, req.param.id);
+            skus = new SKUDB('WarehouseDB');
+            await skus.createSKUTable();
+            sku = await skus.getSKUById(req.body.newIdSKU);
+            if (!sku) {
+                return res.status(404).json();
+            }
+            testDescriptors.changeName(req.body.name, req.param.id);
+            testDescriptors.changeProcedure(req.body.procedureDescription, req.param.id);
+            testDescriptors.changeIdSKU(req.body.idSKU, req.param.id);
         }catch(err){
             //service unavailable, generic error
             return res.status(503).json();
@@ -111,11 +140,15 @@ module.exports = function(app){
     //delete test descriptor with id = :id
     //request body: none
     //request header: id
-    app.delete('/api/testDescriptors/:id', async (req, res) =>{
-        if(!req.param.id)
-            //unprocessable entity, validation of id failed
+    app.delete('/api/testDescriptors/:id',
+            param('id').isInt(),
+            async (req, res) =>{
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
             return res.status(422).json();
-        
+        }
+
         let testDescriptors;
         try{
             testDescriptors = new TestDescriptorDB('WarehouseDB');

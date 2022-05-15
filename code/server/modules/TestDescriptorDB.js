@@ -55,15 +55,15 @@ module.exports = class TestDescriptorDB{
     getTestDescriptor(id){
         return new Promise((resolve, reject) =>{
             const query = 'SELECT id as id, name as name, procedureDescription as procedureDescription, idSKU as idSKU FROM TESTDESCRIPTOR WHERE id = ?';
-            this.db.all(query, [id], (err,rows) =>{
+            this.db.get(query, [id], (err,row) =>{
                 if(err){
                     reject(err);
                     return;
                 }
-                if(!rows){
+                if(!row){
                     resolve(null);
                 }else{
-                    resolve(JSON.parse(JSON.stringify(rows)));
+                    resolve(row);
                 }
             });
         });
