@@ -18,8 +18,9 @@ class UsersDB {
                 if (err) {
                     reject(err);
                     return;
+                } else {
+                    resolve(this.lastID);
                 }
-                resolve(this.lastID);
             });
         });
     }
@@ -31,8 +32,9 @@ class UsersDB {
                 if(err) {
                     reject(err);
                     return;
-                } 
-                resolve(row.count > 0);
+                } else {
+                    resolve(row.count > 0);
+                }
             });
         });
     }
@@ -62,9 +64,11 @@ class UsersDB {
                 }
                 if (!row || row.type !== type) {
                     resolve(null);
-                }
+                } 
+                else {
                 const user = new User(row.email, row.name, row.surname, row.password, row.type, row.id);
                 resolve(user);
+                }
             });
         });
     }

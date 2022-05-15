@@ -51,10 +51,6 @@ module.exports = function(app) {
         
         let id = req.params.id;
 
-        if(!id) {
-            return res.status(422).json();
-        }
-
         let returnOrders;
         let returnOrder;
         try {
@@ -91,21 +87,9 @@ module.exports = function(app) {
         if (!err.isEmpty()) {
             return res.status(422).json();
         }
-        
-        if(Object.keys(req.body).length!==3) { 
-            return res.status(422).json();
-        }
 
         let returnOrders;
         let restockOrders;
-
-        let productsID = JSON.stringify(req.body.products.map(product => {
-            let productsID = {};
-            productsID['SKUId'] = product.SKUId;
-            productsID['RFID'] = product.RFID;
-            return productsID;
-        }));
-        console.log(productsID);
         try {
 
             restockOrders = new RestockOrdersDB('WarehouseDB'); 
@@ -140,10 +124,6 @@ module.exports = function(app) {
         }
 
         let id = req.params.id;
-
-        if(!id) { 
-            return res.status(422).json();
-        }
 
         let returnOrders;
         try {

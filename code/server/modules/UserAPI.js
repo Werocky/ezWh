@@ -1,22 +1,31 @@
 'use strict';
 
+const { body, param, check, validationResult } = require('express-validator');
 const UsersDB = require('./UsersDB');
 const User = require('./User');
 
-const types = ["customer", "qualityEmployee", "clerk", "deliveryEmployee", "supplier"];
+const TYPES = ["customer", "qualityEmployee", "clerk", "deliveryEmployee", "supplier"];
 
 let currentUser = undefined;
 
 module.exports = function(app) {
-    app.post('/api/newUser', async (req,res)=>{
+    app.post('/api/newUser', 
+            body('name').isAscii(),
+            body('surname').isAscii(),
+            body('username').isEmail(),
+            body('password').isAscii().isLength({min:8}),
+            body('type').isIn(TYPES),
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 409 -> Conflict (user with same mail and type already exists), 
          * 422 -> Unprocessable Entity (validation of request body failed or attempt to create manager or administrator accounts), 
          * 503 -> Service Unavailable (generic error). 
          */
-        
-        if(Object.keys(req.body).length===0 || req.body.password.length<8 || !types.includes(req.body.type)) { 
+
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
             return res.status(422).json();
         }
 
@@ -36,27 +45,45 @@ module.exports = function(app) {
         return res.status(201).json();
     });
 
-    app.post('/api/managerSessions', async (req,res) => {
+    app.post('/api/managerSessions',
+            body('username').isEmail(),
+            body('password').isAscii(),
+            async (req,res) => {
         return await login(req, res, 'manager');
     });
 
-    app.post('/api/customerSessions', async (req,res) => {
+    app.post('/api/customerSessions', 
+            body('username').isEmail(),
+            body('password').isAscii(),
+            async (req,res) => {
         return await login(req, res, 'customer');
     });
 
-    app.post('/api/supplierSessions', async (req,res) => {
+    app.post('/api/supplierSessions', 
+            body('username').isEmail(),
+            body('password').isAscii(),
+            async (req,res) => {
         return await login(req, res, 'supplier');
     });
 
-    app.post('/api/clerkSessions', async (req,res) => {
+    app.post('/api/clerkSessions', 
+            body('username').isEmail(),
+            body('password').isAscii(),
+            async (req,res) => {
         return await login(req, res, 'clerk');
     });
 
-    app.post('/api/qualityEmployeeSessions', async (req,res) => {
+    app.post('/api/qualityEmployeeSessions', 
+            body('username').isEmail(),
+            body('password').isAscii(),
+            async (req,res) => {
         return await login(req, res, 'qualityEmployee');
     });
 
-    app.post('/api/deliveryEmployeeSessions', async (req,res) => {
+    app.post('/api/deliveryEmployeeSessions', 
+            body('username').isEmail(),
+            body('password').isAscii(),
+            async (req,res) => {
         return await login(req, res, 'deliveryEmployee');
     });
 
@@ -65,17 +92,22 @@ module.exports = function(app) {
         return res.status(200).json();
     });
 
-    app.put('/api/users/:username', async (req,res)=>{
+    app.put('/api/users/:username', 
+            body('oldType').isIn(TYPES),
+            body('newType').isIn(TYPES),
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 404 -> Not Found (wrong username or oldType fields or user doesn't exists), 
          * 422 -> Unprocessable Entity (validation of request body failed or attempt to modify rights to administrator or manager), 
          * 503 -> Service Unavailable (generic error). 
          */
-        
-        if(Object.keys(req.body).length!==2 || !types.includes(req.body.oldType)) { 
-            return res.status(422).json();
-        }
+
+         const err = validationResult(req);
+
+         if (!err.isEmpty()) {
+             return res.status(422).json();
+         }
 
         let username = req.params.username;
         
@@ -95,19 +127,24 @@ module.exports = function(app) {
         return res.status(200).json();
     });
 
-    app.put('/api/users/:username/:type', async (req,res)=>{
+    app.put('/api/users/:username/:type',
+            param('username').isEmail(),
+            param('type').isIn(TYPES),
+            async (req,res)=>{
         /**Error responses: 
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 422 -> Unprocessable Entity (validation of username or of type failed or attempt to delete a manager/administrator), 
          * 503 -> Service Unavailable (generic error). 
          */
+
+         const err = validationResult(req);
+
+         if (!err.isEmpty()) {
+             return res.status(422).json();
+         }
         
         let username = req.params.username;
         let type = req.params.type;
-
-        if(!username || !types.includes(type)) { 
-            return res.status(422).json();
-        }
         
         let users;
         try {
@@ -128,6 +165,13 @@ module.exports = function(app) {
 }
 
 async function login(req, res, type) {
+
+    const err = validationResult(req);
+
+    if (!err.isEmpty()) {
+        return res.status(422).json();
+    }
+
     if(Object.keys(req.body).length!==2) { 
         return res.status(401).json();
     }

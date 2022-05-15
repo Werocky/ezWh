@@ -111,9 +111,6 @@ module.exports = function(app){
             return res.status(422).json();
         }
         
-        //unprocessable entity (validation of request body failed)
-        if(Object.keys(req.body).length!==3) {return res.status(422).json();}
-        
         let internalOrder
         try{
             internalOrder = new InternalOrderDB('WarehouseDB');
@@ -143,9 +140,6 @@ module.exports = function(app){
         if (!err.isEmpty()) {
             return res.status(422).json();
         }
-        
-        //unprocessable entity (validation of request body failed)
-        if(Object.keys(req.body).length<=1) {return res.status(422).json;}
         
         let internalOrders;
         try{

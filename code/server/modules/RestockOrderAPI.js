@@ -53,10 +53,6 @@ module.exports = function(app) {
         
         let id = req.params.id;
 
-        if(!id) {
-            return res.status(422).json();
-        }
-
         let restockOrders;
         let restockOrder;
         try {
@@ -92,10 +88,6 @@ module.exports = function(app) {
         }
         
         let id = req.params.id;
-
-        if(!id) {
-            return res.status(422).json();
-        }
 
         let restockOrders;
         let restockOrder;
@@ -152,10 +144,6 @@ module.exports = function(app) {
             return res.status(422).json();
         }
         
-        if(Object.keys(req.body).length!==3) { 
-            return res.status(422).json();
-        }
-
         let restockOrders;
         try {
             restockOrders = new RestockOrdersDB('WarehouseDB');
@@ -187,10 +175,6 @@ module.exports = function(app) {
         }
         
         let id = req.params.id;
-
-        if(!id || Object.keys(req.body).length!==1) { 
-            return res.status(422).json();
-        }
 
         let restockOrders;
         try {
@@ -230,10 +214,6 @@ module.exports = function(app) {
         }
 
         let id = req.params.id;
-
-        if(!id || Object.keys(req.body).length!==1) { 
-            return res.status(422).json();
-        }
 
         let restockOrders;
         let restockOrder;
@@ -279,10 +259,6 @@ module.exports = function(app) {
         
         let id = req.params.id;
 
-        if(!id || Object.keys(req.body).length!==1) { 
-            return res.status(422).json();
-        }
-
         let restockOrders;
         let restockOrder;
         try {
@@ -327,10 +303,6 @@ module.exports = function(app) {
          }
         
         let id = req.params.id;
-
-        if(!id) { 
-            return res.status(422).json();
-        }
 
         let restockOrders;
         try {
