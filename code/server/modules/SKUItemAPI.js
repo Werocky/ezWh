@@ -43,7 +43,7 @@ module.exports = function(app){
         try{
             skus = new SKUDB('WarehouseDB');
             await skus.createSKUTable();
-            if(!skus.getSKUById(id))
+            if(!await skus.getSKUById(id))
                 return res.status(404).json();
             skuItems = new SKUItemsDB('WarehouseDB');
             await skuItems.createSKUItemsTable();

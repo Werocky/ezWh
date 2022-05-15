@@ -60,7 +60,7 @@ module.exports=function(app){
               return res.status(422).end();
         }
         if(Object.keys(req.body).length !== 6){
-            return res.staus(422).json();
+            return res.status(422).json();
         }
         let skus;
         try{
