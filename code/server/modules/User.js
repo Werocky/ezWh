@@ -13,16 +13,28 @@ class User {
 
     encrypt(password) {
         let encryptedPassword = password;
-        //Algorithm to encrypt
+        var hashVal = 0;
+        if (encryptedPassword.length == 0) return hashVal;
+        for (i = 0; i < encryptedPassword.length; i++) {
+            char = encryptedPassword.charCodeAt(i);
+            hashVal = ((hashVal << 5) - hashVal) + char;
+            hashVal = hashVal & hashVal;
+        }
 
-        return encryptedPassword;
+        return hashVal;
     }
 
     static encrypt(password) {
         let encryptedPassword = password;
-        //Algorithm to encrypt
+        var hashVal = 0;
+        if (encryptedPassword.length == 0) return hashVal;
+        for (i = 0; i < encryptedPassword.length; i++) {
+            char = encryptedPassword.charCodeAt(i);
+            hashVal = ((hashVal << 5) - hashVal) + char;
+            hashVal = hashVal & hashVal;
+        }
 
-        return encryptedPassword;
+        return hashVal;
     }
 }
 
