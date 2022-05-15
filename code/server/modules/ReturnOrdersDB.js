@@ -10,12 +10,12 @@ class ReturnOrdersDB {
 
     constructor(dbName) {
         this.db = new this.sqlite.Database(dbName, (err) => {
-            if(err) throw err;
+            if (err) throw err;
         });
     }
 
     createReturnOrdersTable() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'CREATE TABLE IF NOT EXISTS RETURNORDERS(ID INTEGER PRIMARY KEY AUTOINCREMENT,returnDate VARCHAR, products VARCHAR, restockOrderId INTEGER)';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -36,7 +36,7 @@ class ReturnOrdersDB {
             returnOrder = await this.parseReturnOrder(returnOrder);
             returnOrders.push(returnOrder);
         }
-        
+
         return returnOrders;
     }
 
@@ -45,8 +45,8 @@ class ReturnOrdersDB {
             const sql = 'SELECT id as id, returnDate as returnDate, products as products, restockOrderId as restockOrderId FROM RETURNORDERS';
             this.db.all(sql, (err, rows) => {
                 if (err) {
-                reject(err);
-                return;
+                    reject(err);
+                    return;
                 }
                 if (!rows) {
                     resolve(null);
@@ -63,8 +63,8 @@ class ReturnOrdersDB {
             const sql = 'SELECT id as id, returnDate as returnDate, products as products, restockOrderId as restockOrderId FROM RETURNORDERS WHERE id=?';
             this.db.get(sql, [id], (err, row) => {
                 if (err) {
-                reject(err);
-                return;
+                    reject(err);
+                    return;
                 }
                 if (!row) {
                     resolve(null);
@@ -91,12 +91,12 @@ class ReturnOrdersDB {
             product['RFID'] = JSON.parse(returnOrder.products)[i].RFID;
             products.push(product);
         }
-            
+
         returnOrder.products = products;
 
         return returnOrder;
     }
-    
+
     createReturnOrder(returnDate, products, restockOrderId) {
         return new Promise((resolve, reject) => {
 
@@ -110,8 +110,8 @@ class ReturnOrdersDB {
             const sql = 'INSERT INTO RETURNORDERS(returnDate, products, restockOrderId) VALUES(?, ?, ?)';
             this.db.run(sql, [returnDate, productsID, parseInt(restockOrderId)], (err) => {
                 if (err) {
-                reject(err);
-                return;
+                    reject(err);
+                    return;
                 }
                 resolve(this.lastID);
             });
@@ -123,8 +123,8 @@ class ReturnOrdersDB {
             const sql = 'DELETE FROM RETURNORDERS WHERE id=?';
             this.db.run(sql, [id], (err) => {
                 if (err) {
-                reject(err);
-                return;
+                    reject(err);
+                    return;
                 }
                 resolve(this.lastID);
             });

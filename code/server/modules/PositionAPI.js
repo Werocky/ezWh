@@ -1,5 +1,6 @@
 'use strict';
 
+const { body, param, check, validationResult } = require('express-validator');
 const PositionDB = require('./PositionDB');
 
 module.exports = function (app) {
@@ -22,14 +23,23 @@ module.exports = function (app) {
     return res.status(200).json(positions);
   });
 
-  app.post('/api/position', async (req, res) => {
+  app.post('/api/position', 
+      body('aisleID').isNumeric().isLength({min: 4, max:4}), 
+      body('row').isNumeric().isLength({min: 4, max:4}), 
+      body('col').isNumeric().isLength({min: 4, max:4}),
+      body('positionID').equals(body('aisleID').concat(body('row') + body('col'))),
+      body('maxWeight').isInt({min: 0}),
+      body('maxVolume').isInt({min: 0}),
+      async (req, res) => {
     //401 Unauthorized (not logged in or wrong permissions)
     //422 Unprocessable Entity (validation of request body failed)
     //503 Service Unavailable (generic error)
 
-    if (Object.keys(req.body).length !== 6 || req.body.aisleID.length !== 4 || req.body.row.length !== 4 || req.body.col.length !== 4 || req.body.positionID !== req.body.aisleID.concat(req.body.row, req.body.col)) {
-      return res.status(422).json();
-    }
+    const err = validationResult(req);
+
+     if (!err.isEmpty()) {
+         return res.status(422).json();
+     }
 
     let positions;
     try {
@@ -69,7 +79,16 @@ module.exports = function (app) {
   */
 
   //Modify a position identified by positionID
-  app.put('/api/position/:positionID', async (req, res) => {
+  app.put('/api/position/:positionID',
+      body('newAisleID').isNumeric().isLength({min: 4, max:4}), 
+      body('newRow').isNumeric().isLength({min: 4, max:4}), 
+      body('newCol').isNumeric().isLength({min: 4, max:4}), 
+      body('newMaxWeight').isInt({min: 0}),
+      body('newMaxVolume').isInt({min: 0}),
+      body('newOccupiedWeight').isInt({min: 0, max: body('newMaxWeight')}),
+      body('newOccupiedVolume').isInt({min: 0, max: body('newMaxVolume')}),
+      param('positionID').isNumeric().isLength({min: 12, max:12}),
+      async (req, res) => {
     /**Error responses: 
      * 401 -> Unauthorized (not logged in or wrong permissions),
      * 404 -> Not Found (no position associated to positionID),
@@ -77,11 +96,13 @@ module.exports = function (app) {
      * 503 -> Service Unavailable (generic error). 
      */
 
-    let id = req.params.positionID;
+     const err = validationResult(req);
 
-    if (!id || Object.keys(req.body).length !== 7) {
-      return res.status(422).json();
-    }
+     if (!err.isEmpty()) {
+         return res.status(422).json();
+     }
+
+    let id = req.params.positionID;
 
     let positions;
     try {
@@ -102,7 +123,10 @@ module.exports = function (app) {
   });
 
   //MODIFY THE POSITION ID OF A POSITION
-  app.put('/api/position/:positionID/changeID', async (req, res) => {
+  app.put('/api/position/:positionID/changeID',
+      body('newPositionID').isNumeric().isLength({min: 12, max:12}), 
+      param('positionID').isNumeric().isLength({min: 12, max:12}),
+      async (req, res) => {
     /**Error responses: 
      * 401 -> Unauthorized (not logged in or wrong permissions),
      * 404 -> Not Found (no position associated to positionID),
@@ -110,11 +134,13 @@ module.exports = function (app) {
      * 503 -> Service Unavailable (generic error). 
      */
 
-    let id = req.params.positionID;
+     const err = validationResult(req);
 
-    if (!id || Object.keys(req.body).length !== 1) {
-      return res.status(422).json();
-    }
+     if (!err.isEmpty()) {
+         return res.status(422).json();
+     }
+
+    let id = req.params.positionID;
 
     let positions;
     try {
@@ -135,17 +161,21 @@ module.exports = function (app) {
   });
 
   //delete a position
-  app.delete('/api/position/:positionID', async (req, res) => {
+  app.delete('/api/position/:positionID',
+      param('positionID').isNumeric().isLength({min: 12, max:12}),
+      async (req, res) => {
     //Error responses: 
     //401 -> Unauthorized (not logged in or wrong permissions),
     //422 -> Unprocessable Entity (validation of positionID failed), 
     //503 -> Service Unavailable (generic error). 
 
-    let id = req.params.positionID;
+    const err = validationResult(req);
 
-    if (!id) {
-      return res.status(422).json();
-    }
+     if (!err.isEmpty()) {
+         return res.status(422).json();
+     }
+
+    let id = req.params.positionID;
 
     let positions;
     try {
