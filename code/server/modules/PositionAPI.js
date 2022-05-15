@@ -27,7 +27,7 @@ module.exports = function (app) {
       body('aisleID').isNumeric().isLength({min: 4, max:4}), 
       body('row').isNumeric().isLength({min: 4, max:4}), 
       body('col').isNumeric().isLength({min: 4, max:4}),
-      body('positionID').equals(body('aisleID').concat(body('row') + body('col'))),
+      body('positionID').equals(body('aisleID') + body('row') + body('col')),
       body('maxWeight').isInt({min: 0}),
       body('maxVolume').isInt({min: 0}),
       async (req, res) => {
