@@ -11,7 +11,7 @@ module.exports = class TestResultDB{
 
     createTestResultTable(){
         return new Promise((resolve, reject) => {
-            const query = 'CREATE TABLE IF NOT EXISTS TESTRESULT(ID INTEGER PRIMARY KEY AUTOINCREMENT, idTestDescriptor INTEGER, date VARCHAR, result BOOLEAN';
+            const query = 'CREATE TABLE IF NOT EXISTS TESTRESULT(ID INTEGER PRIMARY KEY AUTOINCREMENT, rfid VARCHAR, idTestDescriptor INTEGER, date VARCHAR, result BOOLEAN';
             this.db.run(query, (err) =>{
                 if(err){
                     reject(err);
@@ -22,10 +22,10 @@ module.exports = class TestResultDB{
         });
     }
 
-    createTestResult(idTestDescriptor, date, result){
+    createTestResult(rfid, idTestDescriptor, date, result){
         return new Promise((resolve, reject) =>{
-            const query = 'INSERT INTO TESTRESULT(idTestDescriptor, date, result) VALUES(?, ?, ?)';
-            this.db.run(query, [idTestDescriptor, date, result], (err) =>{
+            const query = 'INSERT INTO TESTRESULT(rfid, idTestDescriptor, date, result) VALUES(?, ?, ?, ?)';
+            this.db.run(query, [rfid, idTestDescriptor, date, result], (err) =>{
                 if(err){
                     reject(err);
                     return;
@@ -72,12 +72,12 @@ module.exports = class TestResultDB{
     getTestResultsByIdAndRfid(id, rfid){
         return new Promise((resolve, reject) =>{
             const query = 'SELECT id as id, idTestDescriptor as idTestDescriptor, date as date, result as result FROM TESTRESULT WHERE id = ? AND rfid = ?';
-            this.db.all(query, [id, rfid], (err, rows) =>{
+            this.db.get(query, [id, rfid], (err, row) =>{
                 if(err){
                     reject(err);
                     return;
                 }
-                if(!rows){
+                if(!row){
                     resolve(null);
                 }else{
                     resolve(JSON.parse(JSON.stringify(rows)));
@@ -86,10 +86,10 @@ module.exports = class TestResultDB{
         });
     }
 
-    changeTestResult(id, testDescriptor, date, result){
+    changeTestResult(id, rfid, testDescriptor, date, result){
         return new Promise((resolve, reject) =>{
-            const query = 'UPDATE TESTRESULT SET testDescriptor = ?, date = ?, result = ? WHERE id = ?';
-            this.db.run(query, [testDescriptor, date, result, id], (err) =>{
+            const query = 'UPDATE TESTRESULT SET testDescriptor = ?, date = ?, result = ? WHERE id = ? AND rfid = ?';
+            this.db.run(query, [testDescriptor, date, result, id, rfid], (err) =>{
                 if(err){
                     reject(err);
                     return;

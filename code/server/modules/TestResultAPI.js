@@ -1,6 +1,10 @@
 'use strict';
 
+const { body, param, check, validationResult } = require('express-validator');
+
 const TestResultDB = require("./TestResultDB");
+const SKUItemsDB = require('./SKUItemsDB');
+const TestDescriptorDB = require("./TestDescriptorDB");
 
 module.exports = function(app){
 
@@ -9,15 +13,20 @@ module.exports = function(app){
     //return the test results for a certain sky item identified by rfid = :rfid
     //request body: none
     //request header: rfid
-    app.get('/api/skuitems/:rfid/testResults', async (req, res) =>{
-        if(!req.param.rfid)
-            //unprocessable entity, validation of rfid failed
-            return res.status(422).json();
+    app.get('/api/skuitems/:rfid/testResults',
+            param('rfid').isLength({min:32, max:32}),
+            async (req, res) =>{
         
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
+            return res.status(422).json();
+        }
+
         let testResult;
         try{
             testResult = new TestResultDB('WarehouseDB');
-            testResult = await testResult.getTestResults(req.param.rfid);
+            testResult = await testResult.getTestResultsByRfid(req.param.rfid);
             if(Object.keys(testResult).length === 0)
                 //not found, no test result associated to rfid = :rfid
                 return res.status(404).json();
@@ -32,9 +41,16 @@ module.exports = function(app){
     //return a test result for a certain sky item idenfied by rfid
     //request body: none
     //request header: rfid, id
-    app.get('/api/skuitems/:rfid/testResults/:id', async (req, res) =>{
-        if(!(req.param.rfid && req.param.id))
+    app.get('/api/skuitems/:rfid/testResults/:id',
+            param('rfid').isLength({min:32, max:32}),
+            param('id').isInt({min:0}),        
+            async (req, res) =>{
+        
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
             return res.status(422).json();
+        }
 
         let testResult;
         try{
@@ -55,17 +71,42 @@ module.exports = function(app){
     //POST APIs
     //creates a new test result for a sku item idefied by rfid
     //request body: idTestDescriptor, Date and Result
-    app.post('/api/skuitems/testResult', (req, res) =>{
+    app.post('/api/skuitems/testResult',
+            body('rfid').isLength({min: 32, max:32}), 
+            body('idTestDescriptor').isInt({min: 0}),
+            body('Date').isDate(), 
+            body('Result').isBoolean(),
+            async (req, res) =>{
         
-        //unprocessable entity, validation of request body failed
-        if(Object.keys(req.body).length!==3)
-            return res.status(422).json();
+        const err = validationResult(req);
 
-        let testResult
-        try{
+        if (!err.isEmpty()) {
+            return res.status(422).json();
+        }
+
+        let testResult;
+        let skuItems;
+        let skuItem;
+        let testDescriptors;
+        let testDescriptor;
+        try {
+            skuItems = new SKUItemsDB('WarehouseDB');
+            await skuItems.createSKUItemsTable();
+            skuItem = await skuItems.getSKUItemByRFID(req.body.rfid);
+            if (!skuItem) {
+                //no sku item associated to rfid
+                return res.status(404).json();
+            }
+            testDescriptors = new TestDescriptorDB('WarehouseDB');
+            await testDescriptors.createTestDescriptorTable();
+            testDescriptor = await testDescriptors.getTestDescriptors(req.body.idTestDescriptor);
+            if (!testDescriptor) {
+                //no test descriptor associated to idTestDescriptor
+                return res.status(404).json();
+            }
             testResult = new TestResultDB('WarehouseDB');
-            testResult.createTestResultTable();
-            testResult.createTestResult(req.body.idTestDescriptor, req.body.date, req.body.result);
+            await testResult.createTestResultTable();
+            await testResult.createTestResult(req.body.rfid, req.body.idTestDescriptor, req.body.date, req.body.result);
         }catch(err){
             //service unavailable, generic error
             return res.status(503).json();
@@ -79,11 +120,19 @@ module.exports = function(app){
     //modify a test result identified by id = :id for a sku item identified by rfid = :rfid
     //request body = new testDescriptor, new Date and new Result
     //request header = id, rfid
-    app.put('/api/skuitems/:rfid/testResult/:id', async (req, res) =>{
+    app.put('/api/skuitems/:rfid/testResult/:id',
+            param('rfid').isLength({min:32, max:32}),
+            param('id').isInt({min:0}),      
+            body('newIdTestDescriptor').isInt({min: 0}),
+            body('newDate').isDate(), 
+            body('newResult').isBoolean(),
+            async (req, res) =>{
 
-        if(!(req.param.id || req.param.rfid))
-            //unprocessable entity, validation of request body failed
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
             return res.status(422).json();
+        }
 
         let testResults
         try{
@@ -92,7 +141,7 @@ module.exports = function(app){
             if(Object.keys(testResults).length === 0)
                 //not found, no test results associated to rfid = :rfid and id = :id
                 return res.status(404).json();
-            await testResults.changeTestResult(req.param.id, req.body.testDescriptor, req.body.date, req.body.result);
+            await testResults.changeTestResult(req.params.id, req.param.rfid, req.body.testDescriptor, req.body.date, req.body.result);
         }catch(err){
             //service unavailable, generic error
             return res.status(503).json();
@@ -106,11 +155,21 @@ module.exports = function(app){
     //delete a test result, given its id for a certain sku item identified by rfid
     //request body = none
     //request header = id, rfid
-    app.delete('/api/skuitems/:rfid/testResult/id', async (req, res) =>{
+    app.delete('/api/skuitems/:rfid/testResult/:id',
+            param('rfid').isLength({min:32, max:32}),
+            param('id').isInt({min:0}),  
+            async (req, res) =>{
+
+        const err = validationResult(req);
+
+        if (!err.isEmpty()) {
+            return res.status(422).json();
+        }
+
         let testResults;
         try{
             testResults = testResults('WarehouseDB');
-            await testResults.deleteTestResult(req.params.id, req.param.rfid);
+            await testResults.deleteTestResult(req.params.id, req.params.rfid);
         }catch(err){
             //service unavailable, generic error
             return res.stauts(503).json();
