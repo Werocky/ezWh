@@ -13,6 +13,38 @@ class Position {
     this.occupiedVolume= occupiedVolume;
   }
 
+  getPositionID(){
+    return this.positionID;
+  }
+
+  getAisleID(){
+    return this.aisleID;
+  }
+
+  getRow(){
+    return this.row;
+  }
+
+  getCol(){
+    return this.col;
+  }
+
+  getMaxWeight(){
+    return this.maxWeight;
+  }
+
+  getMaxVolume(){
+    return this.maxVolume;
+  }
+
+  getOccupiedWeight(){
+    return this.occupiedWeight;
+  }
+
+  getOccupiedVolume(){
+    return this.occupiedVolume;
+  }
+
   updateOccWeight(deltaW) {
     this.occupiedWeight += deltaW;
   }

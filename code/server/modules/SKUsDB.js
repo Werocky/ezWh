@@ -1,7 +1,5 @@
 'use strict';
 
-const PositionDB = require('./PositionDB');
-const Position = require('./Position');
 const SKU = require('./SKU');
 
 class SKUDB {
@@ -12,11 +10,15 @@ class SKUDB {
             if (err)
                 throw err;
         });
+       
+
     }
+
 
     async createSKUTable() {
         return new Promise((resolve, reject) => {
-            const sql = "CREATE TABLE IF NOT EXISTS SKUS(ID INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(50), weight FLOAT, volume FLOAT, notes VARCHAR(100), positionId VARCHAR(20), quantity INTEGER, price FLOAT, testDescriptors VARCHAR(30), CHECK(quantity >= 0));";
+            //Update and delete policy: changes to positionId are propagated but a position can't be deleted as long as an SKU is stored in it
+            const sql = "CREATE TABLE IF NOT EXISTS SKUS(ID INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(50), weight FLOAT, volume FLOAT, notes VARCHAR(100), positionId VARCHAR(12), quantity INTEGER, price FLOAT, testDescriptors VARCHAR(30), CHECK(quantity >= 0), FOREIGN KEY (positionId) REFERENCES POSITIONS (positionID) ON UPDATE CASCADE ON DELETE RESTRICT);";
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -83,25 +85,6 @@ class SKUDB {
     modifySKU(sku) {
         return new Promise(async (resolve, reject) => {
             const sql = "UPDATE SKUS SET description=?,weight=?,volume=?,notes=?,price=?,quantity=?,testDescriptors=? WHERE ID=?;";
-            try {
-                const positions = new PositionDB('WarehouseDB');
-                await positions.createPositionTable();
-                const oldSku = await this.getSKUById(sku.getId());
-                if (sku.getPositionId()) {
-                    const position = await positions.getPosition(sku.getPositionId());
-                    if (oldSku.getAvailableQuantity() !== sku.getAvailableQuantity() || oldSku.getWeight() != sku.getWeight() || oldSku.getVolume() != sku.getVolume()) {
-                        if (position.fits(sku.getTotalWeight(), sku.getTotalVolume())) {
-
-                            await positions.changePosition(position.aisleID, position.row, position.col, position.maxWeight, position.maxVolume, sku.getTotalWeight(), sku.getTotalVolume());
-                        }
-                        else {
-                            console.log(position.fits(sku.getTotalWeight(), sku.getTotalVolume()));
-                            //console.log("Not fit");  //Still to be tested
-                            reject("Does not fit");
-                            return;
-                        }
-                    }
-                }
                 this.db.run(sql, [sku.getDescription(), sku.getWeight(), sku.getVolume(), sku.getNotes(), sku.getPrice(), sku.getAvailableQuantity(), JSON.stringify(sku.getTestDescriptors()), sku.getId()], (err) => {
                     if (err) {
                         reject(err);
@@ -109,11 +92,6 @@ class SKUDB {
                     }
                     resolve(this.lastID);
                 });
-            }
-            catch (err) {
-                reject(err);
-                return;
-            }
         });
     }
 

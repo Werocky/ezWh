@@ -13,7 +13,8 @@ class SKUItemsDB{
 
     createSKUItemsTable(){
         return new Promise((resolve,reject)=>{
-            const sql ='CREATE TABLE IF NOT EXISTS SKUITEMS(RFID VARCHAR(32) PRIMARY KEY, SKUId INTEGER, Available INTEGER, DateOfStock VARCHAR(20))';
+            //Update and delete policy: changes to SKUIds are propagated but an SKU can't be delete as long as a reference to it exists
+            const sql ='CREATE TABLE IF NOT EXISTS SKUITEMS(RFID VARCHAR(32) PRIMARY KEY, SKUId INTEGER, Available INTEGER, DateOfStock VARCHAR(20), FOREIGN KEY (SKUId) REFERENCES SKUS (ID) ON UPDATE CASCADE ON DELETE RESTRICT);';
             this.db.run(sql,(err)=>{
                 if(err){
                     reject(err);

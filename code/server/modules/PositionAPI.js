@@ -24,10 +24,10 @@ module.exports = function (app) {
   });
 
   app.post('/api/position', 
-      body('aisleID').isNumeric().isLength({min: 4, max:4}), 
-      body('row').isNumeric().isLength({min: 4, max:4}), 
-      body('col').isNumeric().isLength({min: 4, max:4}),
-      body('positionID').equals(body('aisleID') + body('row') + body('col')),
+      body('aisleID').isString().isLength({min: 4, max:4}), 
+      body('row').isString().isLength({min: 4, max:4}), 
+      body('col').isString().isLength({min: 4, max:4}),
+      //body('positionID').equals(body('aisleID') + body('row') + body('col')),
       body('maxWeight').isInt({min: 0}),
       body('maxVolume').isInt({min: 0}),
       async (req, res) => {
@@ -45,7 +45,7 @@ module.exports = function (app) {
     try {
       positions = new PositionDB('WarehouseDB');
       await positions.createPositionTable();
-      await positions.createPosition(req.body.positionID, req.body.aisleID, req.body.row, req.body.col, req.body.maxWeight, req.body.maxVolume);
+      await positions.createPosition(req.body.aisleID, req.body.row, req.body.col, req.body.maxWeight, req.body.maxVolume);
     } catch (err) {
       // generic error
       return res.status(503).json(); // Service Unavailable
@@ -181,9 +181,13 @@ module.exports = function (app) {
     try {
       positions = new PositionDB('WarehouseDB');
       await positions.createPositionTable();
+      const position = await positions.getPosition(id);
+      if(!position)
+        return res.status(404).end();
       await positions.deletePosition(id);
     } catch (err) {
       // generic error
+      console.log(err);
       return res.status(503).json(); // Service Unavailable
     }
     return res.status(204).json();

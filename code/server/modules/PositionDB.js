@@ -13,8 +13,8 @@ class PositionDB {
   }
 
   createPositionTable() {
-    return new Promise((resolve, reject)  => {
-        const sql = 'CREATE TABLE IF NOT EXISTS POSITIONS(positionID VARCHAR(12) ,aisleID VARCHAR(4), row VARCHAR(4), col VARCHAR(4), maxWeight INTEGER, maxVolume INTEGER, occupiedWeight INTEGER, occupiedVolume INTEGER, CHECK(maxWeight >= occupiedWeight AND maxVolume >= occupiedVolume));';
+        return new Promise((resolve, reject) => {
+        const sql = 'CREATE TABLE IF NOT EXISTS POSITIONS(positionID VARCHAR(12) PRIMARY KEY,aisleID VARCHAR(4), row VARCHAR(4), col VARCHAR(4), maxWeight INTEGER, maxVolume INTEGER, occupiedWeight INTEGER, occupiedVolume INTEGER, CHECK(maxWeight >= occupiedWeight AND maxVolume >= occupiedVolume));';
         this.db.run(sql, (err) => {
             if (err) {
                 reject(err);
@@ -56,7 +56,6 @@ class PositionDB {
                 return;
             }
             if (!row) {
-                console.log("Not found");
                 resolve(null);
             }
             else{
@@ -127,7 +126,7 @@ class PositionDB {
 
   deletePosition(positionID) {
     return new Promise((resolve, reject) => {
-        let skus = new SKUsDB('WarehouseDB');
+        /*let skus = new SKUsDB('WarehouseDB');
         skus.createSKUTable();
         skus = skus.getSKUs();
         let emptyPos = true;
@@ -141,8 +140,8 @@ class PositionDB {
         }
         if (emptyPos === false) {
             reject(err);
-        }
-        const sql = 'DELETE FROM POSITIONS WHERE positionID=?';
+        }*/
+        const sql = 'DELETE FROM POSITIONS WHERE positionID=?;';
         this.db.run(sql, [positionID], (err) => {
             if (err) {
                 reject(err);
