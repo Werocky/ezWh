@@ -10,7 +10,7 @@ class SKUDB {
             if (err)
                 throw err;
         });
-       
+       this.db.run("PRAGMA foreign_keys = ON;");
 
     }
 
@@ -71,8 +71,8 @@ class SKUDB {
 
     async createSKU(description, weight, volume, notes, price, availableQuantity) {
         return new Promise((resolve, reject) => {
-            const sql = "INSERT INTO SKUS(description,weight,volume,notes,positionId,price,quantity,testDescriptors) VALUES(?,?,?,?,?,?,?,?);";
-            this.db.run(sql, [description, weight, volume, notes, "", price, availableQuantity, '[]'], (err) => {
+            const sql = "INSERT INTO SKUS(description,weight,volume,notes,price,quantity,testDescriptors) VALUES(?,?,?,?,?,?,?);";
+            this.db.run(sql, [description, weight, volume, notes,price, availableQuantity, '[]'], (err) => {
                 if (err) {
                     reject(err);
                     return;

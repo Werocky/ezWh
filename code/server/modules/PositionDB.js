@@ -10,6 +10,7 @@ class PositionDB {
       this.db = new sqlite.Database(dbName, (err) => {
           if(err) throw err;
       });
+      this.db.run("PRAGMA foreign_keys = ON;");
   }
 
   createPositionTable() {

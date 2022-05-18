@@ -6,7 +6,15 @@ const Position = require('./Position');
 const PositionDB = require('./PositionDB');
 const {body, param, validationResult} = require('express-validator');
 
+
+
 module.exports=function(app){
+
+    
+    //let skus = new SKUDB('WarehouseDB');
+    //async () => await skus.createSKUTable();
+    //let positions = new PositionDB('WarehouseDB');
+    //async () => await positions.createPositionTable().then();
 
     app.get('/api/skus', async (req,res) =>{
 
@@ -65,11 +73,13 @@ module.exports=function(app){
         let skus;
         try{
             skus = new SKUDB('WarehouseDB');
+            const positions = new PositionDB('WarehouseDB');
+            await positions.createPositionTable();
             await skus.createSKUTable();
             await skus.createSKU(req.body.description,req.body.weight,req.body.volume,req.body.notes,req.body.price,req.body.availableQuantity);
         }
         catch(err){
-            //console.log(err);
+            console.log(err);
             return res.status(503).json();
         }
         return res.status(201).json();
@@ -82,7 +92,8 @@ module.exports=function(app){
         body('newVolume').isInt({min: 0}),
         body('newNotes').isString(),
         body('newPrice').isFloat({min: 0}),
-        body('newAvailableQuantity').isInt({min: 0})
+        body('newAvailableQuantity').isInt({min: 0}),
+        body('newTestDescriptors').isArray()
     ],
     async (req,res)=>{
 
@@ -110,9 +121,10 @@ module.exports=function(app){
                 //The following operation will raise an exception if the modified SKU doesn't fit the position
                 await positions.changePosition(sku.getPositionId(),position.getAisleID(),positions.getRow(),position.getCol(),position.getMaxWeight(),position.getMaxVolume(),sku.getTotalWeight(),sku.getTotalVolume());
             }
-            await skus.modifySKU(new SKU(req.body.newDescription,req.body.newWeight,req.body.newVolume,req.body.newNotes,req.body.newAvailableQuantity,req.body.newPrice,[],"",id));
+            await skus.modifySKU(new SKU(req.body.newDescription,req.body.newWeight,req.body.newVolume,req.body.newNotes,req.body.newAvailableQuantity,req.body.newPrice,newTestDescriptors,sku.getPositionID(),id));
         }
         catch(err){
+            console.log(err);
             return res.status(503).end();
         }
         return res.status(200).end();
@@ -169,7 +181,7 @@ module.exports=function(app){
             return res.status(200).end();
         }
         catch(err){
-            //console.log(err);
+            console.log(err);
             return res.status(503).end();
         }
     });
