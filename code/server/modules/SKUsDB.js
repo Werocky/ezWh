@@ -135,5 +135,17 @@ class SKUDB {
             })
         })
     }
+
+    deleteAllSKUs(){
+        return new Promise((resolve,reject)=>{
+            this.db.run('DROP TABLE SKUS',(err)=>{
+                if(err){
+                    reject(err);
+                    return;
+                }
+                resolve();
+            });
+        })
+    }
 }
 module.exports = SKUDB;

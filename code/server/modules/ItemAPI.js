@@ -111,7 +111,7 @@ module.exports=function(app){
             });
 
             //DELETE AN ITEM
-            app.delete('/api/items/:id',(req,res)=>{
+            app.delete('/api/items/:id',async (req,res)=>{
                 const id = req.params.id;
                 if(!id)
                     return res.status(422).end();

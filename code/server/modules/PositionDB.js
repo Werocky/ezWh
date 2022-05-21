@@ -152,6 +152,18 @@ class PositionDB {
         });
     });
   }
+
+  deleteAllPositions(){
+      return new Promise((resolve,reject)=>{
+          this.db.run("DROP TABLE POSITIONS",(err)=>{
+              if(err){
+                  reject(err);
+                  return;
+              }
+              resolve();
+          })
+      })
+  }
   
 }
 
