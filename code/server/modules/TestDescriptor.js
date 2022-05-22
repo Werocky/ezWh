@@ -7,4 +7,26 @@ module.exports = class TestDescriptor{
         this.procedureDescription = procedureDescription;
         this.idSKU = idSKU;
     }
+
+    getId(){
+        return this.id;
+    }
+    
+    getName(){
+        return this.name;
+    }
+
+    getProcedureDescription(){
+        return this.procedureDescription;
+    }
+
+    getIdSku(){
+        return this.idSKU;
+    }
+
+    setSkuId(id){
+        this.idSKU = id;
+    }
+
+
 }

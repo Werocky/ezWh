@@ -70,7 +70,7 @@ module.exports = class InternalOrderDB{
                 if(!rows){
                     resolve(null);
                 }else{
-                    resolve(rows);
+                    resolve(new InternalOrder(rows.id, rows.issueDate, rows.state, rows.products, rows.customerId));
                 }
             });
         });

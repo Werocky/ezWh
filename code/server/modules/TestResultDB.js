@@ -1,5 +1,7 @@
 'use strict';
 
+const TestResult = require('./TestResult');
+
 module.exports = class TestResultDB{
     sqlite = require('sqlite3');
 
@@ -46,7 +48,24 @@ module.exports = class TestResultDB{
                 if(!rows){
                     resolve(null);
                 }else{
-                    resolve(JSON.parse(JSON.stringify(rows)));
+                    resolve(new TestResult(rows.id, rows.idTestDescriptor, rows.date, rows.result));
+                }
+            });
+        });
+    }
+
+    getTestResultsByTestDescriptor(id){
+        return new Promise((resolve, reject) =>{
+            const query = 'SELECT id as id, idTestDescriptor as idTestDescriptor, date as date, result as result FROM TESTRESULT WHERE idTestDescriptor = ?';
+            this.db.all(query, [id], (err, rows) =>{
+                if(err){
+                    reject(err);
+                    return;
+                }
+                if(!rows){
+                    resolve(null);
+                }else{
+                    resolve(new TestResult(rows.id, rows.idTestDescriptor, rows.date, rows.result));
                 }
             });
         });
@@ -63,7 +82,7 @@ module.exports = class TestResultDB{
                 if(!rows){
                     resolve(null);
                 }else{
-                    resolve(JSON.parse(JSON.stringify(rows)));
+                    resolve(new TestResult(rows.id, rows.idTestDescriptor, rows.date, rows.result));
                 }
             });
         });
@@ -72,15 +91,15 @@ module.exports = class TestResultDB{
     getTestResultsByIdAndRfid(id, rfid){
         return new Promise((resolve, reject) =>{
             const query = 'SELECT id as id, idTestDescriptor as idTestDescriptor, date as date, result as result FROM TESTRESULT WHERE id = ? AND rfid = ?';
-            this.db.get(query, [id, rfid], (err, row) =>{
+            this.db.get(query, [id, rfid], (err, rows) =>{
                 if(err){
                     reject(err);
                     return;
                 }
-                if(!row){
+                if(!rows){
                     resolve(null);
                 }else{
-                    resolve(JSON.parse(JSON.stringify(rows)));
+                    resolve(new TestResult(rows.id, rows.idTestDescriptor, rows.date, rows.result));
                 }
             });
         });

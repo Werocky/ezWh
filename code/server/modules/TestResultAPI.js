@@ -20,7 +20,7 @@ module.exports = function(app){
         const err = validationResult(req);
 
         if (!err.isEmpty()) {
-            return res.status(422).json();
+            return res.status(422).end();
         }
 
         let testResult;
@@ -29,10 +29,10 @@ module.exports = function(app){
             testResult = await testResult.getTestResultsByRfid(req.param.rfid);
             if(Object.keys(testResult).length === 0)
                 //not found, no test result associated to rfid = :rfid
-                return res.status(404).json();
+                return res.status(404).end();
         }catch(err){
             //service unavailable, generic error
-            return res.status(500).json();
+            return res.status(500).end();
         }
         //sucess, data retrieved
         return res.status(200).json(testResult);
@@ -49,7 +49,7 @@ module.exports = function(app){
         const err = validationResult(req);
 
         if (!err.isEmpty()) {
-            return res.status(422).json();
+            return res.status(422).end();
         }
 
         let testResult;
@@ -58,10 +58,10 @@ module.exports = function(app){
             testResult = await testResult.getTestResultsByIdAndRfid(req.param.id, req.param.rfid);
             if(Object.keys(testResult).length === 0)
                 //not found, no test result associatd to rfid = :rfid and id = :id
-                return res.status(404).json();
+                return res.status(404).end();
         }catch(err){
             //service unavailable, generic error
-            return res.status(500).json();
+            return res.status(500).end();
         }
         //success, data retrieved
         return res.stauts(200).json(testResult);
@@ -81,7 +81,7 @@ module.exports = function(app){
         const err = validationResult(req);
 
         if (!err.isEmpty()) {
-            return res.status(422).json();
+            return res.status(422).end();
         }
 
         let testResult;
@@ -95,24 +95,24 @@ module.exports = function(app){
             skuItem = await skuItems.getSKUItemByRFID(req.body.rfid);
             if (!skuItem) {
                 //no sku item associated to rfid
-                return res.status(404).json();
+                return res.status(404).end();
             }
             testDescriptors = new TestDescriptorDB('WarehouseDB');
             await testDescriptors.createTestDescriptorTable();
             testDescriptor = await testDescriptors.getTestDescriptors(req.body.idTestDescriptor);
             if (!testDescriptor) {
                 //no test descriptor associated to idTestDescriptor
-                return res.status(404).json();
+                return res.status(404).end();
             }
             testResult = new TestResultDB('WarehouseDB');
             await testResult.createTestResultTable();
             await testResult.createTestResult(req.body.rfid, req.body.idTestDescriptor, req.body.date, req.body.result);
         }catch(err){
             //service unavailable, generic error
-            return res.status(503).json();
+            return res.status(503).end();
         }
         //sucess, entry created
-        return res.status(200).json();
+        return res.status(200).end();
     })
 
     //PUT APIs
@@ -131,7 +131,7 @@ module.exports = function(app){
         const err = validationResult(req);
 
         if (!err.isEmpty()) {
-            return res.status(422).json();
+            return res.status(422).end();
         }
 
         let testResults
@@ -140,14 +140,14 @@ module.exports = function(app){
             testResults = await testResults.getTestResultsByIdAndRfid(req.param.id, req.param.rfid);
             if(Object.keys(testResults).length === 0)
                 //not found, no test results associated to rfid = :rfid and id = :id
-                return res.status(404).json();
+                return res.status(404).end();
             await testResults.changeTestResult(req.params.id, req.param.rfid, req.body.testDescriptor, req.body.date, req.body.result);
         }catch(err){
             //service unavailable, generic error
-            return res.status(503).json();
+            return res.status(503).end();
         }
         //success, test result modified
-        return res.status(200).json();
+        return res.status(200).end();
     })
 
     //DELETE APIs
@@ -163,7 +163,7 @@ module.exports = function(app){
         const err = validationResult(req);
 
         if (!err.isEmpty()) {
-            return res.status(422).json();
+            return res.status(422).end();
         }
 
         let testResults;
@@ -172,9 +172,9 @@ module.exports = function(app){
             await testResults.deleteTestResult(req.params.id, req.params.rfid);
         }catch(err){
             //service unavailable, generic error
-            return res.stauts(503).json();
+            return res.stauts(503).end();
         }
         //success, test result deleted
-        return res.status(204).json();
+        return res.status(204).end();
     })
 }

@@ -19,7 +19,7 @@ module.exports = function(app){
             internalOrders = await internalOrders.getInternalOrders();
         }catch(err){
             //service unavailable (generic error)
-            return res.status(500).json();
+            return res.status(500).end();
         }
         //success, data retrieved
         return res.status(200).json(internalOrders);
@@ -35,7 +35,7 @@ module.exports = function(app){
             internalOrders = await internalOrders.getInternalOrders();
         }catch(err){
             //service unavailable (generic error)
-            return res.status(500).json();
+            return res.status(500).end();
         }
 
         internalOrders = internalOrders.filter(e => {return e.state==='issued';})
@@ -54,7 +54,7 @@ module.exports = function(app){
             internalOrders = await internalOrders.getInternalOrders();
         }catch(err){
             //service unavailable (generic error)
-            return res.status(500).json();
+            return res.status(500).end();
         }
 
         internalOrders = internalOrders.filter(e => {return e.state==='accepted';})
@@ -72,7 +72,7 @@ module.exports = function(app){
         const err = validationResult(req);
 
         if (!err.isEmpty()) {
-            return res.status(422).json();
+            return res.status(422).end();
         }
         
         let internalOrders;
@@ -83,11 +83,11 @@ module.exports = function(app){
             internalOrder = await internalOrders.getInternalOrder(req.params.id);
             if(!internalOrder){
                 //not found, no internal order associated to the id = :id
-                return res.status(404).json();
+                return res.status(404).end();
             }
         }catch(err){
             //service unavailable (generic error)
-            return res.status(500).json();
+            return res.status(500).end();
         }
 
         //success, data retrieved
@@ -108,7 +108,7 @@ module.exports = function(app){
         const err = validationResult(req);
 
         if (!err.isEmpty()) {
-            return res.status(422).json();
+            return res.status(422).end();
         }
         
         let internalOrder
@@ -118,7 +118,7 @@ module.exports = function(app){
             await internalOrder.createInternalOrder(req.body.issueDate, req.body.products, req.body.customerId, 'ISSUED');
         } catch(err){
             //service unavailable (generic error)
-            return res.status(503).json();
+            return res.status(503).end();
         }
         //success, entry created
         return res.status(200).json();
@@ -138,7 +138,7 @@ module.exports = function(app){
         const err = validationResult(req);
 
         if (!err.isEmpty()) {
-            return res.status(422).json();
+            return res.status(422).end();
         }
         
         let internalOrders;
@@ -147,7 +147,7 @@ module.exports = function(app){
             await internalOrders.createInternalTable();
             if(!await internalOrders.getInternalOrder(req.params.id)){
                 //order not found
-                return res.status(404).json();
+                return res.status(404).end();
             }
 
             if(req.body.newState !== 'COMPLETED'){
@@ -159,10 +159,10 @@ module.exports = function(app){
 
         }catch(err){
             //service unavailable, generic error
-            return res.status(503).json();
+            return res.status(503).end();
         }
         //success, internal order modified
-        return res.status(200).json();
+        return res.status(200).end();
     })
 
     //DELETE APIs
@@ -176,7 +176,7 @@ module.exports = function(app){
         const err = validationResult(req);
 
         if (!err.isEmpty()) {
-            return res.status(422).json();
+            return res.status(422).end();
         }
 
         let internalOrders;
@@ -186,13 +186,13 @@ module.exports = function(app){
             await internalOrders.deleteInternalOrder(req.params.id);
             if(Object.keys(internalOrders).length === 0){
                 //not found, no internal order associated to the id = :id
-                return res.status(404).json();
+                return res.status(404).end();
             }
         }catch(err){
             //service unavailable, generic error
-            return res.status(503).json();
+            return res.status(503).end();
         }
         //success, internal order deleted
-        return res.status(204).json();
+        return res.status(204).end();
     })
 }

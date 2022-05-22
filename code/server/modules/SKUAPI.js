@@ -5,6 +5,7 @@ const SKU = require('./SKU');
 const Position = require('./Position');
 const PositionDB = require('./PositionDB');
 const {body, param, validationResult} = require('express-validator');
+const TestDescriptorDB = require('./TestDescriptorDB');
 
 
 
@@ -214,6 +215,16 @@ module.exports=function(app){
                 await positions.changePosition(position.getPositionID(),position.getAisleID(),position.getRow(),position.getCol(),position.getMaxWeight(),position.getMaxVolume(),0,0);
             }
             await skus.deleteSKU(id);
+            let testDescriptors = new TestDescriptorDB('WarehouseDB');
+            let testDescriptor = testDescriptors.getTestDescriptorBySku(id);
+            if(testDescriptor){
+                let descriptors = testDescriptor.getIdSku();
+                let index = descriptors.indexOf(id);
+                if(index !==1)
+                    index.splice(index, 1);
+                testDescriptor.setSkuId(descriptors);
+                testDescriptors.updateTestDescriptor(testDescriptor);
+            }
             return 204;
     }
 

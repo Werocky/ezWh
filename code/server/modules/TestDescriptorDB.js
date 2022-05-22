@@ -35,6 +35,19 @@ module.exports = class TestDescriptorDB{
         });
     }
 
+    updateTestDescriptor(descriptor){
+        return new Promise((resolve, reject) =>{
+            const query = 'UPDATE TESTDESCRIPTOR SET name = ?, procedureDescription = ?, idSKU = ? WHERE id = ?';
+            this.db.run(query, [descriptor.getName(), descriptor.getProcedureDescription(), descriptor.getIdSku(), descriptor.getId()], (err) =>{
+                if(err){
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
+
     getTestDescriptors(){
         return new Promise((resolve, reject) =>{
             const query = 'SELECT id as id, name as name, procedureDescription as procedureDescription, idSKU as idSKU FROM TESTDESCRIPTOR';
@@ -46,7 +59,7 @@ module.exports = class TestDescriptorDB{
                 if(!rows){
                     resolve(null);
                 }else{
-                    resolve(JSON.parse(JSON.stringify(rows)));
+                    resolve(new InternalOrder(rows.id, rows.name, rows.procedureDescription, rows.idSKU));
                 }
             });
         });
@@ -63,7 +76,24 @@ module.exports = class TestDescriptorDB{
                 if(!row){
                     resolve(null);
                 }else{
-                    resolve(row);
+                    resolve(new InternalOrder(rows.id, rows.name, rows.procedureDescription, rows.idSKU));
+                }
+            });
+        });
+    }
+
+    getTestDescriptorBySku(id){
+        return new Promise((resolve, reject) =>{
+            const query = 'SELECT id as id, name as name, procedureDescription as procedureDescription, idSKU as idSKU FROM TESTDESCRIPTOR WHERE idSKU = ?';
+            this.db.get(query, [id], (err,row) =>{
+                if(err){
+                    reject(err);
+                    return;
+                }
+                if(!row){
+                    resolve(null);
+                }else{
+                    resolve(new InternalOrder(rows.id, rows.name, rows.procedureDescription, rows.idSKU));
                 }
             });
         });
