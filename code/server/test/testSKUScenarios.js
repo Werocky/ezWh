@@ -8,7 +8,6 @@ chai.use(chaiHttp);
 chai.should();
 
 const app = require('../server');
-const PositionDB = require('../../EzWh/code/server/modules/PositionDB');
 var agent = chai.request.agent(app);
 
 describe('test SKU scenarios',()=>{
