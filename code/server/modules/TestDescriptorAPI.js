@@ -41,8 +41,8 @@ module.exports = function(app){
         let  testDescriptors;
         try {
             testDescriptors = new TestDescriptorDB('WarehouseDB');
-            testDescriptors = await testDescriptors.getTestDescriptors(id);
-            if(Object.keys(testDescriptors).length === 0){
+            testDescriptors = await testDescriptors.getTestDescriptor(req.params.id);
+            if(!testDescriptors){
                 //not found, no test descriptor associated to the id = :id
                 return res.status(404).end();
             }
@@ -81,9 +81,9 @@ module.exports = function(app){
                 return res.status(404).end();
             }
             testDescriptors = new TestDescriptorDB('WarehouseDB');
-            testDescriptors.createTestDescriptorTable();
-            testDescriptors = await testDescriptors.createTestDescriptor(req.body.name, req.body.procedureDescription, req.body.idSKU);
-            sku.setTestDescriptors(testDescriptors.id);
+            await testDescriptors.createTestDescriptorTable();
+            await testDescriptors.createTestDescriptor(req.body.name, req.body.procedureDescription, req.body.idSKU);
+            sku.setTestDescriptors([req.param.id]);
             skus.modifySKU(sku);
         }catch(err){
             //service unavailable (generic error)
@@ -114,10 +114,10 @@ module.exports = function(app){
         let testDescriptor;
         let skus;
         let sku;
-        let oldSku;
+        let oldSku = [];
         try{
             testDescriptors = new TestDescriptorDB('WarehouseDB');
-            testDescriptor = await testDescriptors.getTestDescriptor(req.param.id);
+            testDescriptor = await testDescriptors.getTestDescriptor(req.params.id);
             if(!testDescriptor){
                 //not found, no test descriptor associated to the id = :id
                 return res.status(404).end();
@@ -130,22 +130,22 @@ module.exports = function(app){
             }
             
             //if the id of the sku is update, remove from the old sku and add it to the new one
-            if(testDescriptor.getIdSku !== req.param.id){
+            if(testDescriptor.idSKU !== req.params.id){
                 //update old sku descriptor's list
-                oldSku = await skus.getSKUById(testDescriptor.getIdSku());
-                let descriptors = oldSku.getTestDescriptors();
-                let index = descriptors.indexOf(testDescriptor.idSKU);
-                if(index !== 1)
-                    index.splice(index, 1);
-                oldSku.setTestDescriptors(descriptors);
-                skus.modifySKU(oldSku);
+                oldSku.map( async e => {await e.getSKUById(req.params.id)});
+
+                if(oldSku.testDescriptors){
+                    let descriptors = oldSku.testDescriptors;
+                    oldSku.setTestDescriptors(descriptors.filter(e => e !== testDescriptor.idSKU));
+                    skus.modifySKU(oldSku);
+                }
                 //update new sku descriptor's list
-                sku.setTestDescriptors(req.param.id);
+                sku.setTestDescriptors([req.param.id]);
                 skus.modifySKU(sku);
             }
-            testDescriptors.changeName(req.body.name, req.param.id);
-            testDescriptors.changeProcedure(req.body.procedureDescription, req.param.id);
-            testDescriptors.changeIdSKU(req.body.idSKU, req.param.id);
+            testDescriptors.changeName(req.body.newName, req.params.id);
+            testDescriptors.changeProcedure(req.body.newProcedureDescription, req.params.id);
+            testDescriptors.changeIdSKU(req.body.newIdSKU, req.params.id);
         }catch(err){
             //service unavailable, generic error
             return res.status(503).end();
@@ -174,23 +174,24 @@ module.exports = function(app){
         let testResult;
         try{
             testDescriptors = new TestDescriptorDB('WarehouseDB');
-            testDescriptor = await testDescriptors.getTestDescriptor(req.param.id);
+            await testDescriptors.createTestDescriptorTable();
+            testDescriptor = await testDescriptors.getTestDescriptor(req.params.id);
             testResults = new TestResultDB('WarehouseDB');
-            testResult = testResults.getTestResultsByTestDescriptor(req.param.id);
-            
+            await testResults.createTestResultTable();
+            testResult = testResults.getTestResultsByTestDescriptor(req.params.id);
             //test descriptor not found
-            if(Object.keys(testDescriptor).length === 0){
+            if(!testDescriptor){
                 //not found, no test descriptor associated to the id = :id
-                return res.status(422).end();
+                return res.status(404).end();
             }
             //test descriptor is used by some sku, cannot delete
-            if(testDescriptor.getIdSku().length !== 0)
+            if(!testDescriptor)
                 return res.status(503).end();
             //test descriptor is used by some test result, cannot delete
-            if(testResult.getIdTestDescriptor().length !== 0)
+            if(testResult.idTestDescriptor)
                 return res.status(503).end();
             
-            await testDescriptors.deleteTestDescriptor(req.param.id);
+            await testDescriptors.deleteTestDescriptor(req.params.id);
         }catch(err){
             //service unavailable, generic error
             return res.status(503).end();

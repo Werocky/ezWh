@@ -1,5 +1,6 @@
 'use strict';
 
+const dayjs = require('dayjs');
 const { body, param, check, validationResult } = require('express-validator');
 const InternalOrderDB = require("./InternalOrderDB");
 
@@ -38,7 +39,7 @@ module.exports = function(app){
             return res.status(500).end();
         }
 
-        internalOrders = internalOrders.filter(e => {return e.state==='issued';})
+        internalOrders = internalOrders.filter(e => {return e.state==='ISSUED';})
 
         //success, data retrieved
         return res.status(200).json(internalOrders);
@@ -57,7 +58,7 @@ module.exports = function(app){
             return res.status(500).end();
         }
 
-        internalOrders = internalOrders.filter(e => {return e.state==='accepted';})
+        internalOrders = internalOrders.filter(e => {return e.state==='ACCEPTED';})
         //success, data retrieved
         return res.status(200).json(internalOrders);  
     })
@@ -91,7 +92,7 @@ module.exports = function(app){
         }
 
         //success, data retrieved
-        return res.status(200).json(internalOrders);
+        return res.status(200).json(internalOrder);
     })
 
     //POST APIs
@@ -99,7 +100,6 @@ module.exports = function(app){
     //Creates a new internal order in state = ISSUED
     //request body: issueDate, products, customerId (state = ISSUED)
     app.post('/api/internalOrders', 
-            body('issueDate').matches('/[0-9]{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/'),
             check('products.*.SKUId').isInt({ min: 0}),
             check('products.*.qty').isInt({ min: 0}),
             body('customerId').isInt({ min: 0}),
@@ -108,6 +108,9 @@ module.exports = function(app){
         const err = validationResult(req);
 
         if (!err.isEmpty()) {
+            return res.status(422).end();
+        }
+        if(req.body.DateOfStock && !dayjs(req.body.DateOfStock,['YYYY/MM/DD','YYYY/MM/DD HH:mm'],true).isValid()){
             return res.status(422).end();
         }
         

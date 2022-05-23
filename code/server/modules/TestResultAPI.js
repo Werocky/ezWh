@@ -26,8 +26,8 @@ module.exports = function(app){
         let testResult;
         try{
             testResult = new TestResultDB('WarehouseDB');
-            testResult = await testResult.getTestResultsByRfid(req.param.rfid);
-            if(Object.keys(testResult).length === 0)
+            testResult = await testResult.getTestResultsByRfid(req.params.rfid);
+            if(!testResult)
                 //not found, no test result associated to rfid = :rfid
                 return res.status(404).end();
         }catch(err){
@@ -56,7 +56,7 @@ module.exports = function(app){
         try{
             testResult = new TestResultDB('WarehouseDB');
             testResult = await testResult.getTestResultsByIdAndRfid(req.param.id, req.param.rfid);
-            if(Object.keys(testResult).length === 0)
+            if(!testResult)
                 //not found, no test result associatd to rfid = :rfid and id = :id
                 return res.status(404).end();
         }catch(err){

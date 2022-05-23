@@ -1,5 +1,7 @@
 'use strict';
 
+const TestDescriptor = require('./TestDescriptor');
+
 module.exports = class TestDescriptorDB{
     sqlite = require('sqlite3');
 
@@ -11,7 +13,7 @@ module.exports = class TestDescriptorDB{
 
     createTestDescriptorTable(){
         return new Promise((resolve, reject) =>{
-            const query = 'CREATE TABLE IF NOT EXISTS TESTDESCRIPTOR(ID INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, procedureDescription VARCHAR, idSKU INTEGER';
+            const query = 'CREATE TABLE IF NOT EXISTS TESTDESCRIPTOR(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, procedureDescription VARCHAR, idSKU INTEGER)';
             this.db.run(query, (err) =>{
                 if(err){
                     reject(err);
@@ -59,7 +61,12 @@ module.exports = class TestDescriptorDB{
                 if(!rows){
                     resolve(null);
                 }else{
-                    resolve(new InternalOrder(rows.id, rows.name, rows.procedureDescription, rows.idSKU));
+                    let result = [];
+                    rows.map(e =>{
+                        let element = new TestDescriptor(e.id, e.name, e.procedureDescription, e.idSKU) 
+                        result.push(element);
+                    })
+                    resolve(result);
                 }
             });
         });
@@ -76,7 +83,7 @@ module.exports = class TestDescriptorDB{
                 if(!row){
                     resolve(null);
                 }else{
-                    resolve(new InternalOrder(rows.id, rows.name, rows.procedureDescription, rows.idSKU));
+                    resolve(new TestDescriptor(row.id, row.name, row.procedureDescription, row.idSKU));
                 }
             });
         });
@@ -93,13 +100,13 @@ module.exports = class TestDescriptorDB{
                 if(!row){
                     resolve(null);
                 }else{
-                    resolve(new InternalOrder(rows.id, rows.name, rows.procedureDescription, rows.idSKU));
+                    resolve(new TestDescriptor(row.id, row.name, row.procedureDescription, row.idSKU));
                 }
             });
         });
     }
 
-    changeName(id, name){
+    changeName(name, id){
         return new Promise((resolve, reject) =>{
             const query = 'UPDATE TESTDESCRIPTOR SET name=? WHERE id=?';
             this.db.run(query, [name, id], (err) =>{
@@ -112,7 +119,7 @@ module.exports = class TestDescriptorDB{
         });
     }
 
-    changeProcedure(id, procedure){
+    changeProcedure(procedure, id){
         return new Promise((resolve, reject) =>{
             const query = 'UPDATE TESTDESCRIPTOR SET procedureDescription=? WHERE id=?';
             this.db.run(query, [procedure, id], (err) =>{
@@ -125,7 +132,7 @@ module.exports = class TestDescriptorDB{
         });
     }
 
-    changeIdSKU(id, idSKU){
+    changeIdSKU(idSKU, id){
         return new Promise((resolve, reject) =>{
             const query = 'UPDATE TESTDESCRIPTOR SET idSKU=? WHERE id=?';
             this.db.run(query, [idSKU, id], (err) =>{

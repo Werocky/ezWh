@@ -13,7 +13,7 @@ module.exports = class TestResultDB{
 
     createTestResultTable(){
         return new Promise((resolve, reject) => {
-            const query = 'CREATE TABLE IF NOT EXISTS TESTRESULT(ID INTEGER PRIMARY KEY AUTOINCREMENT, rfid VARCHAR, idTestDescriptor INTEGER, date VARCHAR, result BOOLEAN';
+            const query = 'CREATE TABLE IF NOT EXISTS TESTRESULT(ID INTEGER PRIMARY KEY AUTOINCREMENT, rfid VARCHAR, idTestDescriptor INTEGER, date VARCHAR, result BOOLEAN)';
             this.db.run(query, (err) =>{
                 if(err){
                     reject(err);
@@ -82,7 +82,12 @@ module.exports = class TestResultDB{
                 if(!rows){
                     resolve(null);
                 }else{
-                    resolve(new TestResult(rows.id, rows.idTestDescriptor, rows.date, rows.result));
+                    let result = [];
+                    rows.map(e =>{
+                        let element = new TestResult(rows.id, rows.idTestDescriptor, rows.date, rows.result);
+                        result.push(element);
+                    })
+                    resolve(result);
                 }
             });
         });

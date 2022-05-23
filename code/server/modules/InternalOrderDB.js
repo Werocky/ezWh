@@ -48,14 +48,12 @@ module.exports = class InternalOrderDB{
 
     async getInternalOrders(){
         const rows = await this.getRawInternalOrders();
-        
         let internalOrders = [];
         for (let i = 0; i < rows.length; i++) {
             let internalOrder = new InternalOrder(rows[i].id, rows[i].issueDate, rows[i].state, rows[i].products, rows[i].customerId);
             internalOrder = await this.parseInternalOrder(internalOrder);
             internalOrders.push(internalOrder);
         }
-        
         return internalOrders;
     }
 
@@ -70,7 +68,12 @@ module.exports = class InternalOrderDB{
                 if(!rows){
                     resolve(null);
                 }else{
-                    resolve(new InternalOrder(rows.id, rows.issueDate, rows.state, rows.products, rows.customerId));
+                    let result = [];
+                    rows.map(e =>{
+                        let element = new InternalOrder(e.id, e.issueDate, e.state, e.products, e.customerId);
+                        result.push(element);
+                    })
+                    resolve(result);
                 }
             });
         });
@@ -79,7 +82,7 @@ module.exports = class InternalOrderDB{
     getInternalOrder(id){
         return new Promise((resolve, reject) =>{
             const query = 'SELECT id as id, issueDate as issueDate, state as state, products as products, customerId as customerId FROM INTERNALORDERS WHERE id=?';
-            this.db.get(query, [id], (err, row) => {
+            this.db.get(query, [id], async (err, row) => {
                 if(err){
                     reject(err);
                     return;
@@ -114,7 +117,6 @@ module.exports = class InternalOrderDB{
         }
             
         internalOrder.products = products;
-
         return internalOrder;
     }
 
