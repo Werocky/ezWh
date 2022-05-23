@@ -126,6 +126,18 @@ class SKUItemsDB{
             })
         })
     }
+
+    deleteAllSKUItems(){
+        return new Promise((resolve,reject)=>{
+            this.db.run("DROP TABLE IF EXISTS SKUITEMS",(err)=>{
+                if(err){
+                    reject(err);
+                    return;
+                }
+                resolve();
+            });
+        })
+    }
 }
 
 module.exports = SKUItemsDB;
