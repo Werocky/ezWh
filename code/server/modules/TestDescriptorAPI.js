@@ -181,7 +181,7 @@ module.exports = function(app){
             //test descriptor not found
             if(Object.keys(testDescriptor).length === 0){
                 //not found, no test descriptor associated to the id = :id
-                return res.status(404).end();
+                return res.status(422).end();
             }
             //test descriptor is used by some sku, cannot delete
             if(testDescriptor.getIdSku().length !== 0)

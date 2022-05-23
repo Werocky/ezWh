@@ -79,7 +79,6 @@ function deleteUser(expectedHTTPStatus, username, type) {
             .then(function (res) {
                 res.should.have.status(201);
                 agent.delete('/api/users/' + username + '/' + type)
-                    .send({ oldType: oldType, newType: newType })
                     .then(function (rs) {
                         rs.should.have.status(expectedHTTPStatus);
                         agent.delete('/api/users/' + username + '/' + type)
