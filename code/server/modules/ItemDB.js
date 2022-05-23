@@ -107,6 +107,18 @@ class ItemDB{
         });
     }
 
+    deleteAllItems(){
+        return new Promise((resolve,reject)=>{
+            this.db.run('DROP TABLE ITEMS',(err)=>{
+                if(err){
+                    reject(err);
+                    return;
+                }
+                resolve();
+            });
+        })
+    }
+
     alreadySells(supplierId,id,SKUId){
         return new Promise((resolve,reject)=>{
             const sql = 'SELECT * FROM ITEMS WHERE supplierId=? AND (id=? OR SKUId=?);';

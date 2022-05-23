@@ -33,7 +33,7 @@ function createPosition(expectedHTTPStatus,positionID,aisleID,row,col,maxWeight,
         .send(position)
         .then(function(res){
             res.should.have.status(expectedHTTPStatus);
-            agent.get('api/positions')
+            agent.get('/api/positions')
             .then(function(r){
                 r.should.have.status(200);
                 r.body[0].positionID.should.equal(positionID);
@@ -57,11 +57,11 @@ function changePositionID(expectedHTTPStatus,oldPositionID,newPositionID){
         .send(position)
         .then(function(res){
             res.should.have.status(201);
-            agent.put('api/position/' + oldPositionID +'/changeID')
+            agent.put('/api/position/' + oldPositionID +'/changeID')
             .send({newPositionID: newPositionID})
             .then(function(rs){
                 rs.should.have.status(expectedHTTPStatus);
-                agent.get('api/positions')
+                agent.get('/api/positions')
                 .then(function(r){
                     r.should.have.status(200);
                     r.body[0].positionID.should.equal(newPositionID);
@@ -83,11 +83,11 @@ function modifyPosition(expectedHTTPStatus,positionID,newAisleID,newRow,newCol,n
         .then(function(res){
             res.should.have.status(201);
             let newPosition ={positionID: newAisleID.concat(newRow,newCol),aisleID: newAisleID,row: newRow,col: newCol,maxWeight:newMaxWeight,maxVolume: newMaxVolume, newOccupiedWeight: 0, newOccupiedVolume: 0} 
-            agent.put('api/position/' +  positionID)
+            agent.put('/api/position/' +  positionID)
             .send(newPosition)
             .then(function(rs){
                 rs.should.have.status(expectedHTTPStatus);
-                agent.get('api/positions')
+                agent.get('/api/positions')
                 .then(function(r){
                     r.should.have.status(200);
                     r.body[0].positionID.should.equal(newPosition.positionID);
@@ -111,10 +111,10 @@ function deletePosition(expectedHTTPStatus,positionID){
         .send(position)
         .then(function(res){
             res.should.have.status(201);
-            agent.delete('api/position/' + positionID)
+            agent.delete('/api/position/' + positionID)
             .then(function(rs){
                 rs.should.have.status(expectedHTTPStatus);
-                agent.delete('api/position/' + positionID)   //Should not be found after deletion
+                agent.delete('/api/position/' + positionID)   //Should not be found after deletion
                 .then(function(r){
                     r.should.have.status(404);
                     done();

@@ -63,7 +63,7 @@ function placeSKU(expectedHTTPStatus,id,position,aisleID,row,col){
         col: col,
         maxWeight: 1000,
         maxVolume: 1000}
-        agent.post('api/position')
+        agent.post('/api/position')
         .send(pos)
         .then(function(res){
             res.should.have.status(201);
