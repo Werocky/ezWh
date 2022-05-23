@@ -138,7 +138,7 @@ class SKUDB {
 
     deleteAllSKUs(){
         return new Promise((resolve,reject)=>{
-            this.db.run('DROP TABLE SKUS',(err)=>{
+            this.db.run('DROP TABLE IF EXISTS SKUS',(err)=>{
                 if(err){
                     reject(err);
                     return;

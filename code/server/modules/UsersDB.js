@@ -145,7 +145,7 @@ class UsersDB {
 
     deleteAllUsers() {
         return new Promise((resolve, reject) => {
-            const sql = 'DROP TABLE USERS';
+            const sql = 'DROP TABLE IF EXISTS USERS';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);

@@ -109,7 +109,7 @@ class ItemDB{
 
     deleteAllItems(){
         return new Promise((resolve,reject)=>{
-            this.db.run('DROP TABLE ITEMS',(err)=>{
+            this.db.run('DROP TABLE IF EXISTS ITEMS',(err)=>{
                 if(err){
                     reject(err);
                     return;

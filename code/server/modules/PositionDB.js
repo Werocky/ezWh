@@ -155,7 +155,7 @@ class PositionDB {
 
   deleteAllPositions(){
       return new Promise((resolve,reject)=>{
-          this.db.run("DROP TABLE POSITIONS",(err)=>{
+          this.db.run("DROP TABLE IF EXISTS POSITIONS",(err)=>{
               if(err){
                   reject(err);
                   return;

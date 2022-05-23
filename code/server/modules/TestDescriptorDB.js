@@ -153,7 +153,7 @@ module.exports = class TestDescriptorDB{
 
     deleteAllTestDescriptors(){
         return new Promise((resolve, reject) =>{
-            const query = 'DROP TABLE TESTDESCRIPTOR';
+            const query = 'DROP TABLE IF EXISTS TESTDESCRIPTOR';
             this.db.run(query, [id], (err) =>{
                 if (err){
                     reject(err);

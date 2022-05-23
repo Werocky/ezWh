@@ -12,7 +12,7 @@ var agent = chai.request.agent(app);
 describe("test manage login and logout scenarios", () => {
 
     beforeEach(async () => {
-        const users = new UsersDB('WarehouseDB');
+        let users = new UsersDB('WarehouseDB');
         await users.deleteAllUsers();
     })
 
