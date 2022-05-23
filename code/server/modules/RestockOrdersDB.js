@@ -194,6 +194,18 @@ class RestockOrdersDB {
             });
         });
     }
+
+    deleteAllRestockOrders(){
+        return new Promise((resolve,reject)=>{
+            this.db.run('DROP TABLE RESTOCKORDERS',(err)=>{
+                if(err){
+                    reject(err);
+                    return;
+                }
+                resolve();
+            });
+        })
+    }
 }
 
 module.exports = RestockOrdersDB;
