@@ -7,12 +7,12 @@ class UsersDB {
 
     constructor(dbName) {
         this.db = new this.sqlite.Database(dbName, (err) => {
-            if(err) throw err;
+            if (err) throw err;
         });
     }
 
     createUserTable() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'CREATE TABLE IF NOT EXISTS USERS(ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME VARCHAR, SURNAME VARCHAR, EMAIL VARCHAR, PASSWORD VARCHAR, TYPE VARCHAR)';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -29,7 +29,7 @@ class UsersDB {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT COUNT(*) AS count FROM USERS WHERE email=? AND type=?';
             this.db.get(sql, [username, type], (err, row) => {
-                if(err) {
+                if (err) {
                     reject(err);
                     return;
                 } else {
@@ -38,7 +38,51 @@ class UsersDB {
             });
         });
     }
-    
+
+    getUsers() {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM USERS WHERE type<>?';
+            this.db.all(sql, ['managers'], (err, rows) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                if (!rows) {
+                    resolve(null);
+                }
+                else {
+                    let users = [];
+                    rows.forEach(row => {
+                        users.push({id: row.id, name: row.name, surname: row.surname, email: row.username, type: row.type});
+                    });
+                    resolve(users);
+                }
+            });
+        });
+    }
+
+    getSuppliers() {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM USERS WHERE type=?';
+            this.db.all(sql, ['supplier'], (err, rows) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                if (!rows) {
+                    resolve(null);
+                }
+                else {
+                    let users = [];
+                    rows.forEach(row => {
+                        users.push({id: row.id, name: row.name, surname: row.surname, email: row.username});
+                    });
+                    resolve(users);
+                }
+            });
+        });
+    }
+
     createUser(username, name, surname, password, type) {
         //Encrypt password creating a user
         let user = new User(username, name, surname, password, type);
@@ -46,8 +90,8 @@ class UsersDB {
             const sql = 'INSERT INTO USERS(NAME, SURNAME, EMAIL, PASSWORD, TYPE) VALUES(?, ?, ?, ?, ?)';
             this.db.run(sql, [user.name, user.surname, user.email, user.password, user.type], (err) => {
                 if (err) {
-                reject(err);
-                return;
+                    reject(err);
+                    return;
                 }
                 resolve(this.lastID);
             });
@@ -59,15 +103,15 @@ class UsersDB {
             const sql = 'SELECT id as id, email as email, name as name, surname as surname, type as type FROM USERS WHERE EMAIL=? AND PASSWORD=?';
             this.db.get(sql, [username, User.encrypt(password)], (err, row) => {
                 if (err) {
-                reject(err);
-                return;
+                    reject(err);
+                    return;
                 }
                 if (!row || row.type !== type) {
                     resolve(null);
-                } 
+                }
                 else {
-                const user = new User(row.email, row.name, row.surname, row.password, row.type, row.id);
-                resolve(user);
+                    const user = new User(row.email, row.name, row.surname, row.password, row.type, row.id);
+                    resolve(user);
                 }
             });
         });
@@ -78,8 +122,8 @@ class UsersDB {
             const sql = 'UPDATE USERS SET type=? WHERE email=?';
             this.db.run(sql, [newType, username], (err) => {
                 if (err) {
-                reject(err);
-                return;
+                    reject(err);
+                    return;
                 }
                 resolve(this.lastID);
             });
@@ -91,8 +135,21 @@ class UsersDB {
             const sql = 'DELETE FROM USERS WHERE email=? AND type=?';
             this.db.run(sql, [username, type], (err) => {
                 if (err) {
-                reject(err);
-                return;
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
+
+    deleteAllUsers() {
+        return new Promise((resolve, reject) => {
+            const sql = 'DROP TABLE USERS';
+            this.db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
                 }
                 resolve(this.lastID);
             });

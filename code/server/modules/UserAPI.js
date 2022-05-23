@@ -9,6 +9,59 @@ const TYPES = ["customer", "qualityEmployee", "clerk", "deliveryEmployee", "supp
 let currentUser = undefined;
 
 module.exports = function(app) {
+
+    app.get('/api/userinfo',
+            async (req,res)=>{
+        /**Error responses: 
+         * 401 -> Unauthorized (not logged in or wrong permissions),
+         * 500 -> Internal Server Error (generic error). 
+         */
+        
+        if (currentUser === undefined) {
+            return res.status(401).end();
+        }
+        let user ={username: currentUser.username, name: currentUser.name, surname: currentUser.surname, type: currentUser.type};
+        return res.status(200).json(currentUser);
+    });
+
+    app.get('/api/suppliers',
+            async (req,res)=>{
+        /**Error responses: 
+         * 401 -> Unauthorized (not logged in or wrong permissions),
+         * 500 -> Internal Server Error (generic error). 
+         */
+        
+         let users;
+         try {
+             users = new UsersDB('WarehouseDB');
+             await users.createUserTable();
+             users = await users.getSuppliers();
+         } catch (err) {
+             // generic error
+             return res.status(500).json(); // Internal Server Error
+         }
+         return res.status(200).json(users);
+    });
+
+    app.get('/api/users',
+            async (req,res)=>{
+        /**Error responses: 
+         * 401 -> Unauthorized (not logged in or wrong permissions),
+         * 500 -> Internal Server Error (generic error). 
+         */
+        
+         let users;
+         try {
+             users = new UsersDB('WarehouseDB');
+             await users.createUserTable();
+             users = await users.getUsers();
+         } catch (err) {
+             // generic error
+             return res.status(500).json(); // Internal Server Error
+         }
+         return res.status(200).json(users);
+    });
+
     app.post('/api/newUser', 
             body('name').isAscii(),
             body('surname').isAscii(),
@@ -127,7 +180,7 @@ module.exports = function(app) {
         return res.status(200).json();
     });
 
-    app.put('/api/users/:username/:type',
+    app.delete('/api/users/:username/:type',
             param('username').isEmail(),
             param('type').isIn(TYPES),
             async (req,res)=>{
