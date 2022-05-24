@@ -11,9 +11,9 @@ chai.should();
 const app = require('../server');
 var agent = chai.request.agent(app);
 
-describe('test item use case',()=>{
+describe('test item use case', () => {
 
-    beforeEach(async ()=>{
+    beforeEach(async () => {
         const items = new ItemDB('WarehouseDB');
         const skus = new SKUDB('WarehouseDB');
         const users = new UsersDB('WarehouseDB');
@@ -23,75 +23,85 @@ describe('test item use case',()=>{
     })
 
     //SCENARIO 11-1
-    createItem(201,12,'a new item',10.99,1,1);
+    createItem(201, 12, 'a new item', 10.99, 1, 1);
     //SCENARIO 11-2
-    modifyDescriptionAndPrice(200,12,'new description',11.2);
+    modifyDescriptionAndPrice(200, 12, 'new description', 11.2);
 })
 
-function createItem(expectedHTTPStatus,id,description,price,SKUId,supplierId){
-    it('create a new item',function(done){
-        let supplier ={username: "user1@ezwh.com",name: 'John', password: 'testpassword', type: 'supplier'};
+function createItem(expectedHTTPStatus, id, description, price, SKUId, supplierId) {
+    it('create a new item', function (done) {
+        let supplier = { username: "user1@ezwh.com", name: 'John', surname: 'Smith', password: 'testpassword', type: 'supplier' };
         agent.post('/api/newUser')
-        .send(supplier)
-        .then(function(res){
-            res.should.have.status(201);
-            let sku = { description: 'a new sku', weight: 12, volume: 100, notes: 'first sku', price: 10.1, availableQuantity: 3 };
-            agent.post('/api/sku')
-            .send(sku)
-            .then(function(rs){
-                rs.should.have.status(201);
-                let item = {id: id,description, description, price: price,SKUId: SKUId, supplierId: supplierId}
-                agent.post('/api/item')
-                .send(item)
-                .then(function(response){
-                    response.status.should.have(expectedHTTPStatus);
-                    agent.get('/api/items/' + id)
-                    .then(function(r){
-                        r.should.have.status(200);
-                        r.body.id.should.equal(id);
-                        r.body.description.should.equal(description);
-                        r.body.price.should.equal(price);
-                        r.body.SKUId.should.equal(SKUId);
-                        r.body.supplierId.should.equal(supplierId);
-                        done();
+            .send(supplier)
+            .then(function (res) {
+                res.should.have.status(201);
+                let sku = { description: 'a new sku', weight: 12, volume: 100, notes: 'first sku', price: 10.1, availableQuantity: 3 };
+                agent.post('/api/sku')
+                    .send(sku)
+                    .then(function (rs) {
+                        rs.should.have.status(201);
+                        let item = { id: id, description, description, price: price, SKUId: SKUId, supplierId: supplierId }
+                        agent.post('/api/item')
+                            .send(item)
+                            .then(function (response) {
+                                response.status.should.have(expectedHTTPStatus);
+                                agent.get('/api/items/' + id)
+                                    .then(function (r) {
+                                        r.should.have.status(200);
+                                        r.body.id.should.equal(id);
+                                        r.body.description.should.equal(description);
+                                        r.body.price.should.equal(price);
+                                        r.body.SKUId.should.equal(SKUId);
+                                        r.body.supplierId.should.equal(supplierId);
+                                        done();
+                                    })
+                            })
                     })
-                })
             })
-        })
+            .then(() => done(), done)
+            .catch((error) => {
+                done(error);
+
+            });
     })
 }
 
-function modifyDescriptionAndPrice(expectedHTTPStatus,id,newDescription,newPrice){
-    it('change description and price',function(done){
-        let supplier ={username: "user1@ezwh.com",name: 'John', password: 'testpassword', type: 'supplier'};
+function modifyDescriptionAndPrice(expectedHTTPStatus, id, newDescription, newPrice) {
+    it('change description and price', function (done) {
+        let supplier = { username: "user1@ezwh.com", name: 'John', surname: 'Smith', password: 'testpassword', type: 'supplier' };
         agent.post('/api/newUser')
-        .send(supplier)
-        .then(function(res){
-            res.should.have.status(201);
-            let sku = { description: 'a new sku', weight: 12, volume: 100, notes: 'first sku', price: 10.1, availableQuantity: 3 };
-            agent.post('/api/sku')
-            .send(sku)
-            .then(function(rs){
-                rs.should.have.status(201);
-                let item = {id: id,description, description, price: price,SKUId: SKUId, supplierId: supplierId}
-                agent.post('/api/item')
-                .send(item)
-                .then(function(response){
-                    response.status.should.have(expectedHTTPStatus);
-                    agent.put('/api/item/' + id)
-                    .send({newDescription: newDescription, newPrice: newPrice})
-                    .then(function(rsp){
-                        rsp.should.have.status(expectedHTTPStatus);
-                        agent.get('/api/items/' + id)
-                        .then(function(r){
-                            r.should.have.status(200);
-                            r.body.description.should.equal(newDescription);
-                            r.body.price.should.equal(newPrice);
-                        done();
-                        })
+            .send(supplier)
+            .then(function (res) {
+                res.should.have.status(201);
+                let sku = { description: 'a new sku', weight: 12, volume: 100, notes: 'first sku', price: 10.1, availableQuantity: 3 };
+                agent.post('/api/sku')
+                    .send(sku)
+                    .then(function (rs) {
+                        rs.should.have.status(201);
+                        let item = { id: id, description, description, price: price, SKUId: SKUId, supplierId: supplierId }
+                        agent.post('/api/item')
+                            .send(item)
+                            .then(function (response) {
+                                response.status.should.have(expectedHTTPStatus);
+                                agent.put('/api/item/' + id)
+                                    .send({ newDescription: newDescription, newPrice: newPrice })
+                                    .then(function (rsp) {
+                                        rsp.should.have.status(expectedHTTPStatus);
+                                        agent.get('/api/items/' + id)
+                                            .then(function (r) {
+                                                r.should.have.status(200);
+                                                r.body.description.should.equal(newDescription);
+                                                r.body.price.should.equal(newPrice);
+                                                done();
+                                            })
+                                    })
+                            })
                     })
-                })
             })
-        })
+            .then(() => done(), done)
+            .catch((error) => {
+                done(error);
+
+            });
     })
 }

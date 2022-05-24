@@ -14,6 +14,8 @@ class User {
     encrypt(password) {
         let encryptedPassword = password;
         var hashVal = 0;
+        let i = 0;
+        let char;
         if (encryptedPassword.length == 0) return hashVal;
         for (i = 0; i < encryptedPassword.length; i++) {
             char = encryptedPassword.charCodeAt(i);
@@ -27,6 +29,8 @@ class User {
     static encrypt(password) {
         let encryptedPassword = password;
         var hashVal = 0;
+        let i = 0;
+        let char;
         if (encryptedPassword.length == 0) return hashVal;
         for (i = 0; i < encryptedPassword.length; i++) {
             char = encryptedPassword.charCodeAt(i);

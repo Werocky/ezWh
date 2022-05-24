@@ -61,6 +61,10 @@ function createTestDescriptor(expectedHTTPStatus, name, testDescription) {
                             })
                     })
             })
+            .then(() => done(), done)
+            .catch((error) => {
+                done(error);
+            });
     })
 }
 
@@ -96,6 +100,10 @@ function updateTestDescriptor(expectedHTTPStatus, id, newProcedureDescription) {
 
                     })
             })
+            .then(() => done(), done)
+            .catch((error) => {
+                done(error);
+            });
     })
 }
 
@@ -121,5 +129,9 @@ function deleteTestDescriptor(expectedHTTPStatus, id) {
                             })
                     })
             })
+            .then(() => done(), done)
+            .catch((error) => {
+                done(error);
+            });
     })
 }

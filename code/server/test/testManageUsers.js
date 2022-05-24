@@ -42,6 +42,10 @@ function createUser(expectedHTTPStatus, username, name, surname, password, type)
                         done();
                     })
             })
+            .then(() => done(), done)
+            .catch((error) => {
+                done(error);
+            });
     })
 }
 
@@ -68,6 +72,10 @@ function changeUserRights(expectedHTTPStatus, username, oldType, newType) {
                             })
                     })
             })
+            .then(() => done(), done)
+            .catch((error) => {
+                done(error);
+            });
     })
 }
 
@@ -89,5 +97,9 @@ function deleteUser(expectedHTTPStatus, username, type) {
                             })
                     })
             })
+            .then(() => done(), done)
+            .catch((error) => {
+                done(error);
+            });
     })
 }

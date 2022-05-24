@@ -127,7 +127,7 @@ module.exports = function(app) {
 
     //CREATE A NEW ORDER
     app.post('/api/restockOrder',
-            body('issueDate').matches('/[0-9]{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/'),
+            //body('issueDate').matches('/[0-9]{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/'),
             check('products.*.SKUId').isInt({ min: 0}),
             check('products.*.qty').isInt({ min: 0}),
             body('supplierId').isInt({ min: 0}),

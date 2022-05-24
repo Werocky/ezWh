@@ -13,7 +13,7 @@ class UsersDB {
 
     createUserTable() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS USERS(ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME VARCHAR, SURNAME VARCHAR, EMAIL VARCHAR, PASSWORD VARCHAR, TYPE VARCHAR)';
+            const sql = 'CREATE TABLE IF NOT EXISTS USERS(ID INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR, surname VARCHAR, email VARCHAR, password VARCHAR, type VARCHAR)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -87,7 +87,7 @@ class UsersDB {
         //Encrypt password creating a user
         let user = new User(username, name, surname, password, type);
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO USERS(NAME, SURNAME, EMAIL, PASSWORD, TYPE) VALUES(?, ?, ?, ?, ?)';
+            const sql = 'INSERT INTO USERS(name, surname, email, password, type) VALUES(?, ?, ?, ?, ?)';
             this.db.run(sql, [user.name, user.surname, user.email, user.password, user.type], (err) => {
                 if (err) {
                     reject(err);

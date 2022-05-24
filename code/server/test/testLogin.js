@@ -21,7 +21,7 @@ describe("test manage login and logout scenarios", () => {
     //SCENARIO 7-1
     login(200, "username@gmail.com", "password99", "clerk");
     //SCENARIO 7-2
-    logout(200);
+    logout(200, "username@gmail.com", "password99", "clerk");
 })
 
 function helloWord() {
@@ -46,7 +46,6 @@ function login(expectedHTTPStatus, username, password, type) {
                 agent.post('api/clerkSessions')
                     .send(prova)
                     .then(function (rs) {
-                        done();
                         rs.should.have.status(expectedHTTPStatus);
                         agent.get('api/users')
                             .then(function (r) {
@@ -54,17 +53,20 @@ function login(expectedHTTPStatus, username, password, type) {
                                 r.body[0].id.should.equal(1);
                                 r.body[0].name.should.equal("name");
                                 r.body[0].email.should.equal(username);
-                                done();
                             })
                     })
             })
+            .then(() => done(), done)
+            .catch((error) => {
+                done(error);
+
+            });
     })
 }
 
-function logout(expectedHTTPStatus) {
+function logout(expectedHTTPStatus, username, password, type) {
     it('logout', function (done) {
         let user = { username: username, name: "name", surname: "surname", password: password, type: type }
-        done();
         agent.post('/api/newUser')
             .send(user)
             .then(function (res) {
@@ -82,10 +84,14 @@ function logout(expectedHTTPStatus) {
                                 agent.post('api/logout')
                                     .then(function (r1) {
                                         r1.should.have.status(expectedHTTPStatus);
-                                        done();
                                     })
                             })
                     })
             })
+            .then(() => done(), done)
+            .catch((error) => {
+                done(error);
+
+            });
     })
 }
