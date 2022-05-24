@@ -40,7 +40,7 @@ module.exports = class TestDescriptorDB{
     updateTestDescriptor(descriptor){
         return new Promise((resolve, reject) =>{
             const query = 'UPDATE TESTDESCRIPTOR SET name = ?, procedureDescription = ?, idSKU = ? WHERE id = ?';
-            this.db.run(query, [descriptor.getName(), descriptor.getProcedureDescription(), descriptor.getIdSku(), descriptor.getId()], (err) =>{
+            this.db.run(query, [descriptor.name, descriptor.procedureDescription, descriptor.idSKU, descriptor.id], (err) =>{
                 if(err){
                     reject(err);
                     return;
