@@ -112,7 +112,7 @@ module.exports = function(app){
             return res.status(503).end();
         }
         //sucess, entry created
-        return res.status(200).end();
+        return res.status(201).end();
     })
 
     //PUT APIs
