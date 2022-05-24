@@ -71,8 +71,8 @@ class SKUDB {
 
     async createSKU(description, weight, volume, notes, price, availableQuantity) {
         return new Promise((resolve, reject) => {
-            const sql = "INSERT INTO SKUS(description,weight,volume,notes,price,quantity,testDescriptors) VALUES(?,?,?,?,?,?,?);";
-            this.db.run(sql, [description, weight, volume, notes,price, availableQuantity, '[]'], (err) => {
+            const sql = "INSERT INTO SKUS(description,weight,volume,notes,price,quantity,testDescriptors, positionId) VALUES(?,?,?,?,?,?,?,?);";
+            this.db.run(sql, [description, weight, volume, notes,price, availableQuantity, '[]', null], (err) => {
                 if (err) {
                     reject(err);
                     return;

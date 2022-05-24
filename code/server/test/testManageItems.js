@@ -5,6 +5,7 @@ const chaiHttp = require('chai-http');
 const ItemDB = require('../modules/ItemDB');
 const UsersDB = require('../modules/UsersDB');
 const SKUDB = require('../modules/SKUsDB');
+const SKUItemDB = require('../modules/SKUItemsDB');
 chai.use(chaiHttp);
 chai.should();
 
@@ -15,9 +16,11 @@ describe('test item use case', () => {
 
     beforeEach(async () => {
         const items = new ItemDB('WarehouseDB');
+        const skuItems = new SKUItemDB('WarehouseDB');
         const skus = new SKUDB('WarehouseDB');
         const users = new UsersDB('WarehouseDB');
         await items.deleteAllItems();
+        await skuItems.deleteAllSKUItems();
         await skus.deleteAllSKUs();
         await users.deleteAllUsers();
     })
@@ -53,7 +56,6 @@ function createItem(expectedHTTPStatus, id, description, price, SKUId, supplierI
                                         r.body.price.should.equal(price);
                                         r.body.SKUId.should.equal(SKUId);
                                         r.body.supplierId.should.equal(supplierId);
-                                        done();
                                     })
                             })
                     })
@@ -92,7 +94,6 @@ function modifyDescriptionAndPrice(expectedHTTPStatus, id, newDescription, newPr
                                                 r.should.have.status(200);
                                                 r.body.description.should.equal(newDescription);
                                                 r.body.price.should.equal(newPrice);
-                                                done();
                                             })
                                     })
                             })

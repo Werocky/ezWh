@@ -85,7 +85,6 @@ function recordRestockOrderArrival() {
                                                                                 res.body.supplierId.should.equal(1);
                                                                                 res.body.products.should.equal(products);
                                                                                 res.body.skuItems.should.equal(skuItems);
-                                                                                done();
                                                                             })
                                                                     })
                                                             })

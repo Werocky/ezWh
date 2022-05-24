@@ -3,6 +3,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const SKUDB = require('../modules/SKUsDB');
+const SKUItemDB = require('../modules/SKUItemsDB');
 const PositionDB = require('../modules/PositionDB');
 chai.use(chaiHttp);
 chai.should();
@@ -13,6 +14,8 @@ var agent = chai.request.agent(app);
 describe('test SKU scenarios', () => {
 
     beforeEach(async () => {
+        let skuItems = new SKUItemDB('WarehouseDB');
+        await skuItems.deleteAllSKUItems();
         const skus = new SKUDB('WarehouseDB');
         await skus.deleteAllSKUs();
         const positions = new PositionDB('WarehouseDB');
@@ -49,7 +52,6 @@ function newSKU(expectedHTTPStatus, description, weight, volume, notes, price, a
                         r.body.price.should.equal(price);
                         r.body.availableQuantity.should.equal(availableQuantity);
                         r.body.testDescriptors.should.equal([]);
-                        done();
                     });
             })
             .then(() => done(), done)
@@ -87,7 +89,6 @@ function placeSKU(expectedHTTPStatus, id, position, aisleID, row, col) {
                                     .then(function (rs) {
                                         rs.should.have.status(200);
                                         rs.body.position.should.equal(position);
-                                        done();
                                     })
                             })
                     })
@@ -120,7 +121,6 @@ function modifySKUWeightAndVolume(expectedHTTPStatus, id, newWeight, newVolume) 
                                         rs.should.have.status(200);
                                         rs.body.weight.should.equal(newWeight);
                                         rs.body.volume.should.equal(newVolume);
-                                        done();
                                     })
                             })
                     })

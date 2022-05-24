@@ -39,7 +39,6 @@ function createUser(expectedHTTPStatus, username, name, surname, password, type)
                         r.body[0].surname.should.equal(surname);
                         r.body[0].email.should.equal(username);
                         r.body[0].type.should.equal(type);
-                        done();
                     })
             })
             .then(() => done(), done)
@@ -68,7 +67,6 @@ function changeUserRights(expectedHTTPStatus, username, oldType, newType) {
                                 r.body[0].surname.should.equal("surname");
                                 r.body[0].email.should.equal(username);
                                 r.body[0].type.should.equal(newType);
-                                done();
                             })
                     })
             })
@@ -93,7 +91,6 @@ function deleteUser(expectedHTTPStatus, username, type) {
                             .then(function (r) {
                                 r.should.have.status(422); 
                                 //validation of username/type failed
-                                done();
                             })
                     })
             })

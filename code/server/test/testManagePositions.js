@@ -2,6 +2,8 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const SKUDB = require('../modules/SKUsDB');
+const SKUItemDB = require('../modules/SKUItemsDB');
 const PositionDB = require('../modules/PositionDB');
 chai.use(chaiHttp);
 chai.should();
@@ -12,6 +14,10 @@ var agent = chai.request.agent(app);
 describe("test manage positions scenarios", () => {
 
     beforeEach(async () => {
+        let skuItems = new SKUItemDB('WarehouseDB');
+        await skuItems.deleteAllSKUItems();
+        let skus = new SKUDB('WarehouseDB');
+        await skus.deleteAllSKUs();
         const positions = new PositionDB('WarehouseDB');
         await positions.deleteAllPositions();
     })
