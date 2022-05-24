@@ -3,6 +3,10 @@
 const dayjs = require('dayjs');
 const { body, param, check, validationResult } = require('express-validator');
 const InternalOrderDB = require("./InternalOrderDB");
+const PositionDB = require('./PositionDB');
+const Position = require('./Position')
+const SKUDB = require('./SKUsDB');
+const SKU = require('./SKU');
 
 const STATES = ['ISSUED', 'ACCEPTED', 'REFUSED', 'CANCELED', 'COMPLETED'];
 
@@ -116,15 +120,31 @@ module.exports = function(app){
         
         let internalOrder
         try{
+            const positions = new PositionDB('WarehouseDB');
+            await positions.createPositionTable();
+            const skus = new SKUDB('WarehouseDB');
+            await skus.createSKUTable();
             internalOrder = new InternalOrderDB('WarehouseDB');
             await internalOrder.createInternalTable();
+            let sku;
+            for(let i=0; i<req.body.products.length;i++){
+                sku = await skus.getSKUById(req.body.products[i].SKUId);
+                if(!sku || sku.getAvailableQuantity() < req.body.products[i].qty)
+                    return res.status(422).end();
+                sku.setAvailableQuantity(sku.getAvailableQuantity() - req.body.products[i].qty)
+                let position = await positions.getPosition(sku.getPositionId())
+                if(!position)
+                    return res.status(422).end();
+                await positions.changePosition(position.getPositionID(),position.getAisleID(),position.getRow(),position.getCol(),position.getMaxWeight(),position.getMaxVolume(),sku.getTotalWeight(),sku.getTotalVolume());
+                await skus.modifySKU(sku);
+            }
             await internalOrder.createInternalOrder(req.body.issueDate, req.body.products, req.body.customerId, 'ISSUED');
         } catch(err){
-            //service unavailable (generic error)
+            console.log(err);
             return res.status(503).end();
         }
         //success, entry created
-        return res.status(200).json();
+        return res.status(201).json();
     })
 
     //PUT APIs
@@ -148,20 +168,38 @@ module.exports = function(app){
         try{
             internalOrders = new InternalOrderDB('WarehouseDB');
             await internalOrders.createInternalTable();
-            if(!await internalOrders.getInternalOrder(req.params.id)){
+            let internalOrder = await internalOrders.getInternalOrder(req.params.id)
+            if(!internalOrder){
                 //order not found
                 return res.status(404).end();
             }
 
-            if(req.body.newState !== 'COMPLETED'){
+            if(internalOrder.state === "ISSUED" && (req.body.newState === 'CANCELED' || req.body.newState === 'REFUSED')){
+                const positions = new PositionDB('WarehouseDB');
+                await positions.createPositionTable();
+                const skus = new SKUDB('WarehouseDB');
+                await skus.createSKUTable();
+                let sku;
+            for(let i=0; i<internalOrder.products.length;i++){
+                sku = await skus.getSKUById(internalOrder.products[i].SKUId);
+                if(!sku)
+                    return res.status(422).end();
+                sku.setAvailableQuantity(sku.getAvailableQuantity() + internalOrder.products[i].qty)
+                let position = await positions.getPosition(sku.getPositionId())
+                if(!position)
+                    return res.status(422).end();
+                await positions.changePosition(position.getPositionID(),position.getAisleID(),position.getRow(),position.getCol(),position.getMaxWeight(),position.getMaxVolume(),sku.getTotalWeight(),sku.getTotalVolume());
+                await skus.modifySKU(sku);
+            }
                 await internalOrders.changeState(req.params.id, req.body.newState);
             }
-            else {
+            else if(req.body.newState === 'COMPLETED'){
                 await internalOrders.changeState(req.params.id, req.body.newState, req.body.products);
             }
 
         }catch(err){
             //service unavailable, generic error
+            console.log(err);
             return res.status(503).end();
         }
         //success, internal order modified

@@ -102,6 +102,11 @@ function allPositiveResults(){
                         .send(testResult)
                         .then(function(res){
                             res.should.have.status(201);
+                            agent.put('/api/restockOrder/1')
+                            .send({newState: "DELIVERED"})
+                            .then(function(res){
+                                res.status.should.have(200);
+                            })
                         })
                     })   
                 })
@@ -138,6 +143,11 @@ function somePositiveSomeNegative(){
                         .send(testResult)
                         .then(function(res){
                             res.should.have.status(201);
+                            agent.put('/api/restockOrder/1')
+                            .send({newState: "DELIVERED"})
+                            .then(function(res){
+                                res.status.should.have(200);
+                            })
                         })
                     })   
                 })

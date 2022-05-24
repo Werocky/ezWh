@@ -125,7 +125,7 @@ module.exports = class InternalOrderDB{
             let query = '';
             let params = [];
 
-            if (products === undefined && newState !== 'COMPLETED') {
+            if (/*products === undefined && */newState !== 'COMPLETED') {
                 query = 'UPDATE INTERNALORDERS SET state=? WHERE id=?'
                 params = [newState, id];
             }
@@ -163,5 +163,17 @@ module.exports = class InternalOrderDB{
                 resolve(this.lastID);
             });
         });
+    }
+
+    deleteAllInternalOrders(){
+        return new Promise((resolve,reject) =>{
+            this.db.run('DROP TABLE IF EXISTS INTERNALORDERS',(err)=>{
+                if(err){
+                    reject(err);
+                    return;
+                }
+                resolve();
+            })
+        })
     }
 }
