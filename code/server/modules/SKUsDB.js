@@ -140,6 +140,7 @@ class SKUDB {
         return new Promise((resolve,reject)=>{
             this.db.run('DROP TABLE IF EXISTS SKUS',(err)=>{
                 if(err){
+                    console.log(err);
                     reject(err);
                     return;
                 }

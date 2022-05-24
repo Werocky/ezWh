@@ -22,6 +22,17 @@ describe('test SKU scenarios', () => {
         await positions.deleteAllPositions();
     })
 
+    after(async () => {
+        let skuItems = new SKUItemDB('WarehouseDB');
+        await skuItems.deleteAllSKUItems();
+        const skus = new SKUDB('WarehouseDB');
+        await skus.deleteAllSKUs();
+        const positions = new PositionDB('WarehouseDB');
+        await positions.deleteAllPositions();
+    })
+
+    
+
     //SCENARIO 1-1
     newSKU(201, 'a new sku', 100, 50, 'first SKU', 10.99, 2);
     //SCENARIO 1-2

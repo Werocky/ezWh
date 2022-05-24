@@ -2,6 +2,7 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const { after } = require('mocha');
 const RestockOrdersDB = require('../modules/RestockOrdersDB');
 chai.use(chaiHttp);
 chai.should();
@@ -12,9 +13,25 @@ var agent = chai.request.agent(app);
 describe('test issue restock order use cases', () => {
 
     beforeEach(async () => {
+        try{
         const restockOrders = new RestockOrdersDB('WarehouseDB');
         await restockOrders.deleteAllRestockOrders();
+        }
+        catch(err){
+            console.log(err);
+        }
     })
+    after(async () => {
+        try{
+        const restockOrders = new RestockOrdersDB('WarehouseDB');
+        await restockOrders.deleteAllRestockOrders();
+        }
+        catch(err){
+            console.log(err);
+        }
+    })
+
+    
 
     //SCENARIOS 3-1,3-2
     issueRestockOrder(201, "2021/11/29 09:33", [{ "SKUId": 12, "description": "a product", "price": 10.99, "qty": 30 },

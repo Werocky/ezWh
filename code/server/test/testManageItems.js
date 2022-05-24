@@ -25,6 +25,19 @@ describe('test item use case', () => {
         await users.deleteAllUsers();
     })
 
+    after(async () => {
+        const items = new ItemDB('WarehouseDB');
+        const skuItems = new SKUItemDB('WarehouseDB');
+        const skus = new SKUDB('WarehouseDB');
+        const users = new UsersDB('WarehouseDB');
+        await items.deleteAllItems();
+        await skuItems.deleteAllSKUItems();
+        await skus.deleteAllSKUs();
+        await users.deleteAllUsers();
+    })
+
+   
+
     //SCENARIO 11-1
     createItem(201, 12, 'a new item', 10.99, 1, 1);
     //SCENARIO 11-2

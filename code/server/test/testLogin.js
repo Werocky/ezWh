@@ -15,6 +15,12 @@ describe("test manage login and logout scenarios", () => {
         let users = new UsersDB('WarehouseDB');
         await users.deleteAllUsers();
     })
+    after(async () => {
+        let users = new UsersDB('WarehouseDB');
+        await users.deleteAllUsers();
+    })
+
+   
 
     helloWord();
 

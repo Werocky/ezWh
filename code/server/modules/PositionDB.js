@@ -157,6 +157,7 @@ class PositionDB {
       return new Promise((resolve,reject)=>{
           this.db.run("DROP TABLE IF EXISTS POSITIONS",(err)=>{
               if(err){
+                  console.log(err);
                   reject(err);
                   return;
               }

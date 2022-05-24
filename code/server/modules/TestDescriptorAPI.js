@@ -84,7 +84,7 @@ module.exports = function(app){
             await testDescriptors.createTestDescriptorTable();
             await testDescriptors.createTestDescriptor(req.body.name, req.body.procedureDescription, req.body.idSKU);
             sku.setTestDescriptors([req.param.id]);
-            skus.modifySKU(sku);
+            await skus.modifySKU(sku);
         }catch(err){
             //service unavailable (generic error)
             return res.status(503).end();
@@ -137,15 +137,15 @@ module.exports = function(app){
                 if(oldSku.testDescriptors){
                     let descriptors = oldSku.testDescriptors;
                     oldSku.setTestDescriptors(descriptors.filter(e => e !== testDescriptor.idSKU));
-                    skus.modifySKU(oldSku);
+                    await skus.modifySKU(oldSku);
                 }
                 //update new sku descriptor's list
                 sku.setTestDescriptors([req.param.id]);
-                skus.modifySKU(sku);
+                await skus.modifySKU(sku);
             }
-            testDescriptors.changeName(req.body.newName, req.params.id);
-            testDescriptors.changeProcedure(req.body.newProcedureDescription, req.params.id);
-            testDescriptors.changeIdSKU(req.body.newIdSKU, req.params.id);
+            await testDescriptors.changeName(req.body.newName, req.params.id);
+            await testDescriptors.changeProcedure(req.body.newProcedureDescription, req.params.id);
+            await testDescriptors.changeIdSKU(req.body.newIdSKU, req.params.id);
         }catch(err){
             //service unavailable, generic error
             return res.status(503).end();
@@ -178,7 +178,7 @@ module.exports = function(app){
             testDescriptor = await testDescriptors.getTestDescriptor(req.params.id);
             testResults = new TestResultDB('WarehouseDB');
             await testResults.createTestResultTable();
-            testResult = testResults.getTestResultsByTestDescriptor(req.params.id);
+            testResult = await testResults.getTestResultsByTestDescriptor(req.params.id);
             //test descriptor not found
             if(!testDescriptor){
                 //not found, no test descriptor associated to the id = :id
