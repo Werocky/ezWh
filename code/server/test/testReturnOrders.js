@@ -85,6 +85,8 @@ describe('test return order of SKU items use cases', () => {
 
     //SCENARIOS 6-1
     returnFailedItems();
+    //SCENARIOS 6-1
+    returnWrongOrder();
 })
 
 function returnFailedItems() {
@@ -150,6 +152,103 @@ function returnFailedItems() {
                                                                             })
                                                                             .then(function (res) {
                                                                                 res.should.have.status(200);
+                                                                            })
+                                                                    })
+                                                            })
+                                                    })
+                                            })
+                                    })
+                            })
+                    })
+            })
+            .then(() => done(), done)
+            .catch((error) => {
+                done(error);
+            });
+    })
+}
+
+function returnWrongOrder() {
+    it('return order of any SKU items', function (done) {
+        let rfids = ["12345678901234567890123456789015", "12345678901234567890123456789016", "12345678901234567890123456789017"]
+        let testResult = { rfid: rfids[0], idTestDescriptor: 1, Date: "2021/11/28", Result: true }
+        agent.post('/api/skuitems/testResult')
+            .send(testResult)
+            .then(function (res) {
+                res.should.have.status(201);
+                agent.get('/api/skuitems/' + rfids[0] + '/testResults/1')
+                    .then(function (res) {
+                        res.should.have.status(200);
+                        res.body.id.should.equal(1);
+                        res.body.idTestDescriptor.should.equal(1)
+                        res.body.Date.should.equal("2021/11/28")
+                        res.body.Result.should.equal(true);
+                        let testResult = { rfid: rfids[1], idTestDescriptor: 1, Date: "2021/11/28", Result: false }
+                        agent.post('/api/skuitems/testResult')
+                            .send(testResult)
+                            .then(function (res) {
+                                res.should.have.status(201);
+                                let testResult = { rfid: rfids[2], idTestDescriptor: 1, Date: "2021/11/28", Result: false }
+                                agent.post('/api/skuitems/testResult')
+                                    .send(testResult)
+                                    .then(function (res) {
+                                        res.should.have.status(201);
+                                        agent.get('/api/restockOrders/1/returnItems')
+                                            .then(function (res) {
+                                                res.should.have.status(200);
+                                                let retOrder = ({
+                                                    returnDate: "2021/11/29 09:33",
+                                                    products: [{ "SKUId": 1, "description": "a product", "price": 10.99, "RFID": "12345678901234567890123456789015" },
+                                                    { "SKUId": 1, "description": "another product", "price": 11.99, "RFID": "12345678901234567890123456789016" },
+                                                    { "SKUId": 1, "description": "another product", "price": 11.99, "RFID": "12345678901234567890123456789017" }],
+                                                    restockOrderId: 1
+                                                });
+                                                agent.post('/api/returnOrder')
+                                                    .send(retOrder)
+                                                    .then(function (res) {
+                                                        res.should.have.status(201);
+                                                        agent.put('/api/skuitems/12345678901234567890123456789015')
+                                                            .send({
+                                                                newRFID: '12345678901234567890123456789015',
+                                                                newAvailable: 0,
+                                                                newDateOfStock: null
+                                                            })
+                                                            .then(function (res) {
+                                                                res.should.have.status(200);
+                                                                agent.put('/api/skuitems/12345678901234567890123456789016')
+                                                                    .send({
+                                                                        newRFID: '12345678901234567890123456789016',
+                                                                        newAvailable: 0,
+                                                                        newDateOfStock: null
+                                                                    })
+                                                                    .then(function (res) {
+                                                                        res.should.have.status(200);
+                                                                        agent.put('/api/skuitems/12345678901234567890123456789017')
+                                                                            .send({
+                                                                                newRFID: '12345678901234567890123456789017',
+                                                                                newAvailable: 0,
+                                                                                newDateOfStock: null
+                                                                            })
+                                                                            .then(function (res) {
+                                                                                res.should.have.status(200);
+                                                                                agent.get('/api/skus/1')
+                                                                                    .then(function (res) {
+                                                                                        res.should.have.status(200);
+                                                                                        let q = res.body.availableQuantity - 1;
+                                                                                        agent.put('/api/sku/1')
+                                                                                            .send({
+                                                                                                newDescription: res.body.description,
+                                                                                                newWeight: res.body.weight,
+                                                                                                newVolume: res.body.volume,
+                                                                                                newNotes: res.body.notes,
+                                                                                                newPrice: res.body.price,
+                                                                                                newAvailableQuantity: q
+                                                                                            }
+                                                                                            )
+                                                                                            .then(function (res) {
+                                                                                                res.should.have.status(200);
+                                                                                            })
+                                                                                    })
                                                                             })
                                                                     })
                                                             })
