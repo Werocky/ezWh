@@ -25,7 +25,7 @@ Version: 0.9
      
 # Integration approach
 
-    The integration approach used is Bottom Up: step 1: DB classes tested, which are the interfaces to DB; step 2: API class tested using multiple classes test units
+    The integration approach used is top down: step 1: API testing following the use cases in the official requirements, verifiying the application logic; step 2: testing of DB operations.
     
 
 
@@ -34,15 +34,8 @@ Version: 0.9
    <define below a table for each integration step. For each integration step report the group of classes under test, and the names of
      Jest test cases applied to them, and the mock ups used, if any> Jest test cases should be here code/server/unit_test
 
-## Step 1
-| Classes  | mock up used |Jest test cases |
-|--|--|--|
-|ItemDB|None|All the methids in item.test.js|
-|PositionDB|None|All the methods in position.test.js|
-|SKUsDB|None|All the methods in sku.test.js|
-|TestDescriptorDB|None|All the methods in testDescriptor.test.js|
 
-## Step 2
+## Step 1
 | Classes |API test cases |
 |--|--|
 |InternalOrderAPI, InternalOrderDB|All the methods in testAcceptanceInternalOrders.js|
@@ -54,6 +47,14 @@ Version: 0.9
 |UserAPI, UsersDB|All the methods in testManageUsers.js and in testLogin.js|
 |TestDescriptorAPI, TestDescriptorDB|All the methods in testManaTestDescriptors.js|
 |ItemAPI, ItemDB|All the methods in testManageItems.js|
+
+## Step 2
+| Classes  | mock up used |Jest test cases |
+|--|--|--|
+|ItemDB|None|All the methids in item.test.js|
+|PositionDB|None|All the methods in position.test.js|
+|SKUsDB|None|All the methods in sku.test.js|
+|TestDescriptorDB|None|All the methods in testDescriptor.test.js|
 
 
 
