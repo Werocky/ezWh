@@ -130,6 +130,19 @@ class ReturnOrdersDB {
             });
         });
     }
+
+    deleteAllReturnOrders() {
+        return new Promise((resolve, reject) => {
+            const sql = 'DROP TABLE IF EXISTS RETURNORDERS';
+            this.db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
 }
 
 module.exports = ReturnOrdersDB;
