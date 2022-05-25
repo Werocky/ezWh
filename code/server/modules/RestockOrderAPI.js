@@ -127,7 +127,6 @@ module.exports = function(app) {
 
     //CREATE A NEW ORDER
     app.post('/api/restockOrder',
-            //body('issueDate').matches('/[0-9]{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/'),
             check('products.*.SKUId').isInt({ min: 0}),
             check('products.*.qty').isInt({ min: 0}),
             body('supplierId').isInt({ min: 0}),
@@ -142,6 +141,9 @@ module.exports = function(app) {
 
         if (!err.isEmpty()) {
             return res.status(422).json();
+        }
+        if(!req.body.issueDate || !dayjs(req.body.issueDate,['YYYY/MM/DD','YYYY/MM/DD HH:mm'],true).isValid()){
+            return res.status(422).end();
         }
         
         let restockOrders;
