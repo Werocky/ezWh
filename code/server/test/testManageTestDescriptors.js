@@ -41,9 +41,9 @@ describe("test manage test descriptors scenarios", () => {
 
     //SCENARIO 12-1
     createTestDescriptor(201, "test desc 1", "procedureDescription");
-    //SCENARIO 4-2
+    //SCENARIO 12-2
     updateTestDescriptor(200, 1, "newProcedureDescription");
-    //SCENARIO 4-3
+    //SCENARIO 12-3
     deleteTestDescriptor(204, 1);
 })
 
