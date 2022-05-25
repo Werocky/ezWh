@@ -2630,8 +2630,7 @@ Version:
 
 ### Code coverage report
 
-    <Add here the screenshot report of the statement and branch coverage obtained using
-    the coverage tool. >
+  ![coverage](./Images/coverage.jpg)
 
 
 ### Loop coverage analysis

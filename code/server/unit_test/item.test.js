@@ -1,24 +1,28 @@
 const ItemDB = require('../modules/ItemDB');
 const UsersDB = require('../modules/UsersDB');
+const SKUItemsDB = require('../modules/SKUItemsDB');
 const SKUSDB = require('../modules/SKUsDB');
 
 const itemDB = new ItemDB('WarehouseDB');
 const usersDB = new UsersDB('WarehouseDB');
+const SKUItemDB = new SKUItemsDB('WarehouseDB');
 const skuDB = new SKUSDB('WarehouseDB');
 
 describe('item test suite', () => {
-    test('delete all', async () =>{
+    beforeAll( async () =>{
+        await SKUItemDB.deleteAllSKUItems();
         await skuDB.deleteAllSKUs();
         await usersDB.deleteAllUsers();
         await itemDB.deleteAllItems();
+        await SKUItemDB.createSKUItemsTable();
         await skuDB.createSKUTable();
         await usersDB.createUserTable();
         await usersDB.createUser('username', 'name', 'surname', 'password', 'type');
         await usersDB.createUser('username', 'name', 'surname', 'password', 'type');
+        await itemDB.createItemTable();
     });
     
     test('create item table', async () =>{
-        await itemDB.createItemTable();
     });
 
     test('get all items', async () =>{
@@ -27,18 +31,19 @@ describe('item test suite', () => {
     });
 
     testNewItem(1, 'description', 10, 1, 1);
-    testGetItemById(1);
-    testModifyItem(2, 'new description', 11, 2, 2, 1);
-    testAlreadySells(2, 2, 2);
+    testModifyItem(2, 'new description', 11, 2, 1, 1);
+    testAlreadySells(1, 2, 1);
     testDeleteItem(2);
-    itemDB.deleteAllItems();
-    usersDB.deleteAllUsers();
+    SKUItemDB.deleteAllSKUItems();
     skuDB.deleteAllSKUs();
+    usersDB.deleteAllUsers();
+    itemDB.deleteAllItems();
 });
 
 
 function testNewItem(id, description, price, skuid, supplierId){
     test('create new item', async () =>{
+        await skuDB.createSKU('description', 10, 10, 'note', 10, 5);
         await itemDB.createItem(id, description, price, skuid, supplierId);
         
         var res = await itemDB.getItemById(id);
@@ -49,25 +54,15 @@ function testNewItem(id, description, price, skuid, supplierId){
     })
 }
 
-function testGetItemById(id){
-    test('get item by id', async () =>{
-
-        const res = await itemDB.getItemById(id);
-        expect(res.description).toStrictEqual('description');
-        expect(res.price).toStrictEqual(10);
-        expect(res.SKUId).toStrictEqual(1);
-        expect(res.supplierId).toStrictEqual(1);
-    })
-}
-
 function testModifyItem(id, newDescription, newPrice, newSKUId, newSupplierId, oldId){
     test('update item info', async () =>{
+        await skuDB.createSKU('description', 10, 10, 'note', 10, 5);
         await itemDB.modifyItem(id, newDescription, newPrice, newSKUId, newSupplierId, oldId)
         const res = await itemDB.getItemById(id);
-        expect(res.description).toStrictEqual('new description');
-        expect(res.price).toStrictEqual(11);
-        expect(res.SKUId).toStrictEqual(2);
-        expect(res.supplierId).toStrictEqual(2);
+        expect(res.description).toStrictEqual(newDescription);
+        expect(res.price).toStrictEqual(newPrice);
+        expect(res.SKUId).toStrictEqual(newSKUId);
+        expect(res.supplierId).toStrictEqual(newSupplierId);
     })
 }
 

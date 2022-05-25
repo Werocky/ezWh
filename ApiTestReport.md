@@ -40,7 +40,10 @@ Step 2: API class tested using multiple classes test units
 ## Step 1
 | Classes  | mock up used |Jest test cases |
 |--|--|--|
-||||
+|ItemDB|None|All the methids in item.test.js|
+|PositionDB|None|All the methods in position.test.js|
+|SKUsDB|None|All the methods in sku.test.js|
+|TestDescriptorDB|None|All the methods in testDescriptor.test.js|
 
 ## Step 2
 | Classes |API test cases |
