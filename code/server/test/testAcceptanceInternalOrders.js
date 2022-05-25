@@ -190,6 +190,50 @@ function deliverInternalOrder() {
                             .send({ newState: "ACCEPTED" })
                             .then(function (res) {
                                 res.should.have.status(200);
+                                agent.put('/api/internalOrders/1')
+                                    .send({
+                                        newState: "COMPLETED",
+                                        products: [{ "SkuID": 1, "RFID": rfid1 },
+                                        { "SkuID": 2, "RFID": rfid2 }]
+                                    })
+                                    .then(function (res) {
+                                        res.should.have.status(200);
+                                    })
+
+                            })
+                    })
+            })
+            .then(() => done(), done)
+            .catch((error) => {
+                done(error);
+            });
+    })
+}
+
+function oldDeliverInternalOrder() {
+    it('delivering internal an order', function (done) {
+        let internalOrder = {
+            issueDate: "2021/11/29 09:33",
+            products: [{ "SKUId": 1, "description": "a product", "price": 10.99, "qty": 3 },
+            { "SKUId": 2, "description": "another product", "price": 11.99, "qty": 3 }],
+            customerId: 1
+        }
+        agent.post('/api/internalOrders')
+            .send(internalOrder)
+            .then(function (res) {
+                res.should.have.status(201);
+                agent.get('/api/internalOrders/1')
+                    .then(function (res) {
+                        res.should.have.status(200);
+                        res.body.id.should.equal(1);
+                        res.body.issueDate.should.equal(internalOrder.issueDate);
+                        res.body.state.should.equal("ISSUED");
+                        res.body.products.should.equal(internalOrder.products);
+                        res.body.customerId.should.equal(internalOrder.customerId);
+                        agent.put('/api/internalOrders/1')
+                            .send({ newState: "ACCEPTED" })
+                            .then(function (res) {
+                                res.should.have.status(200);
                                 agent.get('/api/skuitems/sku/1')
                                     .then(function (res) {
                                         res.should.have.status(200);
