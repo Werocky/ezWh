@@ -14,6 +14,6 @@
   },
   "scripts": {
     "apiTest": "mocha test -timeout 8000 --exit",
-    "test": "node_modules/.bin/jest"
+    "test": "jest"
   }
 }
