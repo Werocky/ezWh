@@ -1,8 +1,8 @@
 # Integration and API Test Report
 
-Date:
+Date: 25/005/2022
 
-Version:
+Version: 0.9
 
 # Contents
 
@@ -43,7 +43,7 @@ Step 2: API class tested using multiple classes test units
 ||||
 
 ## Step 2
-| Classes |Jest test cases |
+| Classes |API test cases |
 |--|--|
 |InternalOrderAPI, InternalOrderDB|All the methods in testAcceptanceInternalOrders.js|
 |PositionAPI, PositionDB|All the methods in testManagePositions.js|
