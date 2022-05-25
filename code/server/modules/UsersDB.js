@@ -12,7 +12,18 @@ class UsersDB {
         });
     }
 
-    createUserTable() {
+    async createUserTable() {
+        await this.createTheUserTable();
+        //username, name, surname, password, type
+        await this.createUser('user1@ezwh.com', 'John', 'Dick', 'testpassword', 'customer');
+        await this.createUser('qualityEmployee1@ezwh.com', 'John', 'Dick', 'testpassword', 'qualityEmployee');
+        await this.createUser('clerk1@ezwh.com', 'John', 'Dick', 'testpassword', 'clerk');
+        await this.createUser('deliveryEmployee1@ezwh.com', 'John', 'Dick', 'testpassword', 'deliveryEmployee');
+        await this.createUser('supplier1@ezwh.com', 'John', 'Dick', 'testpassword', 'supplier');
+        await this.createUser('manager1@ezwh.com', 'John', 'Dick', 'testpassword', 'manager');
+    }
+
+    createTheUserTable() {
         return new Promise((resolve, reject) => {
             const sql = 'CREATE TABLE IF NOT EXISTS USERS(ID INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR, surname VARCHAR, email VARCHAR, password VARCHAR, type VARCHAR)';
             this.db.run(sql, (err) => {
