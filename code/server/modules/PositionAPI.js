@@ -30,7 +30,6 @@ module.exports = function (app) {
       body('aisleID').isString().isLength({min: 4, max:4}), 
       body('row').isString().isLength({min: 4, max:4}), 
       body('col').isString().isLength({min: 4, max:4}),
-      //body('positionID').equals(body('aisleID') + body('row') + body('col')),
       body('maxWeight').isInt({min: 0}),
       body('maxVolume').isInt({min: 0}),
       async (req, res) => {
@@ -40,7 +39,7 @@ module.exports = function (app) {
 
     const err = validationResult(req);
 
-     if (!err.isEmpty()) {
+     if (!err.isEmpty() || req.body.positionID !== req.body.aisleID + req.body.row + req.body.col) {
          return res.status(422).json();
      }
 
