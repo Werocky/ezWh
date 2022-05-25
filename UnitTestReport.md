@@ -24,210 +24,14 @@ Version:
 
  
  
-
- ### **Class *InternalOrderDB* - method *createItternalOrder***
-
-
-
-**Criteria for method *createItternalOrder*:**
-	
-
- - Issue Date
- - Products
- - Customer ID
- - Order State
-
-
-
-**Predicates for method *createItternalOrder*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Issue Date     |     WF      |
-|     Products     |     WF      |
-|     Customer ID     |     c >= 0      |
-|     Order State     |      WF      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Issue Date     |        WF         |
-|          |        not WF         |
-|     Products     |        WF         |
-|          |        not WF         |
-|     Customer ID     |        c >= 0         |
-|          |        c < 0         |
-|     Order State     |        WF         |
-|          |        not WF         |
-
-
-
-**Combination of predicates**:
-
-
-| Issue Date | Products | Customer ID | Order State | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|-------|-------|
-| WF | WF | c >= 0 | WF | Valid | T1("2021/11/29 09:33",WF,2,"Completed";Internal Order Created) |  |
-|    |    |        | not WF | Invalid | T2("2021/11/29 09:33",WF,2,1;error) |  |
-|    |    | c < 0 | WF | Invalid | T3("2021/11/29 09:33",WF,-2,"Completed";error) |  |
-|    |    |        | not WF | Invalid | T4("2021/11/29 09:33",WF,-2,1;error) |  |
-|    | not WF | c >= 0 | WF | Invalid | T5("2021/11/29 09:33",not WF,2,"Completed";error) |  |
-|    |    |        | not WF | Invalid | T6("2021/11/29 09:33",not WF,-2,1;error) |  |
-|    |    | c < 0 | WF | Invalid | T7("2021/11/29 09:33",not WF,2,"Completed";error) |  |
-|    |    |        | not WF | Invalid | T8("2021/11/29 09:33",not WF,-2,1;error) |  |
-| not WF | WF | c >= 0 | WF | Valid | T9("2021-11-29 09:33",WF,2,"Completed";error) |  |
-|    |    |        | not WF | Invalid | T10("2021-11-29 09:33",WF,2,1;error) |  |
-|    |    | c < 0 | WF | Invalid | T11("2021-11-29 09:33",WF,-2,"Completed";error) |  |
-|    |    |        | not WF | Invalid | T12("2021-11-29 09:33",WF,-2,1;error) |  |
-|    | not WF | c >= 0 | WF | Invalid | T13("2021-11-29 09:33",not WF,2,"Completed";error) |  |
-|    |    |        | not WF | Invalid | T14("2021-11-29 09:33",not WF,2,1;error) |  |
-|    |    | c < 0 | WF | Invalid | T15("2021-11-29 09:33",not WF,-2,"Completed";error) |  |
-|    |    |        | not WF | Invalid | T16("2021-11-29 09:33",not WF,-2,1;error) |  |
-
-
-
-
-  ### **Class *InternalOrderDB* - method *getInternalOrder***
-
-
-
-**Criteria for method *getInternalOrder*:**
-	
-
- - Internal Order ID
-
-
-
-**Predicates for method *getInternalOrder*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Internal Order ID     |     i >= 0      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Internal Order ID     |        i >= 0         |
-|          |        i < 0         |
-
-
-
-**Combination of predicates**:
-
-
-| Internal Order ID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| i >= 0 | Valid | T1("1111";Internal Order Returned) |  |
-| i < 0 | Invalid | T2(-1111;error) |  |
-
-
-
-
- ### **Class *InternalOrderDB* - method *changeState***
-
-
-
-**Criteria for method *changeState*:**
-	
-
- - Internal Order ID
- - New State
-
-
-
-**Predicates for method *changeState*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Internal Order ID     |     i >= 0      |
-|     New State     |      WF      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Internal Order ID     |        i >= 0         |
-|          |        i < 0         |
-|     New State     |        WF         |
-|          |        not WF         |
-
-
-
-**Combination of predicates**:
-
-
-| Internal Order ID | New State | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|
-| i >= 0 | WF | Valid | T1(1111;State Changed) |  |
-|        | not WF | Invalid | T2(1111;error) |  |
-| i < 0 | WF | Invalid | T3(-1111;error) |  |
-|       | not WF | Invalid | T4(1111;error) |  |
-
-
-
-
- ### **Class *InternalOrderDB* - method *deleteInternalOrder***
-
-
-
-**Criteria for method *deleteInternalOrder*:**
-	
-
- - Internal Order ID
-
-
-
-**Predicates for method *deleteInternalOrder*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Internal Order ID     |     i >= 0      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Internal Order ID     |        i >= 0         |
-|          |        i < 0         |
-
-
-
-**Combination of predicates**:
-
-
-| Internal Order ID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| i >= 0 | Valid | T1(1111;Internal Order Deleted) |  |
-| i < 0 | Invalid | T2(-1111;error) |  |
-
-
-
-  
+ 
   ### **Class *ItemDB* - method *getItemById***
 
 
 
 **Criteria for method *getItemById*:**
 	
-
+Checks are done on the upper layer:
  - Range of ID
 
 
@@ -256,8 +60,7 @@ Version:
 
 | Range of ID | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-| i >= 0 | Valid | T1(1111;Item Returned) |
-| i < 0 | Invalid | T2(-1111;error) |
+| i >= 0 | Valid | T1(1111;Item Returned) | testModifyItem
 
 
 
@@ -268,7 +71,7 @@ Version:
 
 **Criteria for method *createItem*:**
 	
-
+Checks are done on the upper layer:
  - ID Range
  - Item Description
  - Price Range
@@ -313,7 +116,7 @@ Version:
 
 | ID Range | Item Description | Price Range | SKU ID Range | Supplier ID Range | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|-------|-------|-------|
-| i >= 0 | WF | p >= 0 | k >= 0 | s >= 0 | Valid | T1(11,"des",4.4,2,33;Item Created) |  |
+| i >= 0 | WF | p >= 0 | k >= 0 | s >= 0 | Valid | T1(11,"des",4.4,2,33;Item Created) | testNewItem |
 |        |    |        |        | s < 0 | Invalid | T2(11,"des",4.4,2,-33;error) |  |
 |        |    |        | k < 0 | s >= 0 | Invalid | T3(11,"des",4.4,-2,33;error) |  |
 |        |    |        |        | s < 0 | Invalid | T4(11,"des",4.4,-2,-33;error) |  |
@@ -355,7 +158,7 @@ Version:
 
 **Criteria for method *changeItem*:**
 	
-
+Checks are done on the upper layer:
  - ID Range
  - Old ID Range
  - Item Description
@@ -407,7 +210,7 @@ Version:
 
 | ID Range | Old ID Range | Item Description | Price Range | SKU ID Range | Supplier ID Range | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|-------|-------|-------|-------|
-| i >= 0 | o >= 0 | WF | p >= 0 | k >= 0 | s >= 0 | Valid | T1(11,2,"des",4.4,2,33;Item Created) |  |
+| i >= 0 | o >= 0 | WF | p >= 0 | k >= 0 | s >= 0 | Valid | T1(11,2,"des",4.4,2,33;Item Created) | testModifyItem |
 |        |        |    |        |        | s < 0 | Invalid | T2(11,2,"des",4.4,2,-33;error) |  |
 |        |        |    |        | k < 0 | s >= 0 | Invalid | T3(11,2,"des",4.4,-2,33;error) |  |
 |        |        |    |        |        | s < 0 | Invalid | T4(11,2,"des",4.4,-2,-33;error) |  |
@@ -480,7 +283,7 @@ Version:
 
 **Criteria for method *deleteItem*:**
 	
-
+Checks are done on the upper layer:
  - Range of ID
 
 
@@ -509,7 +312,7 @@ Version:
 
 | Range of ID | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-| i >= 0 | Valid | T1("1111";Item Deleted) |
+| i >= 0 | Valid | T1("1111";Item Deleted) | testDeleteItem
 | i < 0 | Invalid | T2(-1111;error) |
  
  
@@ -520,7 +323,7 @@ Version:
 
 
 **Criteria for method *getPosition*:**
-
+Checks are done on the upper layer:
  - Position ID Length
 
 
@@ -549,7 +352,7 @@ Version:
 
 | ID Length | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-| i = 12 | Valid | T3("111122223333";"1111","2222","3333","maxWeight","maxVolume","occupiedWeight","occupiedVolume",) |
+| i = 12 | Valid | T3("111122223333";"1111","2222","3333","maxWeight","maxVolume","occupiedWeight","occupiedVolume",) | testGetPositionById
 | i != 12 | Invalid | T1("1111222233334";error) |
 
 
@@ -560,7 +363,7 @@ Version:
 
 **Criteria for method *createPosition*:**
 	
-
+Checks are done on the upper layer:
  - aisle ID Length
  - row Length
  - col Length
@@ -606,7 +409,7 @@ Version:
 
 | aisleID Length | row | col | maxWeight | maxVol | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|-------|-------|-------|
-| a = 4 | r = 4 | c = 4 | w <= 0 | v <= 0 | Invalid | T1("1111","2222","3333";error) |       |
+| a = 4 | r = 4 | c = 4 | w <= 0 | v <= 0 | Invalid | T1("1111","2222","3333";error) | testNewPosition |
 |       |       |       |        | v > 0 | Invalid | T1("1111","2222","3333";error) |       |
 |       |       |       | w > 0 | v <= 0 | Invalid | T1("1111","2222","3333";error) |       |
 |       |       |       |        | v > 0 | Valid | T1("1111","2222","3333";"111122223333",maxWeight,maxVolume) ) |       |
@@ -647,7 +450,7 @@ Version:
 
 **Criteria for method *changePosition*:**
 	
-
+Checks are done on the upper layer:
  - position ID Length
  - aisle ID Length
  - row Length
@@ -699,7 +502,7 @@ Version:
 
 | positionID | aisleID Length | row | col | Max. Weight | Max. Volume | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|-------|-------|-------|-------|
-| p != 12 | a != 4 | r != 4 | c != 4 | w > 0 | v > 0 | Invalid | T1("1111222233334","11111,"22222","33333";error) |       |
+| p != 12 | a != 4 | r != 4 | c != 4 | w > 0 | v > 0 | Invalid | T1("1111222233334","11111,"22222","33333";error) |  testModifyPosition  |
 ||        |        |        |        | v <= 0 | Invalid | T2("1111222233334","11111,"22222","33333";error) |       |
 ||         |        |        | w <= 0 | v > 0 | Invalid | T3("1111222233334","11111,"22222","33333";error) |       |
 ||         |        |        |        | v <= 0 | Invalid | T4("1111222233334","11111,"22222","33333";error) |       |
@@ -771,7 +574,7 @@ Version:
 
 
 **Criteria for method *changePositionID*:**
-
+Checks are done on the upper layer:
  - position ID Length
  - new Position ID Length
 
@@ -807,7 +610,7 @@ Version:
 
 | positionID Length | newPositionID Length | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-| p > 12 | n > 12 | Invalid | T1("1111222233334","1111222244445";error) |
+| p > 12 | n > 12 | Invalid | T1("1111222233334","1111222244445";error) | testChangePosition
 || n < 12 | Invalid | T2("1111222233334","11112222444";error) |
 || n = 12 | Invalid | T3("1111222233334","111122224444";error) |
 | p < 12 | n > 12 | Invalid | T4("11112222333","1111222244445";error) |
@@ -825,7 +628,7 @@ Version:
 
 **Criteria for method *deletePosition*:**
 	
-
+Checks are done on the upper layer:
  - Position ID Length
 
 
@@ -855,481 +658,9 @@ Version:
 
 | Position ID Length | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-| p > 12 | Invalid | T1("1111222233334";error) |
+| p > 12 | Invalid | T1("1111222233334";error) | testDeletePosition
 | p < 12 | Invalid | T2("11112222333";error) |
 | p = 12 | Valid | T3("111122223333";Position Deleted) |
-
-
-
-
-
-  ### **Class *RestockOrderDB* - method *getRestockOrder***
-
-
-
-**Criteria for method *getRestockOrder*:**
-	
-
- - Restock Order ID
-
-
-
-**Predicates for method *getRestockOrder*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Restock Order ID     |     i >= 0      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Restock Order ID     |        i >= 0         |
-|          |        i < 0         |
-
-
-
-**Combination of predicates**:
-
-
-| Restock Order ID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| i >= 0 | Valid | T1(1111;Restock Order Returned) |  |
-| i < 0 | Invalid | T2(-1111;error) |  |
-
-
-
-
-  ### **Class *RestockOrderDB* - method *createRestockOrder***
-
-
-
-**Criteria for method *createRestockOrder*:**
-	
-
- - Issue Date
- - Products
- - Supplier ID
-
-
-
-**Predicates for method *createRestockOrder*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Issue Date     |     WF      |
-|     Products     |     WF      |
-|     Supplier ID     |     i >= 0      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Issue Date     |     WF      |
-|          |        not WF         |
-|     Products     |     WF      |
-|          |       not WF         |
-|     Supplier ID     |     i >= 0      |
-|          |        i < 0         |
-
-
-
-
-**Combination of predicates**:
-
-
-| Issue Date | Products | Supplier ID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|-------|
-|   WF  |   WF   | i >= 0 | Valid | T1("2021/11/29 09:33",WF,11;Restock Order Created) |  |
-|       |        | i < 0 | Invalid | T1("2021/11/29 09:33",WF,-1;error) |  |
-|       |   not WF   | i >= 0 | Invalid | T1("2021/11/29 09:33",not WF,1;error) |  |
-|       |        | i < 0 | Invalid | T1("2021/11/29 09:33",not WF,-1;error) |  |
-|   not WF  |   WF   | i >= 0 | Valid | T1("2021-11-29 09:33",WF,11;error) |  |
-|       |        | i < 0 | Invalid | T1("2021-11-29 09:33",WF,-1;error) |  |
-|       |   not WF   | i >= 0 | Invalid | T1("2021-11-29 09:33",not WF,1;error) |  |
-|       |        | i < 0 | Invalid | T1("2021-11-29 09:33",not WF,-1;error) |  |
-
-
-
-
-
-  ### **Class *RestockOrderDB* - method *changeState***
-
-
-
-**Criteria for method *changeState*:**
-	
-
- - Restock Order ID
- - New State
-
-
-
-**Predicates for method *changeState*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Restock Order ID     |     i >= 0      |
-|     New State     |      WF      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Restock Order ID     |        i >= 0         |
-|          |        i < 0         |
-|     New State     |        WF         |
-|          |        not WF         |
-
-
-
-
-**Combination of predicates**:
-
-
-| Restock Order ID | New State | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|
-| i >= 0 | WF | Valid | T1(1111;State Changed) |  |
-|        | not WF | Invalid | T2(1111;error) |  |
-| i < 0 | WF | Invalid | T3(-1111;error) |  |
-|       | not WF | Invalid | T4(1111;error) |  |
-
-
-
-
-  ### **Class *RestockOrderDB* - method *addSKUItems***
-
-
-
-**Criteria for method *addSKUItems*:**
-	
-
- - Restock Order ID
- - SKU Items
- - Restock Order
-
-
-
-**Predicates for method *addSKUItems*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Restock Order ID     |     i >= 0      |
-|     SKU Items     |     WF      |
-|     Restock Order     |     WF      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Restock Order ID     |        i >= 0         |
-|          |        i < 0         |
-|     SKU Items     |        WF         |
-|          |        not WF         |
-|     Restock Order     |        WF         |
-|          |        not WF         |
-
-
-
-**Combination of predicates**:
-
-
-| SKU Items | Restock Order | Restock Order ID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|-------|
-|   WF  |   WF   | i >= 0 | Valid | T1(WF,WF,11;SKU Item Added) |  |
-|       |        | i < 0 | Invalid | T1(WF,WF,-1;error) |  |
-|       |   not WF   | i >= 0 | Invalid | T1(WF,not WF,1;error) |  |
-|       |        | i < 0 | Invalid | T1(WF,not WF,-1;error) |  |
-|   not WF  |   WF   | i >= 0 | Valid | T1(not WF,WF,11;error) |  |
-|       |        | i < 0 | Invalid | T1(not WF,WF,-1;error) |  |
-|       |   not WF   | i >= 0 | Invalid | T1(not WF,not WF,1;error) |  |
-|       |        | i < 0 | Invalid | T1(not WF,not WF,-1;error) |  |
-
-
-
-
-
-  ### **Class *RestockOrderDB* - method *addTransportNote***
-
-
-
-**Criteria for method *addTransportNote*:**
-	
-
- - Restock Order ID
- - Transport Note
-
-
-
-**Predicates for method *addTransportNote*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Restock Order ID     |     i >= 0      |
-|     Transport Note     |      WF      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Restock Order ID     |        i >= 0         |
-|          |        i < 0         |
-|     Transport Note     |        WF         |
-|          |        not WF         |
-
-
-
-**Combination of predicates**:
-
-
-| Restock Order ID | Transport Note | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|
-| i >= 0 | WF | Valid | T1(11,WF;Transport Note Added) |  |
-|        | not WF | Invalid | T2(11, not WF;error) |  |
-| i < 0 | WF | Invalid | T3(-11,WF;error) |  |
-|       | not WF | Invalid | T4(-11, not WF;error) |  |
-
-
-
-
- ### **Class *RestockOrderDB* - method *deleteRestockOrder***
-
-
-
-**Criteria for method *deleteRestockOrder*:**
-	
-
- - Range of ID
-
-
-
-**Predicates for method *deleteRestockOrder*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Range of ID     |     i >= 0      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Range of ID     |        i >= 0         |
-|          |        i < 0         |
-
-
-
-**Combination of predicates**:
-
-
-| Range of ID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| i >= 0 | Valid | T1("1111";Restock Order Deleted) |
-| i < 0 | Invalid | T2(-1111;error) |
-
-
-
-
-  ### **Class *ReturnOrdersDB* - method *getReturnOrder***
-
-
-
-**Criteria for method *getReturnOrder*:**
-	
-
- - Return Order ID
-
-
-
-**Predicates for method *getReturnOrder*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Return Order ID     |     i >= 0      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Return Order ID     |        i >= 0         |
-|          |        i < 0         |
-
-
-
-**Combination of predicates**:
-
-
-| Return Order ID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| i >= 0 | Valid | T1(1111;Return Order Returned) |  |
-| i < 0 | Invalid | T2(-1111;error) |  |
-
-
-
-
- ### **Class *ReturnOrdersDB* - method *createReturnOrder***
-
-
-
-**Criteria for method *createReturnOrder*:**
-	
-
- - Return Date
- - Products
- - Restock Order ID
-
-
-
-**Predicates for method *createReturnOrder*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Return Date     |     WF      |
-|     Products     |     WF      |
-|     Restock Order ID     |     i >= 0      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Return Date     |     WF      |
-|          |        not WF         |
-|     Products     |     WF      |
-|          |       not WF         |
-|     Restock Order ID     |     i >= 0      |
-|          |        i < 0         |
-
-
-
-
-**Combination of predicates**:
-
-
-| Return Date | Products | Restock Order ID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|-------|
-|   WF  |   WF   | i >= 0 | Valid | T1("2021/11/29 09:33",WF,11;Return Order Created) |  |
-|       |        | i < 0 | Invalid | T1("2021/11/29 09:33",WF,-1;error) |  |
-|       |   not WF   | i >= 0 | Invalid | T1("2021/11/29 09:33",not WF,1;error) |  |
-|       |        | i < 0 | Invalid | T1("2021/11/29 09:33",not WF,-1;error) |  |
-|   not WF  |   WF   | i >= 0 | Valid | T1("2021-11-29 09:33",WF,11;error) |  |
-|       |        | i < 0 | Invalid | T1("2021-11-29 09:33",WF,-1;error) |  |
-|       |   not WF   | i >= 0 | Invalid | T1("2021-11-29 09:33",not WF,1;error) |  |
-|       |        | i < 0 | Invalid | T1("2021-11-29 09:33",not WF,-1;error) |  |
-
-
-
-
- ### **Class *ReturnOrderDB* - method *deleteReturnOrder***
-
-
-
-**Criteria for method *deleteReturnOrder*:**
-	
-
- - Range of ID
-
-
-
-**Predicates for method *deleteReturnOrder*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Range of ID     |     i >= 0      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Range of ID     |        i >= 0         |
-|          |        i < 0         |
-
-
-
-**Combination of predicates**:
-
-
-| Range of ID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| i >= 0 | Valid | T1("1111";Return Order Deleted) |
-| i < 0 | Invalid | T2(-1111;error) |
-
-
-
-
- ### **Class *SKUsDB* - method *getSKUById***
-
-
-
-**Criteria for method *getSKUById*:**
-	
-
- - SKU ID
-
-
-
-**Predicates for method *getSKUById*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     SKU ID     |     i >= 0      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     SKU ID     |        i >= 0         |
-|          |        i < 0         |
-
-
-
-**Combination of predicates**:
-
-
-| SKU ID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| i >= 0 | Valid | T1("1111";SKU Returned) |  |
-| i < 0 | Invalid | T2(-1111;error) |  |
-
-
 
 
  ### **Class *SKUsDB* - method *createSKU***
@@ -1338,7 +669,7 @@ Version:
 
 **Criteria for method *createSKU*:**
 	
-
+Checks are done on the upper layer:
  - Description
  - Weight
  - Volume
@@ -1389,7 +720,7 @@ Version:
 
 | Description | Weight | Volume | Notes | Price | Available Quantity | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|-------|-------|-------|
-|   WF  | w >= 0 | v >= 0 |   WF   | p >= 0 | q >= 0 | Valid | T1(WF,1,2,WF,3,4;SKU Created) |  |
+|   WF  | w >= 0 | v >= 0 |   WF   | p >= 0 | q >= 0 | Valid | T1(WF,1,2,WF,3,4;SKU Created) | testNewSKU |
 |       |        |        |        |        | q < 0 | Invalid | T2(WF,1,2,WF,3,-4;error) |  |
 |       |        |        |        | p < 0 | q >= 0 | Invalid | T3(WF,1,2,WF,-3,4;error) |  |
 |       |        |        |        |        | q < 0 | Invalid | T4(WF,1,2,WF,-3,-4;error) |  |
@@ -1463,7 +794,7 @@ Version:
 
 **Criteria for method *getSKUById*:**
 	
-
+Checks are done on the upper layer:
  - SKU ID
  - Position ID
 
@@ -1496,7 +827,7 @@ Version:
 
 | SKU ID |Position ID| Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-| i >= 0 | p > 0 | Valid | T1(1111,22;SKU Position Set) |  |
+| i >= 0 | p > 0 | Valid | T1(1111,22;SKU Position Set) | testGetSKU |
 |       | p <= 0 | Invalid | T2(-1111,-2;error) |  |
 | i < 0 | p > 0 | Invalid | T2(-1111,22;error) |  |
 |       | p <= 0 | Invalid | T2(-1111,-2;error) |  |
@@ -1509,7 +840,7 @@ Version:
 
 **Criteria for method *deleteSKU*:**
 	
-
+Checks are done on the upper layer:
  - Range of ID
 
 
@@ -1538,274 +869,8 @@ Version:
 
 | Range of ID | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-| i >= 0 | Valid | T1(1111;SKU Deleted) |
+| i >= 0 | Valid | T1(1111;SKU Deleted) | testDeleteSKU
 | i < 0 | Invalid | T2(-1111;error) |
-
-
-
-
-  ### **Class *SKUItemsDB* - method *getAvailableSKUItemsBySKUId***
-
-
-
-**Criteria for method *getAvailableSKUItemsBySKUId*:**
-	
-
- - SKU ID
-
-
-
-**Predicates for method *getAvailableSKUItemsBySKUId*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     SKU ID     |     i >= 0      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     SKU ID     |        i >= 0         |
-|          |        i < 0         |
-
-
-
-**Combination of predicates**:
-
-
-| SKU ID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| i >= 0 | Valid | T1("1111";Available SKU Item Returned) |  |
-| i < 0 | Invalid | T2(-1111;error) |  |
-
-
-
-
-  ### **Class *SKUItemsDB* - method *getSKUItemByRFID***
-
-
-
-**Criteria for method *getSKUItemByRFID*:**
-	
-
- - RFID Length
-
-
-
-**Predicates for method *getSKUItemByRFID*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     RFID Length     |     r = 32      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     RFID Length     |        r = 32         |
-|          |        r != 32         |
-
-
-
-**Combination of predicates**:
-
-
-| RFID Length | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| r = 32 | Valid | T1(11111111222222223333333344444444;SKU Item Returned) |  |
-| r != 32 | Invalid | T2(1111;error) |  |
-
-
-
- ### **Class *SKUItemsDB* - method *createSKUItem***
-
-
-
-**Criteria for method *createSKUItem*:**
-	
-
- - RFID Length
- - SKUId
- - Availability
- - Stock Date
-
-
-
-**Predicates for method *createSKUItem*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     RFID Length     |     WF      |
-|     SKUId     |     s >= 0      |
-|     Availability     |     true      |
-|     Stock Date     |     WF      |
-
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     RFID Length     |     WF      |
-|          |        not WF         |
-|     SKUId     |     s >= 0      |
-|          |       s < 0         |
-|     Availability     |     true      |
-|          |        false         |
-|     Stock Date     |     WF      |
-|          |     not WF      |
-
-
-
-
-
-
-**Combination of predicates**:
-
-
-| RFID Length | SKUId | Availability | Stock Date | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|-------|-------|
-|  WF | s >= 0 | true | WF |  Valid | T1(WF,11,true,WF;SKU Item Created) |  |
-|         |        |      | not WF |  Invalid | T1(WF,11,true,not WF;error) |  |
-|         |        | false | WF |  Invalid | T1(WF,11,false,WF;error) |  |
-|         |        |       | not WF |  Invalid | T1(WF,11,false,not WF;error) |  |
-|         | s < 0 | true | WF |  Valid | T1(WF,-11,true,WF;error) |  |
-|         |        |      | not WF |  Invalid | T1(WF,-11,true,not WF;error) |  |
-|         |        | false | WF |  Invalid | T1(WF,-11,false,WF;error) |  |
-|         |        |       | not WF |  Invalid | T1(WF,-11,false,not WF;error) |  |
-|  not WF | s >= 0 | true | WF |  Valid | T1(not WF,11,true,WF;SKU Item Created) |  |
-|         |        |      | not WF |  Invalid | T1(not WF,11,true,not WF;error) |  |
-|         |        | false | WF |  Invalid | T1(not WF,11,false,WF;error) |  |
-|         |        |       | not WF |  Invalid | T1(not WF,11,false,not WF;error) |  |
-|         | s < 0 | true | WF |  Valid | T1(not WF,-11,true,WF;error) |  |
-|         |        |      | not WF |  Invalid | T1(not WF,-11,true,not WF;error) |  |
-|         |        | false | WF |  Invalid | T1(not WF,-11,false,WF;error) |  |
-|         |        |       | not WF |  Invalid | T1(not WF,-11,false,not WF;error) |  |
-
-
-
-
- ### **Class *SKUItemsDB* - method *modifySKUItem***
-
-
-
-**Criteria for method *modifySKUItem*:**
-	
-
- - New RFID Length
- - New Availability
- - New Stock Date
- - Old RFID Length
-
-
-
-**Predicates for method *modifySKUItem*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Neww RFID Length     |     WF      |
-|     New Availability     |     true      |
-|     New Stock Date     |     s >= 0      |
-|     Old RFID Length     |     WF      |
-
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     New RFID Length     |     WF      |
-|          |        not WF         |
-|     New Availability     |     true      |
-|          |        false         |
-|     New Stock Date     |     WF      |
-|          |     not WF      |
-|     Old RFID Length     |     WF      |
-|          |       not WF        |
-
-
-
-
-
-
-**Combination of predicates**:
-
-
-| New RFID Length | Old RFID Length | New Availability | New Stock Date | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|-------|-------|
-|  WF | WF | true | WF |  Valid | T1(WF,WF,true,WF;SKU Item Created) |  |
-|         |        |      | not WF |  Invalid | T2(WF,WF,true,not WF;error) |  |
-|         |        | false | WF |  Invalid | T3(WF,WF,false,WF;error) |  |
-|         |        |       | not WF |  Invalid | T4(WF,WF,false,not WF;error) |  |
-|         | not WF | true | WF |  Invalid | T5(WF,not WF,true,WF;error) |  |
-|         |        |      | not WF |  Invalid | T6(WF,not WF,true,not WF;error) |  |
-|         |        | false | WF |  Invalid | T7(WF,not WF,false,WF;error) |  |
-|         |        |       | not WF |  Invalid | T8(WF,not WF,false,not WF;error) |  |
-|  not WF | WF | true | WF |  Invalid | T9(not WF,WF,true,WF;error) |  |
-|         |        |      | not WF |  Invalid | T10(not WF,WF,true,not WF;error) |  |
-|         |        | false | WF |  Invalid | T11(not WF,WF,false,WF;error) |  |
-|         |        |       | not WF |  Invalid | T12(not WF,WF,false,not WF;error) |  |
-|         | not WF | true | WF |  Invalid | T13(not WF,not WF,true,WF;error) |  |
-|         |        |      | not WF |  Invalid | T14(not WF,not WF,true,not WF;error) |  |
-|         |        | false | WF |  Invalid | T15(not WF,not WF,false,WF;error) |  |
-|         |        |       | not WF |  Invalid | T16(not WF,not WF,false,not WF;error) |  |
-
-
-
-
-  ### **Class *SKUItemsDB* - method *deleteSKUItem***
-
-
-
-**Criteria for method *deleteSKUItem*:**
-	
-
- - RFID Length
-
-
-
-**Predicates for method *deleteSKUItem*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     RFID Length     |     r = 32      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     RFID Length     |        r = 32         |
-|          |        r != 32         |
-
-
-
-**Combination of predicates**:
-
-
-| RFID Length | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| r = 32 | Valid | T1(11111111222222223333333344444444;SKU Item Deleted) |  |
-| r != 32 | Invalid | T2(1111;error) |  |
-
-
 
 
 
@@ -1815,7 +880,7 @@ Version:
 
 **Criteria for method *createTestDescriptor*:**
 	
-
+Checks are done on the upper layer:
  - Test Descriptor Name
  - Procedure Description
  - SKU ID
@@ -1852,7 +917,7 @@ Version:
 
 | Test Descriptor Name | Procedure Description | SKU ID | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|-------|
-| Ascii | Ascii | i >= 0 | Valid | T1(11,"name","descriptor",22; Test Descriptor Created) |  |
+| Ascii | Ascii | i >= 0 | Valid | T1(11,"name","descriptor",22; Test Descriptor Created) | testNewTestDescriptor |
 |       |       | i < 0 | Invalid | T2(11,"name","descriptor",-2; error) |  |
 |       | not Ascii | i >= 0 | Invalid | T3(11,"name","££",22; error) |  
 |       |       | i < 0 | Invalid | T4(11,"name","££",-2; error) |  |
@@ -1870,7 +935,7 @@ Version:
 
 **Criteria for method *getTestDescriptor*:**
 	
-
+Checks are done on the upper layer:
  - Range of ID
 
 
@@ -1899,7 +964,7 @@ Version:
 
 | Range of ID | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-| i >= 0 | Valid | T1("11";Test Descriptor Returned) |  |
+| i >= 0 | Valid | T1("11";Test Descriptor Returned) | testGetTestDescriptor |
 | i < 0 | Invalid | T2("-11";error) |  |
 
 
@@ -1910,7 +975,7 @@ Version:
 
 **Criteria for method *changeName*:**
 	
-
+Checks are done on the upper layer:
  - Test Descriptor ID
  - Test Descriptor Name
 
@@ -1944,7 +1009,7 @@ Version:
 
 | Test Descriptor ID | Test Descriptor Name | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-| i >= 0 | Ascii | Valid | T1("11";Name Changed) |  |
+| i >= 0 | Ascii | Valid | T1("11";Name Changed) | testChangeName |
 |        | not Ascii | Invalid | T2("11"و"¢¢";error) |  |
 | i < 0 | Ascii | Invalid | T3("-1";error) |  |
 |        | not Ascii | Invalid | T4("-1"و"¢¢";error) |  |
@@ -1957,7 +1022,7 @@ Version:
 
 **Criteria for method *changeProcedure*:**
 	
-
+Checks are done on the upper layer:
  - Test Descriptor ID
  - Procedure Description
 
@@ -1990,7 +1055,7 @@ Version:
 
 | Test Descriptor ID | Procedure Description | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-| i >= 0 | Ascii | Valid | T1("11","ProDes";Procedure Changed) |  |
+| i >= 0 | Ascii | Valid | T1("11","ProDes";Procedure Changed) | testChangeProcedure |
 |        | not Ascii | Invalid | T2("11";error) |  |
 | i < 0 | Ascii | Invalid | T3("-1","ProDes";error) |  |
 |        | not Ascii | Invalid | T4("-1";error) |  |
@@ -2004,7 +1069,7 @@ Version:
 
 **Criteria for method *changeIdSKU*:**
 	
-
+Checks are done on the upper layer:
  - Range of ID
  - SKU ID Range
 
@@ -2037,7 +1102,7 @@ Version:
 
 | Test Descriptor ID | SKU ID Range | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-| i >= 0 | i >= 0 | Valid | T1(11,22;SKU ID Changed) |  |
+| i >= 0 | i >= 0 | Valid | T1(11,22;SKU ID Changed) | testChangeIdSKU |
 |        | i < 0 | Invalid | T2(11,-2;error) |  |
 | i < 0 | i >= 0 | Invalid | T3(-11,22;error) |  |
 |        | i < 0 | Invalid | T4(-11,-2;error) |  |
@@ -2050,7 +1115,7 @@ Version:
 
 **Criteria for method *deleteIdSKU*:**
 	
-
+Checks are done on the upper layer:
  - Range of ID
 
 
@@ -2079,570 +1144,9 @@ Version:
 
 | Range of ID | Valid/Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-| i >= 0 | Valid | T1(1111;SKU ID Deleted) |
+| i >= 0 | Valid | T1(1111;SKU ID Deleted) | testDeleteTestDescriptor
 | i < 0 | Invalid | T2(-1111;error) |
 
-
-
-
- ### **Class *TestResultDB* - method *createTestResult***
-
-
-
-**Criteria for method *createTestResult*:**
-	
-
- - RFID Length
- - Test Descriptor ID
- - Test Result
- - Test Date
-
-
-
-**Predicates for method *createTestResult*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     RFID Length     |     WF      |
-|     Test Descriptor ID     |     t >= 0      |
-|     Test Result     |     true      |
-|     Test Date     |     WF      |
-
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     RFID Length     |     WF      |
-|          |        not WF         |
-|     Test Descriptor ID     |     t >= 0      |
-|          |       t < 0         |
-|     Test Result     |     true      |
-|          |        false         |
-|     Test Date     |     WF      |
-|          |     not WF      |
-
-
-
-
-
-**Combination of predicates**:
-
-
-| RFID Length | Test Descriptor ID | Test Result | Test Date | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|-------|-------|
-|  WF | t >= 0 | true | WF |  Valid | T1(WF,11,true,WF;Test Result Created) |  |
-|         |        |      | not WF |  Invalid | T2(WF,11,true,not WF;error) |  |
-|         |        | false | WF |  Invalid | T3(WF,11,false,WF;error) |  |
-|         |        |       | not WF |  Invalid | T4(WF,11,false,not WF;error) |  |
-|         | t < 0 | true | WF |  Invalid | T5(WF,-11,true,WF;error) |  |
-|         |        |      | not WF |  Invalid | T6(WF,-11,true,not WF;error) |  |
-|         |        | false | WF |  Invalid | T7(WF,-11,false,WF;error) |  |
-|         |        |       | not WF |  Invalid | T8(WF,-11,false,not WF;error) |  |
-|  not WF | t >= 0 | true | WF |  Invalid | T9(not WF,11,true,WF;error) |  |
-|         |        |      | not WF |  Invalid | T10(not WF,11,true,not WF;error) |  |
-|         |        | false | WF |  Invalid | T11(not WF,11,false,WF;error) |  |
-|         |        |       | not WF |  Invalid | T12(not WF,11,false,not WF;error) |  |
-|         | t < 0 | true | WF |  Invalid | T13(not WF,-11,true,WF;error) |  |
-|         |        |      | not WF |  Invalid | T14(not WF,-11,true,not WF;error) |  |
-|         |        | false | WF |  Invalid | T15(not WF,-11,false,WF;error) |  |
-|         |        |       | not WF |  Invalid | T16(not WF,-11,false,not WF;error) |  |
-
-
-
-
-  ### **Class *TestResultDB* - method *getTestResultsByRfid***
-
-
-
-**Criteria for method *getTestResultsByRfid*:**
-	
-
- - RFID Length
-
-
-
-**Predicates for method *getTestResultsByRfid*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     RFID Length     |     r = 32      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     RFID Length     |        r = 32         |
-|          |        r != 32         |
-
-
-
-**Combination of predicates**:
-
-
-| RFID Length | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| r = 32 | Valid | T1(11111111222222223333333344444444;Test Result Returned) |  |
-| r != 32 | Invalid | T2(1111;error) |  |
-
-
-
-  ### **Class *TestResultDB* - method *getTestResultsByIdAndRfid***
-
-
-
-**Criteria for method *getTestResultsByIdAndRfid*:**
-	
-
- - Test Result ID
- - RFID
-
-
-
-**Predicates for method *getTestResultsByIdAndRfid*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Test Result ID     |     t >= 0      |
-|     RFID     |     r = 32      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Test Result ID     |        t >= 0         |
-|          |        t < 0         |
-|     RFID     |        r = 0         |
-|          |        r != 0         |
-
-
-
-**Combination of predicates**:
-
-
-| Test Result ID | RFID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|
-| t >= 0 | r = 32 | Valid | T1(11,11111111222222223333333344444444;Test Result Returned) |  |
-|       | r != 32 | Invalid | T2(11,1111111122222222333333334444;error) |  |
-| t < 0 | r = 32 | Invalid | T3(-11,11111111222222223333333344444444;error) |  |
-|       | r != 32 | Invalid | T4(-11,1111111122222222333333334444;error) |  |
-
-
-
- ### **Class *TestResultDB* - method *changeTestResult***
-
-
-
-**Criteria for method *changeTestResult*:**
-	
-
- - RFID Length
- - Test Descriptor ID
- - New Test Descriptor ID
- - Test Result
- - Test Date
-
-
-
-**Predicates for method *changeTestResult*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     RFID Length     |     WF      |
-|     Test Descriptor ID     |     t >= 0      |
-|     New Test Descriptor ID     |     n >= 0      |
-|     Test Result     |     true      |
-|     Test Date     |     WF      |
-
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     RFID Length     |     WF      |
-|          |        not WF         |
-|     Test Descriptor ID     |     n >= 0      |
-|          |       n < 0         |
-|     New Test Descriptor ID     |     n >= 0      |
-|          |       n < 0         |
-|     Test Result     |     true      |
-|          |        false         |
-|     Test Date     |     WF      |
-|          |     not WF      |
-
-
-
-
-
-**Combination of predicates**:
-
-
-| RFID Length | Test Descriptor ID | New Test Descriptor ID | Test Result | Test Date | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|-------|-------|-------|
-|  WF | t >= 0 | n >= 0 | true | WF |  Valid | T1(WF,11,22,true,WF;Test Result Created) |  |
-|         |        |    |      | not WF |  Invalid | T2(WF,11,22,true,not WF;error) |  |
-|         |        |    | false | WF |  Invalid | T3(WF,11,22,false,WF;error) |  |
-|         |        |    |       | not WF |  Invalid | T4(WF,11,22,false,not WF;error) |  |
-|     |        | n < 0 | true | WF |  Invalid | T1(WF,11,-22,true,WF;error) |  |
-|         |        |    |      | not WF |  Invalid | T2(WF,11,-22,true,not WF;error) |  |
-|         |        |    | false | WF |  Invalid | T3(WF,11,-22,false,WF;error) |  |
-|         |        |    |       | not WF |  Invalid | T4(WF,11,-22,false,not WF;error) |  |
-|     | t < 0 | n >= 0 | true | WF |  Invalid | T1(WF,-11,22,true,WF;error) |  |
-|         |        |    |      | not WF |  Invalid | T2(WF,-11,22,true,not WF;error) |  |
-|         |        |    | false | WF |  Invalid | T3(WF,-11,22,false,WF;error) |  |
-|         |        |    |       | not WF |  Invalid | T4(WF,-11,22,false,not WF;error) |  |
-|     |        | n < 0 | true | WF |  Invalid | T1(WF,-11,-22,true,WF;error) |  |
-|         |        |    |      | not WF |  Invalid | T2(WF,-11,-22,true,not WF;error) |  |
-|         |        |    | false | WF |  Invalid | T3(WF,-11,-22,false,WF;error) |  |
-|         |        |    |       | not WF |  Invalid | T4(WF,-11,-22,false,not WF;error) |  |
-|  not WF | t >= 0 | n >= 0 | true | WF |  Invalid | T1(not WF,11,22,true,WF;error) |  |
-|         |        |    |      | not WF |  Invalid | T2(not WF,11,22,true,not WF;error) |  |
-|         |        |    | false | WF |  Invalid | T3(not WF,11,22,false,WF;error) |  |
-|         |        |    |       | not WF |  Invalid | T4(not WF,11,22,false,not WF;error) |  |
-|     |        | n < 0 | true | WF |  Invalid | T1(not WF,11,-22,true,WF;error) |  |
-|         |        |    |      | not WF |  Invalid | T2(not WF,11,-22,true,not WF;error) |  |
-|         |        |    | false | WF |  Invalid | T3(not WF,11,-22,false,WF;error) |  |
-|         |        |    |       | not WF |  Invalid | T4(not WF,11,-22,false,not WF;error) |  |
-|     | t < 0 | n >= 0 | true | WF |  Invalid | T1(not WF,-11,22,true,WF;error) |  |
-|         |        |    |      | not WF |  Invalid | T2(not WF,-11,22,true,not WF;error) |  |
-|         |        |    | false | WF |  Invalid | T3(not WF,-11,22,false,WF;error) |  |
-|         |        |    |       | not WF |  Invalid | T4(not WF,-11,22,false,not WF;error) |  |
-|     |        | n < 0 | true | WF |  Invalid | T1(not WF,-11,-22,true,WF;error) |  |
-|         |        |    |      | not WF |  Invalid | T2(not WF,-11,-22,true,not WF;error) |  |
-|         |        |    | false | WF |  Invalid | T3(not WF,-11,-22,false,WF;error) |  |
-|         |        |    |       | not WF |  Invalid | T4(not WF,-11,-22,false,not WF;error) |  |
-
-
-
-  ### **Class *TestResultDB* - method *deleteTestResult***
-
-
-
-**Criteria for method *deleteTestResult*:**
-	
-
- - Test Result ID
- - RFID
-
-
-
-**Predicates for method *deleteTestResult*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Test Result ID     |     t >= 0      |
-|     RFID     |     r = 32      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Test Result ID     |        t >= 0         |
-|          |        t < 0         |
-|     RFID     |        r = 0         |
-|          |        r != 0         |
-
-
-
-**Combination of predicates**:
-
-
-| Test Result ID | RFID | Valid/Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|
-| t >= 0 | r = 32 | Valid | T1(11,11111111222222223333333344444444;Test Result Deleted) |  |
-|       | r != 32 | Invalid | T2(11,1111111122222222333333334444;error) |  |
-| t < 0 | r = 32 | Invalid | T3(-11,11111111222222223333333344444444;error) |  |
-|       | r != 32 | Invalid | T4(-11,1111111122222222333333334444;error) |  |
-
-
-
-  ### **Class *UsersDB* - method *createUser***
-
-
-
-**Criteria for method *createUser*:**
-	
-
- - Username
- - Name
- - Surname
- - Password
- - User Type
-
-
-
-**Predicates for method *createUser*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Username     |     WF      |
-|     Name     |     WF      |
-|     Surname     |     WF     |
-|     Password     |     WF      |
-|     User Type     |     WF      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Username     |     WF      |
-|          |     not WF      |
-|     Name     |     WF      |
-|          |     not WF      |
-|     Surname     |     WF     |
-|          |     not WF     |
-|     Password     |     WF      |
-|          |     not WF      |
-|     User Type     |     WF      |
-|          |     not WF      |
-
-
-
-
-**Combination of predicates**:
-
-
-| Username | Name | Surname | Password | User Type | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|-------|-------|
-| WF | WF | WF | WF | WF | Valid | T1(WF,WF,WF,WF,WF;User Created) |  |
-|    |    |    |    | not WF | Invalid | T2(WF,WF,WF,WF,not WF;error) |  |
-|    |    |    | not WF | WF | Invalid | T3(WF,WF,WF,not WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T4(WF,WF,WF,WF,not WF;error) |  |
-|    |    | not WF | WF | WF | Invalid | T5(WF,WF,not WF,WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T6(WF,WF,not WF,WF,not WF;error) |  |
-|    |    |    | not WF | WF | Invalid | T7(WF,WF,not WF,not WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T8(WF,WF,not WF,WF,not WF;error) |  |
-|    | not WF | WF | WF | WF | Invalid | T9(WF,not WF,WF,WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T10(WF,not WF,WF,WF,not WF;error) |  |
-|    |    |    | not WF | WF | Invalid | T11(WF,not WF,WF,not WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T12(WF,not WF,WF,WF,not WF;error) |  |
-|    |    | not WF | WF | WF | Invalid | T13(WF,not WF,not WF,WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T14(WF,not WF,not WF,WF,not WF;error) |  |
-|    |    |    | not WF | WF | Invalid | T15(WF,not WF,not WF,not WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T16(WF,not WF,not WF,WF,not WF;error) |  |
-| not WF | WF | WF | WF | WF | Invalid | T17(not WF,WF,WF,WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T18(not WF,WF,WF,WF,not WF;error) |  |
-|    |    |    | not WF | WF | Invalid | T19(not WF,WF,WF,not WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T20(not WF,WF,WF,WF,not WF;error) |  |
-|    |    | not WF | WF | WF | Invalid | T21(not WF,WF,not WF,WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T22(not WF,WF,not WF,WF,not WF;error) |  |
-|    |    |    | not WF | WF | Invalid | T23(not WF,WF,not WF,not WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T24(not WF,WF,not WF,WF,not WF;error) |  |
-|    | not WF | WF | WF | WF | Invalid | T25(not WF,not WF,WF,WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T26(not WF,not WF,WF,WF,not WF;error) |  |
-|    |    |    | not WF | WF | Invalid | T27(not WF,not WF,WF,not WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T28(not WF,not WF,WF,WF,not WF;error) |  |
-|    |    | not WF | WF | WF | Invalid | T29(not WF,not WF,not WF,WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T30(not WF,not WF,not WF,WF,not WF;error) |  |
-|    |    |    | not WF | WF | Invalid | T31(not WF,not WF,not WF,not WF,WF;error) |  |
-|    |    |    |    | not WF | Invalid | T32(not WF,not WF,not WF,WF,not WF;error) |  |
-
-
-
-  ### **Class *UsersDB* - method *login***
-
-
-
-**Criteria for method *login*:**
-	
-
- - Username
- - Password
- - User Type
-
-
-
-**Predicates for method *login*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Username     |     WF      |
-|     Password     |     WF      |
-|     User Type     |     WF      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Username     |     WF      |
-|          |     not WF      |
-|     Password     |     WF      |
-|          |     not WF      |
-|     User Type     |     WF      |
-|          |     not WF      |
-
-
-
-
-**Combination of predicates**:
-
-
-| Username | Password | User Type | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|
-| WF | WF | WF | Valid | T1(WF,WF,WF;User Created) |  |
-|    |    | not WF | Invalid | T2(WF,WF,not WF;error) |  |
-|    |  not WF  | WF | Invalid | T3(WF,not WF,WF;error) |  |
-|    |    | not WF | Invalid | T4(WF,WF,not WF;error) |  |
-| not WF | WF | WF | Invalid | T5(WF,WF,WF;error) |  |
-|    |    | not WF | Invalid | T6(WF,WF,not WF;error) |  |
-|    |  not WF  | WF | Invalid | T7(WF,not WF,WF;error) |  |
-|    |    | not WF | Invalid | T8(WF,WF,not WF;error) |  |
-
-
-
-  ### **Class *UsersDB* - method *updateRight***
-
-
-
-**Criteria for method *updateRight*:**
-	
-
- - Username
- - New User Type
-
-
-
-**Predicates for method *updateRight*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Username     |     WF      |
-|     New User Type     |     WF      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Username     |     WF      |
-|          |     not WF      |
-|     New User Type     |     WF      |
-|          |     not WF      |
-
-
-
-
-**Combination of predicates**:
-
-
-| Username | New User Type | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| WF | WF | Valid | T1(WF,WF;Right Updated) |  |
-|    | not WF | Invalid | T2(WF,not WF;error) |  |
-| not WF | WF | Invalid | T3(WF,WF;error) |  |
-|    | not WF | Invalid | T4(WF,not WF;error) |  |
-
-
-
-  ### **Class *UsersDB* - method *deleteUser***
-
-
-
-**Criteria for method *deleteUser*:**
-	
-
- - Username
- - User Type
-
-
-
-**Predicates for method *deleteUser*:**
-
-
-| Criteria | Predicate |
-| -------- | --------- |
-|     Username     |     WF      |
-|     User Type     |     WF      |
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|     Username     |     WF      |
-|          |     not WF      |
-|     User Type     |     WF      |
-|          |     not WF      |
-
-
-
-
-**Combination of predicates**:
-
-
-| Username | User Type | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| WF | WF | Valid | T1(WF,WF;User Deleted) |  |
-|    | not WF | Invalid | T2(WF,not WF;error) |  |
-| not WF | WF | Invalid | T3(WF,WF;error) |  |
-|    | not WF | Invalid | T4(WF,not WF;error) |  |
-
-
-
-
-# White Box Unit Tests
-
-### Test cases definition
-    
-    
-    <Report here all the created Jest test cases, and the units/classes under test >
-    <For traceability write the class and method name that contains the test case>
-
-
-| Unit name | Jest test case |
-|--|--|
-|||
-|||
-||||
-
-### Code coverage report
+# Code coverage report
 
   ![coverage](./Images/coverage.jpg)
-
-
-### Loop coverage analysis
-
-    <Identify significant loops in the units and reports the test cases
-    developed to cover zero, one or multiple iterations >
-
-|Unit name | Loop rows | Number of iterations | Jest test case |
-|---|---|---|---|
-|||||
-|||||
-||||||
-
-
-

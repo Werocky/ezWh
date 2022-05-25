@@ -42,7 +42,7 @@ describe('item test suite', () => {
 
 
 function testNewItem(id, description, price, skuid, supplierId){
-    test('create new item', async () =>{
+    test('create new item and get item by id', async () =>{
         await skuDB.createSKU('description', 10, 10, 'note', 10, 5);
         await itemDB.createItem(id, description, price, skuid, supplierId);
         
