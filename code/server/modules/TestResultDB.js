@@ -102,18 +102,16 @@ class TestResultDB{
     getTestResultsByIdAndRfid(id, rfid){
         return new Promise((resolve, reject) =>{
             const query = 'SELECT id as id, idTestDescriptor as idTestDescriptor, date as date, result as result FROM TESTRESULT WHERE id = ? AND rfid = ?';
-            this.db.get(query, [id, rfid], (err, rows) =>{
+            this.db.get(query, [id, rfid], (err, row) =>{
                 if(err){
                     reject(err);
                     return;
                 }
-                if(!rows){
-                    resolve([]);
+                if(!row){
+                    resolve(null);
                 }else{
-                    let result =[];
-                    rows.forEach(row => {
-                        result.push({id: row.id, idTestDescriptor: row.idTestDescriptor, date: row.date, result: row.result});
-                    });
+                    let result ={id: row.id, idTestDescriptor: row.idTestDescriptor, date: row.date, result: row.result};
+                    resolve(result);
                 }
             });
         });

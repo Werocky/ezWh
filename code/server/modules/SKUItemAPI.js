@@ -6,6 +6,7 @@ const SKU = require('./SKU');
 const SKUItem = require('./SKUItem');
 const Position = require('./Position');
 const PositionDB = require('./PositionDB');
+const TestResultDB = require('./TestResultDB');
 const dayjs = require('dayjs');
 const CustomParseFormat = require('dayjs/plugin/CustomParseFormat');
 const {param,body,validationResult} = require('express-validator');
@@ -133,10 +134,14 @@ module.exports = function(app){
             }
             if(req.body.DateOfStock && !dayjs(req.body.DateOfStock,['YYYY/MM/DD','YYYY/MM/DD HH:mm'],true).isValid())
                 return res.status(422).end();
+            if(!req.params.rfid){
+                return res.status(422).end();
+            }
         let skuItems;
         let skuItem;
         let skus;
         let sku;
+        const rfid = req.params.rfid;
         try{
             skuItems = new SKUItemsDB('WarehouseDB');
             await skuItems.createSKUItemsTable();
@@ -150,6 +155,17 @@ module.exports = function(app){
                 if(!sku)
                     return res.staus(503).end();
                 if(req.body.newAvailable === 1){
+                    const testResults = new TestResultDB('WarehouseDB');
+                    await testResults.createTestResultTable();
+                    const testResultArray = await testResults.getTestResultsByRfid(rfid)
+                    if(testResultArray){
+                        for(let tR of testResultArray){
+                            if(tR.result === false){
+                                await skuItems.modifySKUItem(req.body.newRFID,sku.getId(),0,req.body.newDateOfStock,skuItem.getRfid())
+                                return res.status(200).end();
+                            }
+                        }
+                    }
                     sku.setAvailableQuantity(sku.getAvailableQuantity() + 1);
                 }
                 else

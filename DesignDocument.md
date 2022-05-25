@@ -8,6 +8,9 @@ Date:
 Version:
 
 
+ 1.1 : Updated class diagram, "DatabaseHelper" renamed as "WarehouseDB", "DataImpl" renamed as "server" 
+
+
 # Contents
 
 - [High level design](#package-diagram)
@@ -44,7 +47,7 @@ EzWarehouse backend
 
 
 
-
+The "server" class contains methods that mirror the APIs exposed to the front-end
 # Verification traceability matrix
 
 

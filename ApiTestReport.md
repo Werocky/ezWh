@@ -25,10 +25,7 @@ Version: 0.9
      
 # Integration approach
 
-    The integration approach used is Bottom Up.
-
-Step 1: DB classes tested, which are the interfaces to DB
-Step 2: API class tested using multiple classes test units
+    The integration approach used is Bottom Up: step 1: DB classes tested, which are the interfaces to DB; step 2: API class tested using multiple classes test units
     
 
 
@@ -75,30 +72,30 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 | ----------- | ------------------------------- | ----------- | 
 |  1.1         | FR2.1                             |   newSKU()          |             
 |  1.2         | FR2.1, FR3.1.1                   |   placeSKU()          |             
-| 1.3         |      FR2.1, FR3.1.1                           |     modifySKUWeightAndVolume()        |             
-| 2.1         |     FR3.1.1                            |    createPosition()         |             
-| 2.2         |          FR3.1.1     |             |    changePositionID()         
-| 2.3         |         FR3.1.4                        |     modifyPosition()        | 
+| 1.3         |      FR2.1, FR3.1.1             | modifySKUWeightAndVolume()        |           
+| 2.1         |     FR3.1.1              |    createPosition()      |             
+| 2.2         |          FR3.1.1     |        changePositionID()    | 
+| 2.3         |         FR3.1.4         |     modifyPosition()        | 
 |   2.5           |    FR3.1.2          |     deletePosition()         | 
-|    3.1          |    FR5.1          |     issueRestockOrder()         |            
-|    3.2          |   FR5.1           |     issueRestockOrder()         |            
+|    3.1          |    FR5.1       |     issueRestockOrder()         |            
+|    3.2          |   FR5.1       |     issueRestockOrder()         |            
 |     4.1         |     FR1.1         |      createUser()        |            
-|     4.2         |      FR1.5        |    changeUserRights()          |            
+|     4.2       |      FR1.5        |    changeUserRights()          |            
 |     4.3         |     FR1.2         |    deleteUser()          |            
-|     5.1.1         |     FR5.1, FR5.2, FR5.3, FR5.7, FR5.8, FR5.8.1         |   recordRestockOrderArrival()           |            
-|     5.2         |     FR5.8.2         |    allPositiveResults(), somePositiveSomeNegative()          |            
-|     6.1         |      FR5.9, FR5.10, FR5.11        |   returnFailedItems()           |            
-|      6.2        |      FR5.9, FR5.10, FR5.11         |   returnWrongOrder()           |            
+|     5.1.1 |FR5.1, FR5.2, FR5.3, FR5.7, FR5.8, FR5.8.1|   recordRestockOrderArrival()|            
+|5.2  |FR5.8.2 | allPositiveResults(), somePositiveSomeNegative()    | 
+| 5.3.1 | FR 5.8.2 - 5.8.3 | stockAllSKUItems()    |
+| 5.3.3 |   FR 5.8.2 - 5.8.3 | stockSomeSKUItems()   |  
+|     6.1    |FR5.9, FR5.10, FR5.11|   returnFailedItems()           |            
+|      6.2        |  FR5.9, FR5.10, FR5.11|   returnWrongOrder()    |            
 |      7.1        |     FR1.5         |     login()         |            
 |      7.2        |      FR1.5        |      logout()        |            
 |      9.1        |     FR6.1, FR6.2, FR6.3, FR6.5, FR6.6, FR6.7         |       acceptInternalOrder()       |            
 |      9.2        |     FR6.1, FR6.2, FR6.3, FR6.5, FR6.6, FR6.7         |      rejectInternalOrder()        |            
 |     9.3         |      FR6.1, FR6.2, FR6.3, FR6.5, FR6.6, FR6.7        |    cancelInternalOrder()          |            
 |      10.1        |      FR6.1, FR6.2, FR6.3, FR6.5, FR6.6, FR6.7, FR6.8        |    deliverInternalOrder()          |            
-|       11.1       |      FR7
-        |     createItem()         |            
-|      11.2        |       FR7
-       |      modifyDescriptionAndPrice()        |            
+|       11.1       |      FR7 |     createItem()         |            
+|      11.2        |       FR7 |      modifyDescriptionAndPrice() |              
 |      12.1        |      FR3.2, FR3.2.1, FR3.2.2        |      createTestDescriptor()        |            
 |      12.2        |       FR3.2, FR3.2.1, FR3.2.2       |     updateTestDescriptor()         |            
 |      12.3        |      FR3.2, FR3.2.1, FR3.2.2        |      deleteTestDescriptor()        |            

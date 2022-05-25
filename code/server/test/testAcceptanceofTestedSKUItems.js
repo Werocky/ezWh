@@ -15,7 +15,7 @@ chai.should();
 const app = require('../server');
 var agent = chai.request.agent(app);
 
-describe('test testing of SKU items of a restock order',()=>{
+describe('test acceptance of SKU items of a restock order',()=>{
 
     beforeEach(async ()=>{
 
@@ -54,6 +54,11 @@ describe('test testing of SKU items of a restock order',()=>{
 
     })
 
+    //SCENARIO 5-3-1
+    stockAllSKUItems();
+    //SCENARIO 5-3-3
+    stockSomeSKUItems();
+
     after(async ()=>{
 
         let restockOrders = new RestockOrdersDB('WarehouseDB');
@@ -68,17 +73,11 @@ describe('test testing of SKU items of a restock order',()=>{
         await testResults.deleteAllTestResults();
         let testDescriptors = new TestDescriptorsDB('WarehouseDB');
         await testDescriptors.deleteAllTestDescriptors();
+    })
 })
 
-    //SCENARIO 5-2-1
-    allPositiveResults()
-    //SCENARIO 5-2-3
-    somePositiveSomeNegative()
-})
-
-
-function allPositiveResults(){
-    it('all test results are positive',function(done){
+function stockAllSKUItems(){
+    it('stock all',function(done){
         let rfids = ["12345678901234567890123456789015","12345678901234567890123456789016","12345678901234567890123456789017"]
             let testResult = {rfid: rfids[0], idTestDescriptor: 1, Date: "2021/11/28", Result: true}
             agent.post('/api/skuitems/testResult')
@@ -105,7 +104,32 @@ function allPositiveResults(){
                             agent.put('/api/restockOrder/1')
                             .send({newState: "TESTED"})
                             .then(function(res){
-                                res.status.should.have(200);
+                                res.should.have.status(200);
+                                agent.put('/api/skuitems/' + rfids[0])
+                                .send({newRFID: rfids[0], newAvailable: 1, newDateOfStock: "2021/11/29 12:30"})
+                                .then(function(res){
+                                    res.should.have.status(200);
+                                    agent.put('/api/skuitems/' + rfids[1])
+                                    .send({newRFID: rfids[1], newAvailable: 1, newDateOfStock: "2021/11/29 12:30"})
+                                    .then(function(res){
+                                        res.should.have.status(200);
+                                        agent.put('/api/skuitems/' + rfids[2])
+                                        .send({newRFID: rfids[2], newAvailable: 1, newDateOfStock: "2021/11/29 12:30"})
+                                        .then(function(res){
+                                            res.should.have.status(200);
+                                            agent.get('/api/skuitems/' +rfids[2])
+                                            .then(function(res){
+                                                res.should.have.status(200);
+                                                res.body.Available.should.equal(1);
+                                                agent.put('/api/restockOrder/1')
+                                                .send({newState: "COMPLETED"})
+                                                .then(function(res){
+                                                    res.should.have.status(200);
+                                                })
+                                            })
+                                        })
+                                    })
+                                })
                             })
                         })
                     })   
@@ -118,10 +142,10 @@ function allPositiveResults(){
         })  
 }
 
-function somePositiveSomeNegative(){
-    it('some tests are positive some are negative',function(done){
+function stockSomeSKUItems(){
+    it('stock some',function(done){
         let rfids = ["12345678901234567890123456789015","12345678901234567890123456789016","12345678901234567890123456789017"]
-        let testResult = {rfid: rfids[0], idTestDescriptor: 1, Date: "2021/11/28", Result: true}
+            let testResult = {rfid: rfids[0], idTestDescriptor: 1, Date: "2021/11/28", Result: true}
             agent.post('/api/skuitems/testResult')
             .send(testResult)
             .then(function(res){
@@ -133,7 +157,7 @@ function somePositiveSomeNegative(){
                     res.body.idTestDescriptor.should.equal(1)
                     res.body.Date.should.equal("2021/11/28")
                     res.body.Result.should.equal(true);
-                    let testResult = {rfid: rfids[1], idTestDescriptor: 1, Date: "2021/11/28", Result: false}
+                    let testResult = {rfid: rfids[1], idTestDescriptor: 1, Date: "2021/11/28", Result: true}
                     agent.post('/api/skuitems/testResult')
                     .send(testResult)
                     .then(function(res){
@@ -146,7 +170,31 @@ function somePositiveSomeNegative(){
                             agent.put('/api/restockOrder/1')
                             .send({newState: "TESTED"})
                             .then(function(res){
-                                res.status.should.have(200);
+                                res.should.have.status(200);
+                                agent.put('/api/skuitems/' + rfids[0])
+                                .send({newRFID: rfids[0], newAvailable: 1, newDateOfStock: "2021/11/29 12:30"})
+                                .then(function(res){
+                                    res.should.have.status(200);
+                                    agent.put('/api/skuitems/' + rfids[1])
+                                    .send({newRFID: rfids[1], newAvailable: 1, newDateOfStock: "2021/11/29 12:30"})
+                                    .then(function(res){
+                                        res.should.have.status(200);
+                                        agent.put('/api/skuitems/' + rfids[2])
+                                        .send({newRFID: rfids[2], newAvailable: 1, newDateOfStock: "2021/11/29 12:30"})
+                                        .then(function(res){
+                                           agent.get('/api/skuitems/' +rfids[2])
+                                           .then(function(res){
+                                               res.should.have.status(200);
+                                               res.body.Available.should.equal(0);
+                                               agent.put('/api/restockOrder/1')
+                                               .send({newState: "COMPLETEDRETURN"})
+                                               .then(function(res){
+                                                   res.should.have.status(200);
+                                               })
+                                           })
+                                        })
+                                    })
+                                })
                             })
                         })
                     })   
