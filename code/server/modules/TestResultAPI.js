@@ -64,7 +64,7 @@ module.exports = function(app){
             return res.status(500).end();
         }
         //success, data retrieved
-        return res.stauts(200).json(testResult);
+        return res.stauts(200).json(testResult[0]);
     })
 
 
