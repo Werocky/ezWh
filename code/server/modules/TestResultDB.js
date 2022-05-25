@@ -46,9 +46,12 @@ class TestResultDB{
                     return;
                 }
                 if(!rows){
-                    resolve(null);
-                }else{
-                    resolve(new TestResult(rows.id, rows.idTestDescriptor, rows.date, rows.result));
+                    resolve([]);
+                }else{let result = [];
+                    rows.forEach(row => {
+                        result.push({id: row.id, idTestDescriptor: row.idTestDescriptor, date: row.date, result: row.result});
+                    });
+                    resolve(result);
                 }
             });
         });
@@ -63,9 +66,13 @@ class TestResultDB{
                     return;
                 }
                 if(!rows){
-                    resolve(null);
+                    resolve([]);
                 }else{
-                    resolve(new TestResult(rows.id, rows.idTestDescriptor, rows.date, rows.result));
+                    let result = [];
+                    rows.forEach(row => {
+                        result.push({id: row.id, idTestDescriptor: row.idTestDescriptor, date: row.date, result: row.result});
+                    });
+                    resolve(result);
                 }
             });
         });
@@ -80,13 +87,12 @@ class TestResultDB{
                     return;
                 }
                 if(!rows){
-                    resolve(null);
+                    resolve([]);
                 }else{
                     let result = [];
-                    rows.map(e =>{
-                        let element = new TestResult(rows.id, rows.idTestDescriptor, rows.date, rows.result);
-                        result.push(element);
-                    })
+                    rows.forEach(row => {
+                        result.push({id: row.id, idTestDescriptor: row.idTestDescriptor, date: row.date, result: row.result});
+                    });
                     resolve(result);
                 }
             });
@@ -102,9 +108,12 @@ class TestResultDB{
                     return;
                 }
                 if(!rows){
-                    resolve(null);
+                    resolve([]);
                 }else{
-                    resolve(new TestResult(rows.id, rows.idTestDescriptor, rows.date, rows.result));
+                    let result =[];
+                    rows.forEach(row => {
+                        result.push({id: row.id, idTestDescriptor: row.idTestDescriptor, date: row.date, result: row.result});
+                    });
                 }
             });
         });

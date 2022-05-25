@@ -70,7 +70,6 @@ module.exports = function(app) {
 
     //CREATE A NEW ORDER
     app.post('/api/returnOrder',
-            body('returnDate').matches('/[0-9]{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/'),
             check('products.*.SKUId').isInt({ min: 0}),
             check('products.*.RFID').isLength({ min: 32, max: 32}),
             body('restockOrderId').isInt({ min: 0}),
@@ -86,6 +85,9 @@ module.exports = function(app) {
 
         if (!err.isEmpty()) {
             return res.status(422).json();
+        }
+        if(!req.body.returnDate || !dayjs(req.body.returnDate,['YYYY/MM/DD','YYYY/MM/DD HH:mm'],true).isValid()){
+            return res.status(422).end();
         }
 
         let returnOrders;

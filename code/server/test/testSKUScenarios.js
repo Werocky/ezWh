@@ -36,7 +36,7 @@ describe('test SKU scenarios', () => {
     //SCENARIO 1-1
     newSKU(201, 'a new sku', 100, 50, 'first SKU', 10.99, 2);
     //SCENARIO 1-2
-    placeSKU(200, 1, '800234523412', '8000', '2345', '3412');
+    placeSKU(200, 1, '800234523412', '8002', '3452', '3412');
     //SCENARIO 1-3
     modifySKUWeightAndVolume(200, 1, 10, 12);
 
