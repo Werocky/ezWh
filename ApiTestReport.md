@@ -19,9 +19,9 @@ Version:
 
 
 
-# Dependency graph 
+# Dependency graph
 
-![Dependency graph ](/DependencyGraph.PNG)
+![Dependency graph](/DependencyGraph.PNG)
      
 # Integration approach
 
