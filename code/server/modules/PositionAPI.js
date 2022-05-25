@@ -190,7 +190,6 @@ module.exports = function (app) {
       await positions.deletePosition(id);
     } catch (err) {
       // generic error
-      console.log(err);
       return res.status(503).json(); // Service Unavailable
     }
     return res.status(204).json();

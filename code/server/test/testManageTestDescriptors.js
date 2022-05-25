@@ -10,6 +10,7 @@ chai.use(chaiHttp);
 chai.should();
 
 const app = require('../server');
+const { afterEach } = require('mocha');
 var agent = chai.request.agent(app);
 
 describe("test manage test descriptors scenarios", () => {
@@ -21,9 +22,22 @@ describe("test manage test descriptors scenarios", () => {
         await skuItems.deleteAllSKUItems();
         const skus = new SKUsDB('WarehouseDB');
         await skus.deleteAllSKUs();
-        const positions = new PositionDB('Warehouse');
-        await positions.createPositionTable();
+        const positions = new PositionDB('WarehouseDB');
+        await positions.deleteAllPositions();
     })
+
+    after(async () => {
+        const testDescriptors = new TestDescriptorDB('WarehouseDB');
+        await testDescriptors.deleteAllTestDescriptors();
+        let skuItems = new SKUItemDB('WarehouseDB');
+        await skuItems.deleteAllSKUItems();
+        const skus = new SKUsDB('WarehouseDB');
+        await skus.deleteAllSKUs();
+        const positions = new PositionDB('WarehouseDB');
+        await positions.deleteAllPositions();
+    })
+
+    
 
     //SCENARIO 12-1
     createTestDescriptor(201, "test desc 1", "procedureDescription");

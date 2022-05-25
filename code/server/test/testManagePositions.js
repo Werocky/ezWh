@@ -22,6 +22,17 @@ describe("test manage positions scenarios", () => {
         await positions.deleteAllPositions();
     })
 
+    after(async () => {
+        let skuItems = new SKUItemDB('WarehouseDB');
+        await skuItems.deleteAllSKUItems();
+        let skus = new SKUDB('WarehouseDB');
+        await skus.deleteAllSKUs();
+        const positions = new PositionDB('WarehouseDB');
+        await positions.deleteAllPositions();
+    })
+
+    
+
     //SCENARIO 2-1
     createPosition(201, "800234543412", "8002", "3454", "3412", 1000, 1000);
     //SCENARIO 2-2

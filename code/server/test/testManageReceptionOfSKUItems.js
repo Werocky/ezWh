@@ -2,7 +2,7 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const RestockOrderDB = require('../modules/RestockOrdersDB');
+const RestockOrdersDB = require('../modules/RestockOrdersDB');
 const PositionDB = require('../modules/PositionDB');
 const SKUDB = require('../modules/SKUsDB');
 const SKUItemDB = require('../modules/SKUItemsDB');
@@ -11,7 +11,6 @@ chai.use(chaiHttp);
 chai.should();
 
 const app = require('../server');
-const RestockOrdersDB = require('../modules/RestockOrdersDB');
 var agent = chai.request.agent(app);
 
 describe('test manage reception of SKU items of a restock order', () => {
@@ -28,6 +27,21 @@ describe('test manage reception of SKU items of a restock order', () => {
         await positions.deleteAllPositions();
 
     })
+
+    
+    after(async () => {
+
+        let restockOrders = new RestockOrdersDB('WarehouseDB');
+        await restockOrders.deleteAllRestockOrders();
+        let skuItems = new SKUItemDB('WarehouseDB');
+        await skuItems.deleteAllSKUItems();
+        let skus = new SKUDB('WarehouseDB');
+        await skus.deleteAllSKUs();
+        let positions = new PositionDB('WarehouseDB');
+        await positions.deleteAllPositions();
+    })
+
+    
 
     //SCENARIO 5-1-1
     recordRestockOrderArrival()

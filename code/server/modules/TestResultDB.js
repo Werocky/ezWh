@@ -2,7 +2,7 @@
 
 const TestResult = require('./TestResult');
 
-module.exports = class TestResultDB{
+class TestResultDB{
     sqlite = require('sqlite3');
 
     constructor(dbName){
@@ -135,4 +135,17 @@ module.exports = class TestResultDB{
             });
         });
     }
+
+    deleteAllTestResults(){
+        return new Promise((resolve,reject)=>{
+            this.db.run('DROP TABLE IF EXISTS TESTRESULT;',(err)=>{
+                if(err){
+                    reject(err);
+                    return;
+                }
+                resolve();
+            })
+        })
+    }
 }
+module.exports = TestResultDB;

@@ -199,6 +199,7 @@ class RestockOrdersDB {
         return new Promise((resolve,reject)=>{
             this.db.run('DROP TABLE IF EXISTS RESTOCKORDERS',(err)=>{
                 if(err){
+                    console.log(err);
                     reject(err);
                     return;
                 }

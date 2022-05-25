@@ -16,6 +16,13 @@ describe("test manage users and rights scenarios", () => {
         await users.deleteAllUsers();
     })
 
+    after(async () => {
+        const users = new UsersDB('WarehouseDB');
+        await users.deleteAllUsers();
+    })
+
+   
+
     //SCENARIO 4-1
     createUser(201, "username@gmail.com", "name", "surname", "password99", "clerk");
     //SCENARIO 4-2
