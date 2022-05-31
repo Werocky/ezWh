@@ -1,12 +1,15 @@
 'use strict';
 
 const dayjs = require('dayjs');
+const CustomParseFormat = require('dayjs/plugin/CustomParseFormat');
 const { body, param, check, validationResult } = require('express-validator');
 
 const ReturnOrdersDB = require('./ReturnOrdersDB');
 const ReturnOrder = require('./ReturnOrder');
 
 const RestockOrdersDB = require('./RestockOrdersDB');
+
+dayjs.extend(CustomParseFormat);
 
 let currentUser = undefined;
 

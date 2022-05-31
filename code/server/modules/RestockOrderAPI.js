@@ -1,6 +1,7 @@
 'use strict';
 
 const dayjs = require('dayjs');
+const CustomParseFormat = require('dayjs/plugin/CustomParseFormat');
 const { body, param, check, validationResult } = require('express-validator');
 
 const STATES = ['ISSUED', 'DELIVERY', 'DELIVERED'];
@@ -9,6 +10,8 @@ const RestockOrdersDB = require('./RestockOrdersDB');
 const RestockOrder = require('./RestockOrder');
 const TestResultDB = require('./TestResultDB');
 const SKUDB = require('./SKUsDB');
+
+dayjs.extend(CustomParseFormat);
 
 
 let currentUser = undefined;
@@ -142,11 +145,11 @@ module.exports = function(app) {
         if (!err.isEmpty()) {
             return res.status(422).json();
         }
-        /*
+        
         if(!req.body.issueDate || !dayjs(req.body.issueDate,['YYYY/MM/DD','YYYY/MM/DD HH:mm'],true).isValid()){
             return res.status(422).end();
         }
-        */
+        
         
         let restockOrders;
         try {

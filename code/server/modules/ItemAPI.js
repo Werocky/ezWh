@@ -36,7 +36,7 @@ module.exports=function(app){
         try{
             items = new ItemDB('WarehouseDB');
             await items.createItemTable();
-            item = await item.getItemById(id);
+            item = await items.getItemById(id);
         }
         catch(err){
             return res.status(500).json();
@@ -70,10 +70,10 @@ module.exports=function(app){
             const sku = await skus.getSKUById(req.body.SKUId);
             if(!sku)
                 return res.status(404).end();
-            const alreadySupplies = await alreadySells(req.body.supplierId,req.body.id,req.body.SKUId);
+            const alreadySupplies = await items.alreadySells(req.body.supplierId,req.body.id,req.body.SKUId);
             if(alreadySupplies)
                 return res.status(422).end();
-            await createItem(req.body.id,req.body.description,req.body.price,req.body.SKUId,req.body.supplierId);
+            await items.createItem(req.body.id,req.body.description,req.body.price,req.body.SKUId,req.body.supplierId);
         }
         catch(err){
             return res.status(503).end();

@@ -8,7 +8,7 @@ class UsersDB {
     constructor(dbName) {
         this.db = new this.sqlite.Database(dbName, (err) => {
             if (err) throw err;
-        this.db.run('PRAGMA foreign_keys = ON;');
+        //this.db.run('PRAGMA foreign_keys = ON;');
         });
     }
 

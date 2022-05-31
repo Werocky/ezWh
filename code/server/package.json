@@ -18,9 +18,9 @@
     "nyc": "^15.1.0"
   },
   "scripts": {
-    "apiTest": "./node_modules/.bin/mocha test --timeout 10000 --exit > ./studentApiTestResult.txt",
+    "apiTest": "mocha test --timeout 10000 --exit > ./studentApiTestResult.txt",
     "test": "node_modules/.bin/jest --coverage > ./unitTestResult.txt",
-    "acceptanceTest": "npx mocha --spec acceptanceTest/testEzWhAPI.js --reporter mochawesome",
+    "acceptanceTest": "npx mocha --spec acceptanceTest/testEzWhAPI.js --timeout 10000 --reporter mochawesome",
     "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --timeout 10000 --exit"
 
   }

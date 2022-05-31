@@ -9,13 +9,13 @@ class SKUItemsDB {
         this.db = new this.sqlite.Database(dbName, (err) => {
             if (err) throw err;
         });
-        this.db.run('PRAGMA foreign_keys = ON;');
+        //this.db.run('PRAGMA foreign_keys = ON;');
     }
 
     createSKUItemsTable() {
         return new Promise((resolve, reject) => {
             //Update and delete policy: changes to SKUIds are propagated but an SKU can't be delete as long as a reference to it exists
-            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEMS(RFID VARCHAR(32) PRIMARY KEY, SKUId INTEGER, Available INTEGER, DateOfStock VARCHAR(20), FOREIGN KEY (SKUId) REFERENCES SKUS (ID) ON UPDATE CASCADE ON DELETE RESTRICT);';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEMS(RFID VARCHAR(32) PRIMARY KEY, SKUId INTEGER, Available INTEGER, DateOfStock VARCHAR(20));';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);

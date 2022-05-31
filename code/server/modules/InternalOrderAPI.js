@@ -1,6 +1,7 @@
 'use strict';
 
 const dayjs = require('dayjs');
+const CustomParseFormat = require('dayjs/plugin/CustomParseFormat');
 const { body, param, check, validationResult } = require('express-validator');
 const InternalOrderDB = require("./InternalOrderDB");
 const PositionDB = require('./PositionDB');
@@ -10,7 +11,7 @@ const SKUItemsDB = require('./SKUItemsDB');
 const SKU = require('./SKU');
 
 const STATES = ['ISSUED', 'ACCEPTED', 'REFUSED', 'CANCELED', 'COMPLETED'];
-
+dayjs.extend(CustomParseFormat);
 module.exports = function (app) {
 
     //GET APIs
