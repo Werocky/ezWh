@@ -16,6 +16,7 @@ module.exports = function(app){
         let testDescriptors;
         try {
             testDescriptors = new TestDescriptorDB('WarehouseDB');
+            await testDescriptors.createTestDescriptorTable();
             testDescriptors = await testDescriptors.getTestDescriptors();
         } catch (err) {
             //service unavailable (generic error)
@@ -41,6 +42,7 @@ module.exports = function(app){
         let  testDescriptors;
         try {
             testDescriptors = new TestDescriptorDB('WarehouseDB');
+            await testDescriptors.createTestDescriptorTable();
             testDescriptors = await testDescriptors.getTestDescriptor(req.params.id);
             if(!testDescriptors){
                 //not found, no test descriptor associated to the id = :id
@@ -59,9 +61,9 @@ module.exports = function(app){
 
     //create a new test descriptor
     //request body: name, procedure description and idSKU
-    app.post('/api/testDescriptors',
-            body('name').isAscii(), 
-            body('procedureDescription').isAscii(), 
+    app.post('/api/testDescriptor',
+            body('name').isString().isLength({min:1}), 
+            body('procedureDescription').isString().isLength({min:1}), 
             body('idSKU').isInt({min: 0}),
             async (req, res) =>{
         const err = validationResult(req);
@@ -99,8 +101,8 @@ module.exports = function(app){
     //request body: new name, new procedureDescription, newIdSKU (all optional)
     //request header: id 
     app.put('/api/testDescriptors/:id',
-            body('newName').isAscii(), 
-            body('newProcedureDescription').isAscii(), 
+            body('newName').isString().isLength({min:1}), 
+            body('newProcedureDescription').isString().isLength({min:1}), 
             body('newIdSKU').isInt({min: 0}),
             param('id').isInt(),
             async (req, res) =>{
@@ -117,6 +119,7 @@ module.exports = function(app){
         let oldSku = [];
         try{
             testDescriptors = new TestDescriptorDB('WarehouseDB');
+            await testDescriptors.createTestDescriptorTable();
             testDescriptor = await testDescriptors.getTestDescriptor(req.params.id);
             if(!testDescriptor){
                 //not found, no test descriptor associated to the id = :id

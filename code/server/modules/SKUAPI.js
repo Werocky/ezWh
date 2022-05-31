@@ -77,7 +77,7 @@ module.exports=function(app){
         body('description').isString().isLength({min:1}),
         body('weight').isInt({min: 0}),
         body('volume').isInt({min: 0}),
-        body('notes').isString(),
+        body('notes').isString().isLength({min:1}),
         body('price').isFloat({min: 0}),
         body('availableQuantity').isInt({min: 0})], 
         async (req,res)=>{
@@ -181,7 +181,7 @@ module.exports=function(app){
     }
     app.put('/api/sku/:id/position',[
         param('id').isInt({min: 0}),
-        body('position').isString()],
+        body('position').isString().isLength({min: 12, max:12}),],
     async (req,res)=>{
 
         let id = req.params.id;
