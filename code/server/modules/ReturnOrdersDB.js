@@ -16,7 +16,7 @@ class ReturnOrdersDB {
 
     createReturnOrdersTable() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS RETURNORDERS(ID INTEGER PRIMARY KEY AUTOINCREMENT,returnDate VARCHAR, products VARCHAR, restockOrderId INTEGER)';
+            const sql = 'CREATE TABLE IF NOT EXISTS RETURNORDERS(ID INTEGER PRIMARY KEY,returnDate VARCHAR, products VARCHAR, restockOrderId INTEGER)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);

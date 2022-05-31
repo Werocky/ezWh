@@ -14,7 +14,7 @@ module.exports = class InternalOrderDB{
 
     createInternalTable(){
         return new Promise((resolve, reject) =>{
-            const query = 'CREATE TABLE IF NOT EXISTS INTERNALORDERS(id INTEGER PRIMARY KEY AUTOINCREMENT, issueDate VARCHAR, state VARCHAR, products VARCHAR, customerId INTEGER)';
+            const query = 'CREATE TABLE IF NOT EXISTS INTERNALORDERS(id INTEGER PRIMARY KEY, issueDate VARCHAR, state VARCHAR, products VARCHAR, customerId INTEGER)';
             this.db.run(query, (err) =>{
                 if(err){
                     reject(err);

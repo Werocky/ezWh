@@ -15,7 +15,7 @@ class RestockOrdersDB {
 
     createRestockTable() {
         return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS RESTOCKORDERS(ID INTEGER PRIMARY KEY AUTOINCREMENT,issueDate VARCHAR, state VARCHAR, products VARCHAR, supplierId INTEGER, transportNote VARCHAR, skuItems VARCHAR)';
+            const sql = 'CREATE TABLE IF NOT EXISTS RESTOCKORDERS(ID INTEGER PRIMARY KEY,issueDate VARCHAR, state VARCHAR, products VARCHAR, supplierId INTEGER, transportNote VARCHAR, skuItems VARCHAR)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);

@@ -23,13 +23,23 @@ module.exports = function(app){
             return res.status(422).end();
         }
 
+        let skuItems;
+        let skuItem;
         let testResult;
-        try{
+        try {
+            skuItems = new SKUItemsDB('WarehouseDB');
+            await skuItems.createSKUItemsTable();
+            skuItem = await skuItems.getSKUItemByRFID(req.body.rfid);
+            if (!skuItem) {
+                //no sku item associated to rfid
+                return res.status(404).end();
+            }
             testResult = new TestResultDB('WarehouseDB');
             testResult = await testResult.getTestResultsByRfid(req.params.rfid);
-            if(!testResult)
+            if(!testResult) {
                 //not found, no test result associated to rfid = :rfid
                 return res.status(404).end();
+            }
         }catch(err){
             //service unavailable, generic error
             return res.status(500).end();
@@ -52,8 +62,17 @@ module.exports = function(app){
             return res.status(422).end();
         }
 
+        let skuItems;
+        let skuItem;
         let testResult;
-        try{
+        try {
+            skuItems = new SKUItemsDB('WarehouseDB');
+            await skuItems.createSKUItemsTable();
+            skuItem = await skuItems.getSKUItemByRFID(req.body.rfid);
+            if (!skuItem) {
+                //no sku item associated to rfid
+                return res.status(404).end();
+            }
             testResult = new TestResultDB('WarehouseDB');
             testResult = await testResult.getTestResultsByIdAndRfid(req.param.id, req.param.rfid);
             if(!testResult)
@@ -64,7 +83,7 @@ module.exports = function(app){
             return res.status(500).end();
         }
         //success, data retrieved
-        return res.stauts(200).json(testResult[0]);
+        return res.status(200).json(testResult[0]);
     })
 
 

@@ -203,10 +203,12 @@ module.exports = function(app) {
         try {
             users = new UsersDB('WarehouseDB');
             await users.createUserTable();
+            /* NOT REQUIRED?
             if(!await users.alreadyExists(username, type)) {
                 // user not found
                 return res.status(422).json();
             }
+            */
             await users.deleteUser(username, type);
         } catch (err) {
             // generic error

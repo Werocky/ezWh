@@ -25,7 +25,7 @@ class UsersDB {
 
     createTheUserTable() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS USERS(ID INTEGER PRIMARY KEY AUTOINCREMENT,name VARCHAR, surname VARCHAR, email VARCHAR, password VARCHAR, type VARCHAR)';
+            const sql = 'CREATE TABLE IF NOT EXISTS USERS(ID INTEGER PRIMARY KEY,name VARCHAR, surname VARCHAR, email VARCHAR, password VARCHAR, type VARCHAR)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);

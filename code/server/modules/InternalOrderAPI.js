@@ -115,7 +115,8 @@ module.exports = function (app) {
             if (!err.isEmpty()) {
                 return res.status(422).end();
             }
-            if (req.body.DateOfStock && !dayjs(req.body.DateOfStock, ['YYYY/MM/DD', 'YYYY/MM/DD HH:mm'], true).isValid()) {
+
+            if (!req.body.issueDate || !dayjs(req.body.issueDate, ['YYYY/MM/DD', 'YYYY/MM/DD HH:mm'], true).isValid()) {
                 return res.status(422).end();
             }
 

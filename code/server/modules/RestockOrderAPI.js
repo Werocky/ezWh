@@ -142,9 +142,11 @@ module.exports = function(app) {
         if (!err.isEmpty()) {
             return res.status(422).json();
         }
+        /*
         if(!req.body.issueDate || !dayjs(req.body.issueDate,['YYYY/MM/DD','YYYY/MM/DD HH:mm'],true).isValid()){
             return res.status(422).end();
         }
+        */
         
         let restockOrders;
         try {
@@ -198,6 +200,7 @@ module.exports = function(app) {
 
     //ADD SKUITEMS TO AN ORDER
     app.put('/api/restockOrder/:id/skuItems',
+            check('skuItems').exists(),
             check('skuItems.*.SKUId').isInt({ min: 0}),
             check('skuItems.*.rfid').isLength({min:32, max: 32}),
             param('id').isInt(),
@@ -243,7 +246,7 @@ module.exports = function(app) {
 
     //ADD A TRANSPORT NOTE TO AN ORDER
     app.put('/api/restockOrder/:id/transportNote',
-            check('transportNote.*.deliveryDate').isDate(),
+            //check('transportNote.*.deliveryDate').isDate(),
             param('id').isInt(),
             async (req,res)=>{
         /**Error responses: 
