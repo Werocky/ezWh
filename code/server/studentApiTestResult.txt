@@ -2,70 +2,65 @@ Server listening at http://localhost:3001
 
 
   test manage internal orders creation and acceptance
-    ✔ accepting internal an order (1644ms)
-    ✔ rejecting an internal order (1275ms)
-    ✔ cancelling an internal order (1202ms)
-    ✔ delivering internal an order (1241ms)
+    ✔ accepting internal an order (1181ms)
+    ✔ rejecting an internal order (1175ms)
+    ✔ cancelling an internal order (1219ms)
+    ✔ delivering internal an order (1310ms)
 
   test acceptance of SKU items of a restock order
-    ✔ stock all (211ms)
-    ✔ stock some (192ms)
+    ✔ stock all (265ms)
+    ✔ stock some (285ms)
 
   test issue restock order use cases
-    ✔ issuing a restock order (488ms)
+    ✔ issuing a restock order (417ms)
 
   test manage login and logout scenarios
     ✔ hello
-    ✔ login (1570ms)
-    ✔ logout (1905ms)
+    ✔ login (1830ms)
+    ✔ logout (1950ms)
 
   test item use case
-    ✔ create a new item (1710ms)
-    ✔ change description and price (2004ms)
+    ✔ create a new item (2000ms)
+    1) "before each" hook for "change description and price"
 
   test manage positions scenarios
-    ✔ adding a new position (465ms)
-    ✔ change id of a position (509ms)
-    ✔ changing position data (384ms)
-    ✔ deleting a position (458ms)
+    ✔ adding a new position (388ms)
+    ✔ change id of a position (408ms)
+    ✔ changing position data (489ms)
+    ✔ deleting a position (630ms)
 
   test manage reception of SKU items of a restock order
-    ✔ test recording of restock order arrival (457ms)
-[Error: SQLITE_BUSY: database is locked] {
-  errno: 5,
-  code: 'SQLITE_BUSY'
-}
-    1) "after all" hook for "test recording of restock order arrival"
+    ✔ test recording of restock order arrival (489ms)
 
   test manage test descriptors scenarios
-    ✔ adding a new test descriptor (793ms)
-    ✔ update test descriptor (679ms)
-    ✔ deleting a test descriptor (772ms)
+    ✔ adding a new test descriptor (719ms)
+    ✔ update test descriptor (661ms)
+    ✔ deleting a test descriptor (743ms)
 
   test manage users and rights scenarios
-    ✔ adding a new user (1926ms)
-    ✔ modify user rights (1752ms)
-    ✔ deleting a user (1710ms)
+    ✔ adding a new user (1795ms)
+    ✔ modify user rights (1886ms)
+    ✔ deleting a user (1816ms)
 
   test return order of SKU items use cases
-    ✔ return order of SKU items that failed quality test (206ms)
-    ✔ return order of any SKU items (88ms)
+    ✔ return order of SKU items that failed quality test (108ms)
+    ✔ return order of any SKU items (291ms)
 
   test SKU scenarios
-    ✔ adding a new sku (845ms)
-    ✔ placing an sku (556ms)
-    ✔ changing weight and volume (591ms)
+    ✔ adding a new sku (816ms)
+    ✔ placing an sku (557ms)
+    ✔ changing weight and volume (659ms)
 
   test testing of SKU items of a restock order
-    ✔ all test results are positive (393ms)
-    ✔ some tests are positive some are negative (198ms)
+    ✔ all test results are positive (318ms)
+    ✔ some tests are positive some are negative (318ms)
 
 
-  30 passing (1m)
+  29 passing (1m)
   1 failing
 
-  1) test manage reception of SKU items of a restock order
-       "after all" hook for "test recording of restock order arrival":
+  1) test item use case
+       "before each" hook for "change description and price":
      Error: SQLITE_BUSY: database is locked
   
 

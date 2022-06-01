@@ -78,7 +78,7 @@ module.exports=function(app){
         catch(err){
             return res.status(503).end();
         }
-        return res.status(401).end();
+        return res.status(201).end();
         });
 
         //MODIFY AN ITEM

@@ -156,8 +156,8 @@ module.exports = function(app){
         let testResults
         try{
             testResults = new TestResultDB('WarehouseDB');
-            testResults = await testResults.getTestResultsByIdAndRfid(req.param.id, req.param.rfid);
-            if(Object.keys(testResults).length === 0)
+            const testResult = await testResults.getTestResultsByIdAndRfid(req.param.id, req.param.rfid);
+            if(!testResult)
                 //not found, no test results associated to rfid = :rfid and id = :id
                 return res.status(404).end();
             await testResults.changeTestResult(req.params.id, req.param.rfid, req.body.testDescriptor, req.body.date, req.body.result);
@@ -187,7 +187,11 @@ module.exports = function(app){
 
         let testResults;
         try{
-            testResults = testResults('WarehouseDB');
+            testResults = new TestResultDB('WarehouseDB');
+            const testResult = await testResults.getTestResultsByIdAndRfid(req.params.id,req.params.rfid);
+            if(!testResult){
+                return res.status(404).end();
+            }
             await testResults.deleteTestResult(req.params.id, req.params.rfid);
         }catch(err){
             //service unavailable, generic error

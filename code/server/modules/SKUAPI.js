@@ -217,9 +217,9 @@ module.exports = function (app) {
             await positions.changePosition(position.getPositionID(), position.getAisleID(), position.getRow(), position.getCol(), position.getMaxWeight(), position.getMaxVolume(), 0, 0);
         }
         await skus.deleteSKU(id);
-        let testDescriptors = new TestDescriptorDB('WarehouseDB');
-        let testDescriptor = testDescriptors.getTestDescriptorBySku(id);
-        if (testDescriptor) {
+        //let testDescriptors = new TestDescriptorDB('WarehouseDB');
+        //let testDescriptor = testDescriptors.getTestDescriptorBySku(id);
+        //if (testDescriptor) {
             /*
             let descriptors = testDescriptor.getIdSku();
             let index = descriptors.indexOf(id);
@@ -228,7 +228,7 @@ module.exports = function (app) {
             testDescriptor.setSkuId(descriptors);
             testDescriptors.updateTestDescriptor(testDescriptor);
             */
-        }
+        //}
         return 204;
     }
 
