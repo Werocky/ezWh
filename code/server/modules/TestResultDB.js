@@ -120,7 +120,7 @@ class TestResultDB{
 
     changeTestResult(id, rfid, testDescriptor, date, result){
         return new Promise((resolve, reject) =>{
-            const query = 'UPDATE TESTRESULT SET testDescriptor = ?, date = ?, result = ? WHERE id = ? AND rfid = ?';
+            const query = 'UPDATE TESTRESULT SET idTestDescriptor = ?, date = ?, result = ? WHERE id = ? AND rfid = ?';
             this.db.run(query, [testDescriptor, date, result, id, rfid], (err) =>{
                 if(err){
                     reject(err);

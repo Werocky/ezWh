@@ -39,7 +39,7 @@ module.exports = function (app) {
 
     const getSKUById = async (id) => {
         let skus = new SKUDB('WarehouseDB');
-        await skus.createSKUTable();
+        //await skus.createSKUTable();
         const sku = await skus.getSKUById(id);
         return (sku);
     }
@@ -99,7 +99,7 @@ module.exports = function (app) {
 
     const modifySKU = async (newDescription, newWeight, newVolume, newNotes, newAvailableQuantity, newPrice, newTestDescriptors, id) => {
         let skus = new SKUDB('WarehouseDB');
-        await skus.createSKUTable();
+        //await skus.createSKUTable();
         const sku = await skus.getSKUById(id);
         if (!sku)
             return 404;
@@ -148,13 +148,13 @@ module.exports = function (app) {
 
     const setSKUPosition = async (id, positionId) => {
         let skus = new SKUDB('WarehouseDB');
-        await skus.createSKUTable();
+        //await skus.createSKUTable();
         let sku = await skus.getSKUById(id);
         if (!sku) {
             return 404
         }
         let positions = new PositionDB('WarehouseDB');
-        await positions.createPositionTable();
+        //await positions.createPositionTable();
         if (positionId) {
             let position = await positions.getPosition(positionId);
             if (!position) {
@@ -206,7 +206,7 @@ module.exports = function (app) {
     //DELETE AN SKU
     const deleteSKU = async (id) => {
         let skus = new SKUDB('WarehouseDB');
-        await skus.createSKUTable();
+        //await skus.createSKUTable();
         let sku = await skus.getSKUById(id);
         if (!sku) {
             return 404;

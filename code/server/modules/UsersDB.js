@@ -15,17 +15,17 @@ class UsersDB {
     async createUserTable() {
         await this.createTheUserTable();
         //username, name, surname, password, type
-        await this.createUser('user1@ezwh.com', 'John', 'Dick', 'testpassword', 'customer');
-        await this.createUser('qualityEmployee1@ezwh.com', 'John', 'Dick', 'testpassword', 'qualityEmployee');
-        await this.createUser('clerk1@ezwh.com', 'John', 'Dick', 'testpassword', 'clerk');
-        await this.createUser('deliveryEmployee1@ezwh.com', 'John', 'Dick', 'testpassword', 'deliveryEmployee');
-        await this.createUser('supplier1@ezwh.com', 'John', 'Dick', 'testpassword', 'supplier');
-        await this.createUser('manager1@ezwh.com', 'John', 'Dick', 'testpassword', 'manager');
+        //await this.createUser('user1@ezwh.com', 'John', 'Dick', 'testpassword', 'customer');
+        //await this.createUser('qualityEmployee1@ezwh.com', 'John', 'Dick', 'testpassword', 'qualityEmployee');
+        //await this.createUser('clerk1@ezwh.com', 'John', 'Dick', 'testpassword', 'clerk');
+        //await this.createUser('deliveryEmployee1@ezwh.com', 'John', 'Dick', 'testpassword', 'deliveryEmployee');
+        //await this.createUser('supplier1@ezwh.com', 'John', 'Dick', 'testpassword', 'supplier');
+        //await this.createUser('manager1@ezwh.com', 'John', 'Dick', 'testpassword', 'manager');
     }
 
     createTheUserTable() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS USERS(ID INTEGER PRIMARY KEY,name VARCHAR, surname VARCHAR, email VARCHAR, password VARCHAR, type VARCHAR)';
+            const sql = 'CREATE TABLE IF NOT EXISTS USERS(id INTEGER PRIMARY KEY,name VARCHAR, surname VARCHAR, email VARCHAR, password VARCHAR, type VARCHAR)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -39,13 +39,13 @@ class UsersDB {
 
     async alreadyExists(username, type) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) AS count FROM USERS WHERE email=? AND type=?';
+            const sql = 'SELECT * FROM USERS WHERE email=? AND type=?';
             this.db.get(sql, [username, type], (err, row) => {
                 if (err) {
                     reject(err);
                     return;
                 } else {
-                    resolve(row.count > 0);
+                    resolve(row);
                 }
             });
         });
@@ -60,12 +60,12 @@ class UsersDB {
                     return;
                 }
                 if (!rows) {
-                    resolve(null);
+                    resolve([]);
                 }
                 else {
                     let users = [];
                     rows.forEach(row => {
-                        users.push({id: row.id, name: row.name, surname: row.surname, email: row.username, type: row.type});
+                        users.push({id: row.id, name: row.name, surname: row.surname, email: row.email, type: row.type});
                     });
                     resolve(users);
                 }
@@ -82,12 +82,12 @@ class UsersDB {
                     return;
                 }
                 if (!rows) {
-                    resolve(null);
+                    resolve([]);
                 }
                 else {
                     let users = [];
                     rows.forEach(row => {
-                        users.push({id: row.id, name: row.name, surname: row.surname, email: row.username});
+                        users.push({id: row.id, name: row.name, surname: row.surname, email: row.email});
                     });
                     resolve(users);
                 }

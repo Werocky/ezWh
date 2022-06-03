@@ -100,9 +100,10 @@ class RestockOrdersDB {
         let skuItemsDB = new SKUItemsDB('WarehouseDB');
         await skuItemsDB.createSKUItemsTable();
         let skuItems = [];
-        rfids = JSON.parse(restockOrder.skuItems);
+        const rfids = JSON.parse(restockOrder.skuItems);
         for (let i = 0; i < rfids.length; i++) {
             let skuItemInfo = await skuItemsDB.getSKUItemByRFID(rfids[i]);
+            console.log(rfids[i]);
             let skuItem = {};
             skuItem['SKUId'] = skuItemInfo.SKUId;
             skuItem['rfid'] = skuItemInfo.RFID;

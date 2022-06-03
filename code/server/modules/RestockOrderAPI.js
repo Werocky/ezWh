@@ -282,7 +282,7 @@ module.exports = function(app) {
             let issueDate = dayjs(restockOrder.issueDate, 'YYYY/MM/DD HH:mm');
             let deliveryDate = dayjs(req.body.transportNote.deliveryDate, 'YYYY/MM/DD');
 
-            if (restockOrder.state !== 'DELIVERED' || deliveryDate.isBefore(issueDate)) {
+            if (restockOrder.state !== 'DELIVERY' || deliveryDate.isBefore(issueDate)) {
                 return res.status(422).json();
             }
 
@@ -333,6 +333,7 @@ async function getRestockOrders(res, onlyIssued=false) {
         restockOrders = await restockOrders.getRestockOrders();
     } catch (err) {
         // generic error
+        console.log(err);
         return res.status(500).json();
     }
     for (let restockOrder of restockOrders) {

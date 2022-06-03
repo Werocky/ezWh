@@ -108,6 +108,7 @@ module.exports = function (app) {
             skuItems = new SKUItemsDB('WarehouseDB');
             await skuItems.createSKUItemsTable();
             await skuItems.createSKUItem(req.body.RFID, req.body.SKUId, 0, req.body.DateOfStock);
+            console.log(req.body.RFID);
         }
         catch (err) {
             console.log(err);

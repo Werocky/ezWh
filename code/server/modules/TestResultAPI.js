@@ -29,17 +29,17 @@ module.exports = function(app){
         try {
             skuItems = new SKUItemsDB('WarehouseDB');
             await skuItems.createSKUItemsTable();
-            skuItem = await skuItems.getSKUItemByRFID(req.body.rfid);
+            skuItem = await skuItems.getSKUItemByRFID(req.params.rfid);
             if (!skuItem) {
                 //no sku item associated to rfid
                 return res.status(404).end();
             }
             testResult = new TestResultDB('WarehouseDB');
             testResult = await testResult.getTestResultsByRfid(req.params.rfid);
-            if(!testResult) {
+            //if(!testResult) {
                 //not found, no test result associated to rfid = :rfid
-                return res.status(404).end();
-            }
+                //return res.status(404).end();
+            //}
         }catch(err){
             //service unavailable, generic error
             return res.status(500).end();
@@ -68,13 +68,13 @@ module.exports = function(app){
         try {
             skuItems = new SKUItemsDB('WarehouseDB');
             await skuItems.createSKUItemsTable();
-            skuItem = await skuItems.getSKUItemByRFID(req.body.rfid);
+            skuItem = await skuItems.getSKUItemByRFID(req.params.rfid);
             if (!skuItem) {
                 //no sku item associated to rfid
                 return res.status(404).end();
             }
             testResult = new TestResultDB('WarehouseDB');
-            testResult = await testResult.getTestResultsByIdAndRfid(req.param.id, req.param.rfid);
+            testResult = await testResult.getTestResultsByIdAndRfid(req.params.id, req.params.rfid);
             if(!testResult)
                 //not found, no test result associatd to rfid = :rfid and id = :id
                 return res.status(404).end();
@@ -156,11 +156,11 @@ module.exports = function(app){
         let testResults
         try{
             testResults = new TestResultDB('WarehouseDB');
-            const testResult = await testResults.getTestResultsByIdAndRfid(req.param.id, req.param.rfid);
+            const testResult = await testResults.getTestResultsByIdAndRfid(req.params.id, req.params.rfid);
             if(!testResult)
                 //not found, no test results associated to rfid = :rfid and id = :id
                 return res.status(404).end();
-            await testResults.changeTestResult(req.params.id, req.param.rfid, req.body.testDescriptor, req.body.date, req.body.result);
+            await testResults.changeTestResult(req.params.id, req.params.rfid, req.body.newIdTestDescriptor, req.body.newDate, req.body.newResult);
         }catch(err){
             //service unavailable, generic error
             return res.status(503).end();
