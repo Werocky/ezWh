@@ -26,6 +26,7 @@ module.exports = function (app) {
             internalOrders = await internalOrders.getInternalOrders();
         } catch (err) {
             //service unavailable (generic error)
+            console.log(err);
             return res.status(500).end();
         }
         //success, data retrieved
@@ -132,14 +133,14 @@ module.exports = function (app) {
                 let sku;
                 for (let i = 0; i < req.body.products.length; i++) {
                     sku = await skus.getSKUById(req.body.products[i].SKUId);
-                    if (!sku || sku.getAvailableQuantity() < req.body.products[i].qty)
+                    if (!sku /*|| sku.getAvailableQuantity() < req.body.products[i].qty*/)
                         return res.status(422).end();
                     sku.setAvailableQuantity(sku.getAvailableQuantity() - req.body.products[i].qty)
-                    let position = await positions.getPosition(sku.getPositionId())
+                    /*let position = await positions.getPosition(sku.getPositionId())
                     if (!position)
                         return res.status(422).end();
                     await positions.changePosition(position.getPositionID(), position.getAisleID(), position.getRow(), position.getCol(), position.getMaxWeight(), position.getMaxVolume(), sku.getTotalWeight(), sku.getTotalVolume());
-                    await skus.modifySKU(sku);
+                    */await skus.modifySKU(sku);
                 }
                 await internalOrder.createInternalOrder(req.body.issueDate, req.body.products, req.body.customerId, 'ISSUED');
             } catch (err) {
@@ -188,11 +189,11 @@ module.exports = function (app) {
                         if (!sku)
                             return res.status(422).end();
                         sku.setAvailableQuantity(sku.getAvailableQuantity() + internalOrder.products[i].qty)
-                        let position = await positions.getPosition(sku.getPositionId())
+                        /*let position = await positions.getPosition(sku.getPositionId())
                         if (!position)
                             return res.status(422).end();
                         await positions.changePosition(position.getPositionID(), position.getAisleID(), position.getRow(), position.getCol(), position.getMaxWeight(), position.getMaxVolume(), sku.getTotalWeight(), sku.getTotalVolume());
-                        await skus.modifySKU(sku);
+                        */await skus.modifySKU(sku);
                     }
                     await internalOrders.changeState(req.params.id, req.body.newState);
                 }

@@ -133,7 +133,7 @@ module.exports = class InternalOrderDB{
                 
                 let productsID = JSON.stringify(products.map(product => {
                     let productsID = {};
-                    productsID['SKUId'] = product.SKUId;
+                    productsID['SKUId'] = product.SkuID;
                     productsID['RFID'] = product.RFID;
                     return productsID;
                 }));                

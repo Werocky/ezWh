@@ -18,7 +18,7 @@ class SKUDB {
     createSKUTable() {
         return new Promise((resolve, reject) => {
             //Update and delete policy: changes to positionId are propagated but a position can't be deleted as long as an SKU is stored in it
-            const sql = "CREATE TABLE IF NOT EXISTS SKUS(ID INTEGER PRIMARY KEY, description VARCHAR(50), weight FLOAT, volume FLOAT, notes VARCHAR(100), positionId VARCHAR(12), quantity INTEGER, price FLOAT, testDescriptors VARCHAR(30), CHECK(quantity >= 0));";
+            const sql = "CREATE TABLE IF NOT EXISTS SKUS(ID INTEGER PRIMARY KEY, description VARCHAR(50), weight FLOAT, volume FLOAT, notes VARCHAR(100), positionId VARCHAR(12), quantity INTEGER, price FLOAT, testDescriptors VARCHAR(30));";
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);

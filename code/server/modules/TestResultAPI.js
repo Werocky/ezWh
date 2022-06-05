@@ -35,6 +35,7 @@ module.exports = function(app){
                 return res.status(404).end();
             }
             testResult = new TestResultDB('WarehouseDB');
+            await testResult.createTestResultTable();
             testResult = await testResult.getTestResultsByRfid(req.params.rfid);
             //if(!testResult) {
                 //not found, no test result associated to rfid = :rfid
@@ -42,6 +43,7 @@ module.exports = function(app){
             //}
         }catch(err){
             //service unavailable, generic error
+            console.log(err);
             return res.status(500).end();
         }
         //sucess, data retrieved
