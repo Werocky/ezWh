@@ -85,7 +85,7 @@ module.exports = function (app) {
                 testDescriptors = new TestDescriptorDB('WarehouseDB');
                 await testDescriptors.createTestDescriptorTable();
                 await testDescriptors.createTestDescriptor(req.body.name, req.body.procedureDescription, req.body.idSKU);
-                sku.setTestDescriptors([req.param.id]);
+                sku.setTestDescriptors([req.params.id]);
                 await skus.modifySKU(sku);
             } catch (err) {
                 //service unavailable (generic error)
@@ -143,7 +143,7 @@ module.exports = function (app) {
                         await skus.modifySKU(oldSku);
                     }
                     //update new sku descriptor's list
-                    sku.setTestDescriptors([req.param.id]);
+                    sku.setTestDescriptors([req.params.id]);
                     await skus.modifySKU(sku);
                 }
                 await testDescriptors.changeName(req.body.newName, req.params.id);

@@ -82,9 +82,8 @@ module.exports=function(app){
         });
 
         //MODIFY AN ITEM
-        app.put('api/item/:id',[
-            body('id').isInt({min: 0}),
-            body('newId').isInt({min: 0}),
+        app.put('/api/item/:id',[
+            check('id').isInt({min: 0}),
             body('newDescription').isString(),
             body('newPrice').isFloat({min: 0})],
             async (req,res)=>{
@@ -93,16 +92,17 @@ module.exports=function(app){
                     return res.status(422).end();
                 }
                 const id = req.params.id;
-                if(!id || Object.keys(req.body).length !== 3){
+                if(!id || Object.keys(req.body).length !== 2){
                     return res.status(422).json();
                 }
                 try{
                     let items = new ItemDB('WarehouseDB');
                     await items.createItemTable();
                     let item = await items.getItemById(id);
+                    console.log(item);
                     if(!item)
                         return res.status(404).end();
-                    await items.modifyItem(req.body.id,req.body.newDescription,req.body.newPrice,item.getSKUId(),item.getSupplierId(),id);
+                    await items.modifyItem(id,req.body.newDescription,req.body.newPrice,item.getSKUId(),item.getSupplierId(),id);
                 }
                 catch(err){
                     return res.status(503).end();
