@@ -2,6 +2,7 @@
 
 const TestDescriptorDB = require("./TestDescriptorDB");
 const SKUDB = require('./SKUsDB');
+const SKU = require('./SKU');
 
 const { body, param, check, validationResult } = require('express-validator');
 const TestResultDB = require("./TestResultDB");
@@ -84,8 +85,8 @@ module.exports = function (app) {
                 }
                 testDescriptors = new TestDescriptorDB('WarehouseDB');
                 await testDescriptors.createTestDescriptorTable();
-                await testDescriptors.createTestDescriptor(req.body.name, req.body.procedureDescription, req.body.idSKU);
-                sku.setTestDescriptors([req.params.id]);
+                const lastId = await testDescriptors.createTestDescriptor(req.body.name, req.body.procedureDescription, req.body.idSKU);
+                sku.setTestDescriptors([lastId]);
                 await skus.modifySKU(sku);
             } catch (err) {
                 //service unavailable (generic error)
@@ -185,7 +186,7 @@ module.exports = function (app) {
                 //test descriptor not found
                 if (!testDescriptor) {
                     //not found, no test descriptor associated to the id = :id
-                    return res.status(404).end();
+                    return res.status(204).end();
                 }
 
                 //test descriptor is used by some sku, cannot delete

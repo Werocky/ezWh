@@ -1,14 +1,14 @@
 {
   "stats": {
-    "suites": 61,
-    "tests": 60,
-    "passes": 60,
+    "suites": 39,
+    "tests": 36,
+    "passes": 36,
     "pending": 0,
     "failures": 0,
-    "start": "2022-06-06T09:35:37.624Z",
-    "end": "2022-06-06T09:35:56.458Z",
-    "duration": 18834,
-    "testsRegistered": 60,
+    "start": "2022-06-06T16:49:41.191Z",
+    "end": "2022-06-06T16:49:51.793Z",
+    "duration": 10602,
+    "testsRegistered": 36,
     "passPercent": 100,
     "pendingPercent": 0,
     "other": 0,
@@ -18,17 +18,17 @@
   },
   "results": [
     {
-      "uuid": "4f5154ab-2385-4eb2-b57a-8291cd83dd2d",
+      "uuid": "5f99d639-b340-401c-a666-e09be978460a",
       "title": "",
-      "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-      "file": "\\acceptanceTest\\testEzWhAPI.js",
+      "fullFile": "",
+      "file": "",
       "beforeHooks": [],
       "afterHooks": [],
       "tests": [],
       "suites": [
         {
-          "uuid": "996260c9-ea94-412c-9d74-e08504623287",
-          "title": "Testing Functional requirements",
+          "uuid": "0f5e3108-04a6-4d6d-98e4-bf9220f56dc0",
+          "title": "Test Internal Order CRUD features",
           "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
           "file": "\\acceptanceTest\\testEzWhAPI.js",
           "beforeHooks": [],
@@ -36,679 +36,16 @@
           "tests": [],
           "suites": [
             {
-              "uuid": "f8dbf96e-7dd7-46e9-b586-3b93673763b7",
-              "title": " Delete all not manager",
+              "uuid": "a82be640-24e7-4a18-8afb-d14ed8777d83",
+              "title": "Removing all Internal Orders",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
               "beforeHooks": [],
               "afterHooks": [],
               "tests": [
                 {
-                  "title": "Cleaning db user util",
-                  "fullTitle": "Testing Functional requirements  Delete all not manager Cleaning db user util",
-                  "timedOut": false,
-                  "duration": 661,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/users')\n.then(function(res){\n    for(let i=0; i<res.body.length; i++){\n        //console.log(res.body[i].email);\n        agent.delete('/api/users/'+res.body[i].email+'/'+res.body[i].type)\n        .then(function(res2){\n            res2.should.have.status(204);\n        });\n    }\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "60ebcf2d-8813-48ed-9c64-de1c61e80780",
-                  "parentUUID": "f8dbf96e-7dd7-46e9-b586-3b93673763b7",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "60ebcf2d-8813-48ed-9c64-de1c61e80780"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 661,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "ede4a4f9-3577-4c37-8cdb-274bf570f4f9",
-              "title": "removing all skus",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Getting SKUs",
-                  "fullTitle": "Testing Functional requirements removing all skus Getting SKUs",
-                  "timedOut": false,
-                  "duration": 392,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/skus')\n.then(function (res) {\n    res.should.have.status(200);\n    if (res.body.length !==0) {\n        for (let i = 0; i < res.body.length; i++) {\n            agent.delete('/api/skus/'+res.body[i].id)\n            .then(function (res2) {\n                res2.should.have.status(204);\n            });\n        }\n    } \n    done();\n}).catch(err => done(err));",
-                  "err": {},
-                  "uuid": "aa3219e0-8a53-4b7a-8669-f395d42c1abf",
-                  "parentUUID": "ede4a4f9-3577-4c37-8cdb-274bf570f4f9",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "aa3219e0-8a53-4b7a-8669-f395d42c1abf"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 392,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "16b873c3-5dc7-410f-b3ad-26875b70d759",
-              "title": "Removing all Positions",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Getting Positions",
-                  "fullTitle": "Testing Functional requirements Removing all Positions Getting Positions",
-                  "timedOut": false,
-                  "duration": 345,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/positions')\n.then(function(res){\n    res.should.have.status(200);\n    if(res.body.length !==0) {\n        for (let i = 0; i< res.body.length; i++){\n            agent.delete('/api/position/'+res.body[i].positionID)\n            .then(function(res2){\n                res2.should.have.status(204);\n            });\n        }\n    }\n    done();\n}).catch(err => done(err));",
-                  "err": {},
-                  "uuid": "05b01768-c198-4f27-bf3c-3cb378d8f870",
-                  "parentUUID": "16b873c3-5dc7-410f-b3ad-26875b70d759",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "05b01768-c198-4f27-bf3c-3cb378d8f870"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 345,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "63fdacfc-3d2c-40e3-b19d-c7537aaeb668",
-              "title": "removing all test descriptors",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Getting test descriptors",
-                  "fullTitle": "Testing Functional requirements removing all test descriptors Getting test descriptors",
-                  "timedOut": false,
-                  "duration": 244,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/testDescriptors')\n.then(function(res){\n    res.should.have.status(200);\n    if(res.body.length !==0){\n        for (let i=0; i<res.body.length; i++){\n            agent.delete('/api/testDescriptor/'+res.body[i].id)\n            .then(function(res2){\n                res2.should.have.status(204);\n            });\n        }\n    }\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "c2fd5dab-b6ec-447b-a58e-6c156eb2c8d9",
-                  "parentUUID": "63fdacfc-3d2c-40e3-b19d-c7537aaeb668",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "c2fd5dab-b6ec-447b-a58e-6c156eb2c8d9"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 244,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "8b13eadb-98cc-4194-a3c8-cc2d80e9986d",
-              "title": "removing all skuitems",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Getting SKUitems",
-                  "fullTitle": "Testing Functional requirements removing all skuitems Getting SKUitems",
-                  "timedOut": false,
-                  "duration": 339,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "const res = await agent.get('/api/skuitems');\nconsole.log(res.body);\nres.should.have.status(200);\nif (res.body.length !==0) {\n    let res2;\n    for (let i = 0; i < res.body.length; i++) {\n        res2 = await\n        agent.delete('/api/skuitems/'+res.body[i].RFID);\n        res2.should.have.status(204);\n        console.log(\"Deleted \"+ res.body[i].RFID);\n    }\n}\nconsole.log(\"done!\");",
-                  "err": {},
-                  "uuid": "59fa3980-5407-4ba8-882d-487204386025",
-                  "parentUUID": "8b13eadb-98cc-4194-a3c8-cc2d80e9986d",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "59fa3980-5407-4ba8-882d-487204386025"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 339,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "1403e996-0be5-48b6-99d8-71b7691d25c3",
-              "title": "Removing all Restock orders",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Getting and removing",
-                  "fullTitle": "Testing Functional requirements Removing all Restock orders Getting and removing",
-                  "timedOut": false,
-                  "duration": 236,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/restockOrders')\n.then(function(res){\n    res.should.have.status(200);\n    if(res.body.length !==0){\n        for( let i=0; i< res.body.length; i++){\n            agent.delete('/api/restockOrder/'+res.body[i].id)\n            .then(function(res2){\n                res2.should.have.status(204);\n            });\n        }\n    }\n    done();\n}).catch(err => done(err));",
-                  "err": {},
-                  "uuid": "85a8c01a-82e8-48bc-b5a5-07d1e41b0f3a",
-                  "parentUUID": "1403e996-0be5-48b6-99d8-71b7691d25c3",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "85a8c01a-82e8-48bc-b5a5-07d1e41b0f3a"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 236,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "8dfa6b05-bc1e-40c2-8577-769398c6327e",
-              "title": " post /api/newUser",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 1.1 a -> Define a new user",
-                  "fullTitle": "Testing Functional requirements  post /api/newUser FR 1.1 a -> Define a new user",
-                  "timedOut": false,
-                  "duration": 407,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/newUser')\n.send(myuser)\n.then(function(res){\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "0d63c45b-107e-4ce7-abc0-6b00f36dd5ca",
-                  "parentUUID": "8dfa6b05-bc1e-40c2-8577-769398c6327e",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "0d63c45b-107e-4ce7-abc0-6b00f36dd5ca"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 407,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "72234ed3-a3cc-436b-9608-c6c7185fa516",
-              "title": " put /api/users/:username",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 1.1 b -> Modify an existing user",
-                  "fullTitle": "Testing Functional requirements  put /api/users/:username FR 1.1 b -> Modify an existing user",
-                  "timedOut": false,
-                  "duration": 269,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.put('/api/users/'+username)\n.send(changetype)\n.then(function(res){\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "ad71c5fc-0544-4e17-86e7-e37223387a55",
-                  "parentUUID": "72234ed3-a3cc-436b-9608-c6c7185fa516",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "ad71c5fc-0544-4e17-86e7-e37223387a55"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 269,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "f9847701-b94e-4757-948c-baa378cfe345",
-              "title": " get /api/users/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 1.3 -> List all users",
-                  "fullTitle": "Testing Functional requirements  get /api/users/ FR 1.3 -> List all users",
-                  "timedOut": false,
-                  "duration": 8,
-                  "state": "passed",
-                  "speed": "fast",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/users')\n.then(function(res){\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    for(let i=0; i<res.body.length; i++){\n        //console.log(res.body[i]);\n    }\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "51c2ce80-35ab-4b08-ac58-2d0293edaa9f",
-                  "parentUUID": "f9847701-b94e-4757-948c-baa378cfe345",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "51c2ce80-35ab-4b08-ac58-2d0293edaa9f"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 8,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "2fbb5cad-5ea1-4cf8-b16b-b30532a05206",
-              "title": " delete /api/users/:username/:type",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 1.2 -> Delete a user",
-                  "fullTitle": "Testing Functional requirements  delete /api/users/:username/:type FR 1.2 -> Delete a user",
-                  "timedOut": false,
-                  "duration": 359,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.delete('/api/users/'+username+'/'+type)\n.then(function(res){\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "8fed8f2f-d569-4ca8-9999-2efb35a0aea0",
-                  "parentUUID": "2fbb5cad-5ea1-4cf8-b16b-b30532a05206",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "8fed8f2f-d569-4ca8-9999-2efb35a0aea0"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 359,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "47abc9fc-f91e-422b-a379-69e142db612d",
-              "title": "post /api/sku/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 2.1 a -> Define a new SKU",
-                  "fullTitle": "Testing Functional requirements post /api/sku/ FR 2.1 a -> Define a new SKU",
-                  "timedOut": false,
-                  "duration": 394,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/sku/')\n.send(thesku)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "efeaf522-8b82-4413-a13e-d754a513ef29",
-                  "parentUUID": "47abc9fc-f91e-422b-a379-69e142db612d",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "efeaf522-8b82-4413-a13e-d754a513ef29"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 394,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "898b68cc-f2f2-4d2c-9dd7-887daa47d8b2",
-              "title": "get /api/skus",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 2.3 -> List all SKUs",
-                  "fullTitle": "Testing Functional requirements get /api/skus FR 2.3 -> List all SKUs",
-                  "timedOut": false,
-                  "duration": 7,
-                  "state": "passed",
-                  "speed": "fast",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/skus')\n.then(function (res) {\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    res.body.length.should.be.eql(size);\n    let id = [];\n    if (size > 0) {\n        for (let i = 0; i < size; i++) {\n            id[i] = res.body[i].id;\n            res.body[i].description.should.equal(sku[i].description);\n            res.body[i].weight.should.equal(sku[i].weight);\n            res.body[i].volume.should.equal(sku[i].volume);\n            res.body[i].notes.should.equal(sku[i].notes);\n            res.body[i].availableQuantity.should.equal(sku[i].availableQuantity);\n            res.body[i].price.should.equal(sku[i].price);\n        }\n        ids.setIdSku(id);\n    }             \n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "77795d53-644c-401e-b4ae-54451dbd87fd",
-                  "parentUUID": "898b68cc-f2f2-4d2c-9dd7-887daa47d8b2",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "77795d53-644c-401e-b4ae-54451dbd87fd"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 7,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "41f5d3bc-0d16-4a27-ad42-6f815cd2eeef",
-              "title": "put /api/sku/:id",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 2.1 b -> Modify an existing SKU",
-                  "fullTitle": "Testing Functional requirements put /api/sku/:id FR 2.1 b -> Modify an existing SKU",
-                  "timedOut": false,
-                  "duration": 584,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "let id = ids.getIdSku();\nvar procID = id[ith];\nif (skuid == null || skuid > id.length) {\n    procID = skuid;\n}\nagent.put('/api/sku/'+procID)\n.send(skuEditedPost)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "e5851635-ba9b-493d-810e-ec826e5110de",
-                  "parentUUID": "41f5d3bc-0d16-4a27-ad42-6f815cd2eeef",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "e5851635-ba9b-493d-810e-ec826e5110de"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 584,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "87476cfb-a94e-421b-b895-4032d1651285",
-              "title": "delete /api/sku/:id",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 2.2 -> Delete a SKU",
-                  "fullTitle": "Testing Functional requirements delete /api/sku/:id FR 2.2 -> Delete a SKU",
-                  "timedOut": false,
-                  "duration": 8,
-                  "state": "passed",
-                  "speed": "fast",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "let id = ids.getIdSku();\nvar procID = id[ith];\nif (skuid != null) {\n    procID = skuid;\n}\nagent.delete('/api/skus/'+procID)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "f38bf419-bc70-49ea-9e25-70beeed262a6",
-                  "parentUUID": "87476cfb-a94e-421b-b895-4032d1651285",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "f38bf419-bc70-49ea-9e25-70beeed262a6"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 8,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "96a696d1-65bf-4b4e-b190-d11cd6772567",
-              "title": "post /api/sku/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 2.1 a -> Define a new SKU",
-                  "fullTitle": "Testing Functional requirements post /api/sku/ FR 2.1 a -> Define a new SKU",
-                  "timedOut": false,
-                  "duration": 350,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/sku/')\n.send(thesku)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "ec2250aa-c12f-4b65-bdce-3ccff488d2ea",
-                  "parentUUID": "96a696d1-65bf-4b4e-b190-d11cd6772567",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "ec2250aa-c12f-4b65-bdce-3ccff488d2ea"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 350,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "cb8bf0cf-91f3-4f31-98d5-b7b81ad28ca2",
-              "title": "get /api/skus/:id",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 2.4 -> Search a SKU",
-                  "fullTitle": "Testing Functional requirements get /api/skus/:id FR 2.4 -> Search a SKU",
-                  "timedOut": false,
-                  "duration": 4,
-                  "state": "passed",
-                  "speed": "fast",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "let id = ids.getIdSku();\nlet procID;\nif (skuid == null || skuid>id.length) {\n    procID = skuid;\n}\nelse{\n    procID = id[ith]\n}\nagent.get('/api/skus/'+procID)\n.then(function (res) {\n    res.should.have.status(expCode);\n    if (res.status > 200 && res.status < 299) {\n        res.body.should.be.a('object');\n        res.body.description.should.equal(sku[ith].description);\n        res.body.weight.should.equal(sku[ith].weight);\n        res.body.volume.should.equal(sku[ith].volume);\n        res.body.notes.should.equal(sku[ith].notes);\n        res.body.availableQuantity.should.equal(sku[ith].availableQuantity);\n        res.body.price.should.equal(sku[ith].price);\n    }\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "01917b2a-d725-4b1d-8b30-af27c26c16e2",
-                  "parentUUID": "cb8bf0cf-91f3-4f31-98d5-b7b81ad28ca2",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "01917b2a-d725-4b1d-8b30-af27c26c16e2"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 4,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "5510958b-29aa-4f3f-9ae8-d85b887febe1",
-              "title": "post /api/position/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 3.1.1 a Define a new position",
-                  "fullTitle": "Testing Functional requirements post /api/position/ FR 3.1.1 a Define a new position",
-                  "timedOut": false,
-                  "duration": 353,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/position')\n.send(position)\n.then(res => {\n    assert.equal(res.status, expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "05e7fa79-e559-4a9f-b07f-7f48e3de984a",
-                  "parentUUID": "5510958b-29aa-4f3f-9ae8-d85b887febe1",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "05e7fa79-e559-4a9f-b07f-7f48e3de984a"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 353,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "5e210522-52c8-403f-862a-193912735351",
-              "title": " put /api/position/:positionID",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 3.1.1 b -> Modify an existing position",
-                  "fullTitle": "Testing Functional requirements  put /api/position/:positionID FR 3.1.1 b -> Modify an existing position",
+                  "title": "Getting Interna Orders",
+                  "fullTitle": "Test Internal Order CRUD features Removing all Internal Orders Getting Interna Orders",
                   "timedOut": false,
                   "duration": 344,
                   "state": "passed",
@@ -717,17 +54,17 @@
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "agent.put('/api/position/'+positionID)\n.send(updateposition)\n.then(res => {\n    assert.equal(res.status, expCode);\n    done();\n}).catch(err=>done(err));",
+                  "code": "agent.get('/api/internalOrders')\n.then(function(res){\n    res.should.have.status(200);\n    if(res.body.length !==0) {\n        for (let i = 0; i< res.body.length; i++){\n            agent.delete('/api/internalOrders/'+res.body[i].id)\n            .then(function(res2){\n                res2.should.have.status(204);\n            });\n        }\n    }\n    done();\n}).catch(err => done(err));",
                   "err": {},
-                  "uuid": "461c7388-145e-4b34-aa20-0448e1b7c719",
-                  "parentUUID": "5e210522-52c8-403f-862a-193912735351",
+                  "uuid": "5718db9e-b2a2-4981-83a8-eebedcf35960",
+                  "parentUUID": "a82be640-24e7-4a18-8afb-d14ed8777d83",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "461c7388-145e-4b34-aa20-0448e1b7c719"
+                "5718db9e-b2a2-4981-83a8-eebedcf35960"
               ],
               "failures": [],
               "pending": [],
@@ -738,592 +75,7 @@
               "_timeout": 10000
             },
             {
-              "uuid": "619e8267-4f49-4709-bbed-4ad7fd29b0c7",
-              "title": "post /api/position/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 3.1.1 a Define a new position",
-                  "fullTitle": "Testing Functional requirements post /api/position/ FR 3.1.1 a Define a new position",
-                  "timedOut": false,
-                  "duration": 353,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/position')\n.send(position)\n.then(res => {\n    assert.equal(res.status, expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "75ef237b-93f3-48ba-9597-9b1bbb3c8350",
-                  "parentUUID": "619e8267-4f49-4709-bbed-4ad7fd29b0c7",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "75ef237b-93f3-48ba-9597-9b1bbb3c8350"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 353,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "98b95dda-9640-4032-97b0-1fd9e173ac45",
-              "title": " delete /api/position/:positionID",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 3.1.2 -> Delete a position",
-                  "fullTitle": "Testing Functional requirements  delete /api/position/:positionID FR 3.1.2 -> Delete a position",
-                  "timedOut": false,
-                  "duration": 363,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.delete('/api/position/'+positionID)\n.then(function(res){\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "07408727-dafa-43b8-bfab-129c6a2a2866",
-                  "parentUUID": "98b95dda-9640-4032-97b0-1fd9e173ac45",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "07408727-dafa-43b8-bfab-129c6a2a2866"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 363,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "f15d7a62-7e41-4aa0-ae1d-c0316b23a3ca",
-              "title": "Removing all Positions",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Getting Positions",
-                  "fullTitle": "Testing Functional requirements Removing all Positions Getting Positions",
-                  "timedOut": false,
-                  "duration": 12,
-                  "state": "passed",
-                  "speed": "fast",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/positions')\n.then(function(res){\n    res.should.have.status(200);\n    if(res.body.length !==0) {\n        for (let i = 0; i< res.body.length; i++){\n            agent.delete('/api/position/'+res.body[i].positionID)\n            .then(function(res2){\n                res2.should.have.status(204);\n            });\n        }\n    }\n    done();\n}).catch(err => done(err));",
-                  "err": {},
-                  "uuid": "300f5a28-c1f5-450e-bccd-6d61797e03fe",
-                  "parentUUID": "f15d7a62-7e41-4aa0-ae1d-c0316b23a3ca",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "300f5a28-c1f5-450e-bccd-6d61797e03fe"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 12,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "4af32128-5818-4476-9fd4-14162c266efc",
-              "title": "post /api/position/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 3.1.1 a Define a new position",
-                  "fullTitle": "Testing Functional requirements post /api/position/ FR 3.1.1 a Define a new position",
-                  "timedOut": false,
-                  "duration": 559,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/position')\n.send(position)\n.then(res => {\n    assert.equal(res.status, expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "bceb7ba3-5224-4311-9918-80075693e239",
-                  "parentUUID": "4af32128-5818-4476-9fd4-14162c266efc",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "bceb7ba3-5224-4311-9918-80075693e239"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 559,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "bc892ceb-d706-4744-b17d-bbc73f4b1321",
-              "title": "post /api/position/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 3.1.1 a Define a new position",
-                  "fullTitle": "Testing Functional requirements post /api/position/ FR 3.1.1 a Define a new position",
-                  "timedOut": false,
-                  "duration": 222,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/position')\n.send(position)\n.then(res => {\n    assert.equal(res.status, expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "b75c8b8d-8d54-4300-84f2-9a065cf826a4",
-                  "parentUUID": "bc892ceb-d706-4744-b17d-bbc73f4b1321",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "b75c8b8d-8d54-4300-84f2-9a065cf826a4"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 222,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "579f6635-aff5-4d7b-8c01-742f0450a9f7",
-              "title": " get /api/positions",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 3.1.3 -> List all positions",
-                  "fullTitle": "Testing Functional requirements  get /api/positions FR 3.1.3 -> List all positions",
-                  "timedOut": false,
-                  "duration": 5,
-                  "state": "passed",
-                  "speed": "fast",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/positions')\n.then(function(res){\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    res.body.length.should.be.eql(size);\n    done();\n}).catch(err => done(err));",
-                  "err": {},
-                  "uuid": "bc463b2e-ef72-4a62-bb44-889af00a32d8",
-                  "parentUUID": "579f6635-aff5-4d7b-8c01-742f0450a9f7",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "bc463b2e-ef72-4a62-bb44-889af00a32d8"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 5,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "2e0c101c-671c-4d4d-b4dc-3a7ca10e5f29",
-              "title": " put /api/position/:positionID/changeID",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 3.1.4 -> Modify attributes of a position",
-                  "fullTitle": "Testing Functional requirements  put /api/position/:positionID/changeID FR 3.1.4 -> Modify attributes of a position",
-                  "timedOut": false,
-                  "duration": 336,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.put('/api/position/'+oldpositionid+'/changeID')\n.send(newpositionid)\n.then(res => {\n    assert.equal(res.status, expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "6408cd19-e64e-49e1-81ff-cfd5963ff35e",
-                  "parentUUID": "2e0c101c-671c-4d4d-b4dc-3a7ca10e5f29",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "6408cd19-e64e-49e1-81ff-cfd5963ff35e"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 336,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "ffdc12a1-0766-4268-95cc-3dc200b61170",
-              "title": "removing all skus",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Getting SKUs",
-                  "fullTitle": "Testing Functional requirements removing all skus Getting SKUs",
-                  "timedOut": false,
-                  "duration": 10,
-                  "state": "passed",
-                  "speed": "fast",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/skus')\n.then(function (res) {\n    res.should.have.status(200);\n    if (res.body.length !==0) {\n        for (let i = 0; i < res.body.length; i++) {\n            agent.delete('/api/skus/'+res.body[i].id)\n            .then(function (res2) {\n                res2.should.have.status(204);\n            });\n        }\n    } \n    done();\n}).catch(err => done(err));",
-                  "err": {},
-                  "uuid": "2368cb30-f905-48c1-9c9b-f90d0d0015aa",
-                  "parentUUID": "ffdc12a1-0766-4268-95cc-3dc200b61170",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "2368cb30-f905-48c1-9c9b-f90d0d0015aa"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 10,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "1f5a1e5a-1744-47ec-88b0-b7943800904c",
-              "title": "post /api/sku/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 2.1 a -> Define a new SKU",
-                  "fullTitle": "Testing Functional requirements post /api/sku/ FR 2.1 a -> Define a new SKU",
-                  "timedOut": false,
-                  "duration": 574,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/sku/')\n.send(thesku)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "fd6a2499-293f-4ad5-a103-2193e3a02730",
-                  "parentUUID": "1f5a1e5a-1744-47ec-88b0-b7943800904c",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "fd6a2499-293f-4ad5-a103-2193e3a02730"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 574,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "b9bfdeeb-2447-48c8-91e1-8456b236336f",
-              "title": "post /api/sku/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 2.1 a -> Define a new SKU",
-                  "fullTitle": "Testing Functional requirements post /api/sku/ FR 2.1 a -> Define a new SKU",
-                  "timedOut": false,
-                  "duration": 416,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/sku/')\n.send(thesku)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "f8ecaabf-273b-44ee-a65b-5d71396274e3",
-                  "parentUUID": "b9bfdeeb-2447-48c8-91e1-8456b236336f",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "f8ecaabf-273b-44ee-a65b-5d71396274e3"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 416,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "ff7e3813-966c-470c-bb5b-8402f5664a72",
-              "title": "get /api/skus",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 2.3 -> List all SKUs",
-                  "fullTitle": "Testing Functional requirements get /api/skus FR 2.3 -> List all SKUs",
-                  "timedOut": false,
-                  "duration": 5,
-                  "state": "passed",
-                  "speed": "fast",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/skus')\n.then(function (res) {\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    res.body.length.should.be.eql(size);\n    let id = [];\n    if (size > 0) {\n        for (let i = 0; i < size; i++) {\n            id[i] = res.body[i].id;\n            res.body[i].description.should.equal(sku[i].description);\n            res.body[i].weight.should.equal(sku[i].weight);\n            res.body[i].volume.should.equal(sku[i].volume);\n            res.body[i].notes.should.equal(sku[i].notes);\n            res.body[i].availableQuantity.should.equal(sku[i].availableQuantity);\n            res.body[i].price.should.equal(sku[i].price);\n        }\n        ids.setIdSku(id);\n    }             \n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "76d90f58-b565-484c-bff8-97d1d8652a00",
-                  "parentUUID": "ff7e3813-966c-470c-bb5b-8402f5664a72",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "76d90f58-b565-484c-bff8-97d1d8652a00"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 5,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "24d52575-1df0-406a-9de4-951a9245ce2e",
-              "title": "post /api/skuitem/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Adding skuitem details",
-                  "fullTitle": "Testing Functional requirements post /api/skuitem/ Adding skuitem details",
-                  "timedOut": false,
-                  "duration": 276,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "let id = ids.getIdSku();\nlet skuitem;\nif(myskuitem.SKUId > id.length || myskuitem.SKUId === null){\n    skuitem = newSkuItem(myskuitem.RFID, myskuitem.SKUId , myskuitem.DateOfStock); \n}\nelse{\n    skuitem = newSkuItem(myskuitem.RFID, id[myskuitem.SKUId] , myskuitem.DateOfStock);\n}\nagent.post('/api/skuitem/')\n.send(skuitem)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "30c07e65-4e45-43c5-bc4e-3a140afe153e",
-                  "parentUUID": "24d52575-1df0-406a-9de4-951a9245ce2e",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "30c07e65-4e45-43c5-bc4e-3a140afe153e"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 276,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "0b734cb3-bbad-4767-befd-14d60e63fbb6",
-              "title": "post /api/skuitem/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Adding skuitem details",
-                  "fullTitle": "Testing Functional requirements post /api/skuitem/ Adding skuitem details",
-                  "timedOut": false,
-                  "duration": 393,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "let id = ids.getIdSku();\nlet skuitem;\nif(myskuitem.SKUId > id.length || myskuitem.SKUId === null){\n    skuitem = newSkuItem(myskuitem.RFID, myskuitem.SKUId , myskuitem.DateOfStock); \n}\nelse{\n    skuitem = newSkuItem(myskuitem.RFID, id[myskuitem.SKUId] , myskuitem.DateOfStock);\n}\nagent.post('/api/skuitem/')\n.send(skuitem)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "711b05c1-ed74-4fc0-83dc-0f0edb9fbf1f",
-                  "parentUUID": "0b734cb3-bbad-4767-befd-14d60e63fbb6",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "711b05c1-ed74-4fc0-83dc-0f0edb9fbf1f"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 393,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "7f3d0660-d5db-41d4-9cb9-e57a875296a0",
-              "title": "test adding a test descriptor with post",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Creating a test descriptor",
-                  "fullTitle": "Testing Functional requirements test adding a test descriptor with post Creating a test descriptor",
-                  "timedOut": false,
-                  "duration": 603,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "let id = ids.getIdSku();\nlet testdescriptor;\nif(mytd.idSKU > id.length || mytd.idSKU === null){\n    testdescriptor = newTestDescriptor(mytd.name, mytd.procedureDescription, mytd.idSKU);\n} \nelse {\n    testdescriptor = newTestDescriptor(mytd.name, mytd.procedureDescription, id[mytd.idSKU]);\n}\n//console.log(testdescriptor);\nagent.post('/api/testDescriptor')\n.send(testdescriptor)\n.then(res2 => {\n    assert.equal(res2.status, expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "455a889e-9030-4481-9d92-f79fa95148d8",
-                  "parentUUID": "7f3d0660-d5db-41d4-9cb9-e57a875296a0",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "455a889e-9030-4481-9d92-f79fa95148d8"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 603,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "4b25924c-ea7e-42ed-9020-be8d9483fc94",
-              "title": "Removing all Restock orders",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Getting and removing",
-                  "fullTitle": "Testing Functional requirements Removing all Restock orders Getting and removing",
-                  "timedOut": false,
-                  "duration": 6,
-                  "state": "passed",
-                  "speed": "fast",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/restockOrders')\n.then(function(res){\n    res.should.have.status(200);\n    if(res.body.length !==0){\n        for( let i=0; i< res.body.length; i++){\n            agent.delete('/api/restockOrder/'+res.body[i].id)\n            .then(function(res2){\n                res2.should.have.status(204);\n            });\n        }\n    }\n    done();\n}).catch(err => done(err));",
-                  "err": {},
-                  "uuid": "784658f9-27b0-41c8-af91-32a4029ccfe1",
-                  "parentUUID": "4b25924c-ea7e-42ed-9020-be8d9483fc94",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "784658f9-27b0-41c8-af91-32a4029ccfe1"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 6,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "fb951fb6-d16e-4c11-bbcd-02312dcf51fe",
+              "uuid": "e54b4d46-11fc-4095-9cc1-dca8c8074121",
               "title": "removing all skuitems",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
@@ -1332,9 +84,9 @@
               "tests": [
                 {
                   "title": "Getting SKUitems",
-                  "fullTitle": "Testing Functional requirements removing all skuitems Getting SKUitems",
+                  "fullTitle": "Test Internal Order CRUD features removing all skuitems Getting SKUitems",
                   "timedOut": false,
-                  "duration": 573,
+                  "duration": 329,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
@@ -1343,26 +95,26 @@
                   "context": null,
                   "code": "const res = await agent.get('/api/skuitems');\nconsole.log(res.body);\nres.should.have.status(200);\nif (res.body.length !==0) {\n    let res2;\n    for (let i = 0; i < res.body.length; i++) {\n        res2 = await\n        agent.delete('/api/skuitems/'+res.body[i].RFID);\n        res2.should.have.status(204);\n        console.log(\"Deleted \"+ res.body[i].RFID);\n    }\n}\nconsole.log(\"done!\");",
                   "err": {},
-                  "uuid": "d7e04c26-402e-4554-859f-5ecf305695ec",
-                  "parentUUID": "fb951fb6-d16e-4c11-bbcd-02312dcf51fe",
+                  "uuid": "12f06e20-5162-4ff7-9eb8-ab8c295f2591",
+                  "parentUUID": "e54b4d46-11fc-4095-9cc1-dca8c8074121",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "d7e04c26-402e-4554-859f-5ecf305695ec"
+                "12f06e20-5162-4ff7-9eb8-ab8c295f2591"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 573,
+              "duration": 329,
               "root": false,
               "rootEmpty": false,
               "_timeout": 10000
             },
             {
-              "uuid": "09ce4c39-deba-4065-ac8c-49db109b4fdb",
+              "uuid": "9bec343a-096f-45f7-a61e-263cf0ae2c7b",
               "title": "removing all skus",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
@@ -1371,37 +123,37 @@
               "tests": [
                 {
                   "title": "Getting SKUs",
-                  "fullTitle": "Testing Functional requirements removing all skus Getting SKUs",
+                  "fullTitle": "Test Internal Order CRUD features removing all skus Getting SKUs",
                   "timedOut": false,
-                  "duration": 6,
+                  "duration": 340,
                   "state": "passed",
-                  "speed": "fast",
+                  "speed": "slow",
                   "pass": true,
                   "fail": false,
                   "pending": false,
                   "context": null,
                   "code": "agent.get('/api/skus')\n.then(function (res) {\n    res.should.have.status(200);\n    if (res.body.length !==0) {\n        for (let i = 0; i < res.body.length; i++) {\n            agent.delete('/api/skus/'+res.body[i].id)\n            .then(function (res2) {\n                res2.should.have.status(204);\n            });\n        }\n    } \n    done();\n}).catch(err => done(err));",
                   "err": {},
-                  "uuid": "d53c07e6-1482-487c-a023-e288f8483f5c",
-                  "parentUUID": "09ce4c39-deba-4065-ac8c-49db109b4fdb",
+                  "uuid": "0901b313-febe-4aba-aebf-33df0e93e7ca",
+                  "parentUUID": "9bec343a-096f-45f7-a61e-263cf0ae2c7b",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "d53c07e6-1482-487c-a023-e288f8483f5c"
+                "0901b313-febe-4aba-aebf-33df0e93e7ca"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 6,
+              "duration": 340,
               "root": false,
               "rootEmpty": false,
               "_timeout": 10000
             },
             {
-              "uuid": "162cf33d-b00d-42e9-a81f-161999b8e3e8",
+              "uuid": "dd1e3d88-b3ad-4c59-9572-291a0c936aab",
               "title": " Delete all not manager",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
@@ -1410,7 +162,124 @@
               "tests": [
                 {
                   "title": "Cleaning db user util",
-                  "fullTitle": "Testing Functional requirements  Delete all not manager Cleaning db user util",
+                  "fullTitle": "Test Internal Order CRUD features  Delete all not manager Cleaning db user util",
+                  "timedOut": false,
+                  "duration": 329,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "agent.get('/api/users')\n.then(function(res){\n    for(let i=0; i<res.body.length; i++){\n        //console.log(res.body[i].email);\n        agent.delete('/api/users/'+res.body[i].email+'/'+res.body[i].type)\n        .then(function(res2){\n            res2.should.have.status(204);\n        });\n    }\n    done();\n}).catch(err=>done(err));",
+                  "err": {},
+                  "uuid": "c9191160-2ecb-4892-8fa9-fec23fca3919",
+                  "parentUUID": "dd1e3d88-b3ad-4c59-9572-291a0c936aab",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "c9191160-2ecb-4892-8fa9-fec23fca3919"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 329,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            },
+            {
+              "uuid": "7c34dfba-ecb2-4b64-b93d-86bc1e2cdc2a",
+              "title": "post /api/sku/",
+              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+              "file": "\\acceptanceTest\\testEzWhAPI.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "FR 2.1 a -> Define a new SKU",
+                  "fullTitle": "Test Internal Order CRUD features post /api/sku/ FR 2.1 a -> Define a new SKU",
+                  "timedOut": false,
+                  "duration": 831,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "agent.post('/api/sku/')\n.send(thesku)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
+                  "err": {},
+                  "uuid": "41f45825-78d2-4470-8eb9-157aef2e6908",
+                  "parentUUID": "7c34dfba-ecb2-4b64-b93d-86bc1e2cdc2a",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "41f45825-78d2-4470-8eb9-157aef2e6908"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 831,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            },
+            {
+              "uuid": "ca1c9183-29c4-4d17-8f4b-0ff43e27e02c",
+              "title": "post /api/sku/",
+              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+              "file": "\\acceptanceTest\\testEzWhAPI.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "FR 2.1 a -> Define a new SKU",
+                  "fullTitle": "Test Internal Order CRUD features post /api/sku/ FR 2.1 a -> Define a new SKU",
+                  "timedOut": false,
+                  "duration": 399,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "agent.post('/api/sku/')\n.send(thesku)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
+                  "err": {},
+                  "uuid": "52e5c545-d29a-47bf-9d15-9d093100505f",
+                  "parentUUID": "ca1c9183-29c4-4d17-8f4b-0ff43e27e02c",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "52e5c545-d29a-47bf-9d15-9d093100505f"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 399,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            },
+            {
+              "uuid": "95db1b53-62a1-437d-a2af-f78f74fc9569",
+              "title": "get /api/skus",
+              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+              "file": "\\acceptanceTest\\testEzWhAPI.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "FR 2.3 -> List all SKUs",
+                  "fullTitle": "Test Internal Order CRUD features get /api/skus FR 2.3 -> List all SKUs",
                   "timedOut": false,
                   "duration": 4,
                   "state": "passed",
@@ -1419,17 +288,17 @@
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "agent.get('/api/users')\n.then(function(res){\n    for(let i=0; i<res.body.length; i++){\n        //console.log(res.body[i].email);\n        agent.delete('/api/users/'+res.body[i].email+'/'+res.body[i].type)\n        .then(function(res2){\n            res2.should.have.status(204);\n        });\n    }\n    done();\n}).catch(err=>done(err));",
+                  "code": "agent.get('/api/skus')\n.then(function (res) {\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    res.body.length.should.be.eql(size);\n    let id = [];\n    if (size > 0) {\n        for (let i = 0; i < size; i++) {\n            id[i] = res.body[i].id;\n            res.body[i].description.should.equal(sku[i].description);\n            res.body[i].weight.should.equal(sku[i].weight);\n            res.body[i].volume.should.equal(sku[i].volume);\n            res.body[i].notes.should.equal(sku[i].notes);\n            res.body[i].availableQuantity.should.equal(sku[i].availableQuantity);\n            res.body[i].price.should.equal(sku[i].price);\n        }\n        ids.setIdSku(id);\n    }             \n    done();\n}).catch(err=>done(err));",
                   "err": {},
-                  "uuid": "0278d7a7-bc72-40de-85a4-bd5c1c1c405b",
-                  "parentUUID": "162cf33d-b00d-42e9-a81f-161999b8e3e8",
+                  "uuid": "2fc47a3a-043a-4d62-ae71-fd845ce7c924",
+                  "parentUUID": "95db1b53-62a1-437d-a2af-f78f74fc9569",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "0278d7a7-bc72-40de-85a4-bd5c1c1c405b"
+                "2fc47a3a-043a-4d62-ae71-fd845ce7c924"
               ],
               "failures": [],
               "pending": [],
@@ -1440,94 +309,172 @@
               "_timeout": 10000
             },
             {
-              "uuid": "78f6a773-864e-472c-a50f-cce4b82714bb",
-              "title": "post /api/sku/",
+              "uuid": "6c106eb8-5320-4619-9775-02e5c1168c50",
+              "title": " post /api/newUser",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
               "beforeHooks": [],
               "afterHooks": [],
               "tests": [
                 {
-                  "title": "FR 2.1 a -> Define a new SKU",
-                  "fullTitle": "Testing Functional requirements post /api/sku/ FR 2.1 a -> Define a new SKU",
+                  "title": "FR 1.1 a -> Define a new user",
+                  "fullTitle": "Test Internal Order CRUD features  post /api/newUser FR 1.1 a -> Define a new user",
                   "timedOut": false,
-                  "duration": 933,
+                  "duration": 345,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "agent.post('/api/sku/')\n.send(thesku)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
+                  "code": "agent.post('/api/newUser')\n.send(myuser)\n.then(function(res){\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
                   "err": {},
-                  "uuid": "753b134f-29dc-457c-8038-98d567069c70",
-                  "parentUUID": "78f6a773-864e-472c-a50f-cce4b82714bb",
+                  "uuid": "44d5b3e8-f065-4cf4-87b5-c836959b0cbb",
+                  "parentUUID": "6c106eb8-5320-4619-9775-02e5c1168c50",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "753b134f-29dc-457c-8038-98d567069c70"
+                "44d5b3e8-f065-4cf4-87b5-c836959b0cbb"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 933,
+              "duration": 345,
               "root": false,
               "rootEmpty": false,
               "_timeout": 10000
             },
             {
-              "uuid": "4fb9c75f-ef85-4928-85c8-2044ad46e91e",
-              "title": "post /api/sku/",
+              "uuid": "86a93af6-b3b2-407d-9d5b-115d320310b7",
+              "title": " post /api/internalOrders",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
               "beforeHooks": [],
               "afterHooks": [],
               "tests": [
                 {
-                  "title": "FR 2.1 a -> Define a new SKU",
-                  "fullTitle": "Testing Functional requirements post /api/sku/ FR 2.1 a -> Define a new SKU",
+                  "title": "Create a new internal order",
+                  "fullTitle": "Test Internal Order CRUD features  post /api/internalOrders Create a new internal order",
                   "timedOut": false,
-                  "duration": 358,
+                  "duration": 1062,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "agent.post('/api/sku/')\n.send(thesku)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
+                  "code": "let idskus = ids.getIdSku();\nlet customerId;\nlet currentIntOrd;\nlet currentProducts = [];\nagent.get('/api/users')\n.then(function(res){\n    for(let i=0; i<res.body.length;i++){\n        if(res.body[i].type === \"customer\"){\n            customerId = res.body[i].id;\n        }\n    }\n    for(let i=0; i<myintord.products.length ; i++){\n        currentProducts[i] = restockorders.newProduct(idskus[myintord.products[i].SKUId], myintord.products[i].description, myintord.products[i].price, myintord.products[i].qty );\n    }\n    currentIntOrd = newInternalOrder(myintord.issueDate, currentProducts, customerId);\n    agent.post('/api/internalOrders')\n    .send(currentIntOrd)\n    .then(function(res2){\n        res2.should.have.status(expCode);\n        done();\n    }).catch(err => done(err));\n}).catch(err => done(err));;",
                   "err": {},
-                  "uuid": "e246ac4d-374b-41df-95d5-2d0639cbcae4",
-                  "parentUUID": "4fb9c75f-ef85-4928-85c8-2044ad46e91e",
+                  "uuid": "e742de61-002c-4402-a10c-29d729d00614",
+                  "parentUUID": "86a93af6-b3b2-407d-9d5b-115d320310b7",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "e246ac4d-374b-41df-95d5-2d0639cbcae4"
+                "e742de61-002c-4402-a10c-29d729d00614"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 358,
+              "duration": 1062,
               "root": false,
               "rootEmpty": false,
               "_timeout": 10000
             },
             {
-              "uuid": "18df813e-186d-4bf9-9d81-166bd9ecac7d",
-              "title": "get /api/skus",
+              "uuid": "b8afe1f3-956b-420c-82cb-4e8f1100da94",
+              "title": " post /api/internalOrders",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
               "beforeHooks": [],
               "afterHooks": [],
               "tests": [
                 {
-                  "title": "FR 2.3 -> List all SKUs",
-                  "fullTitle": "Testing Functional requirements get /api/skus FR 2.3 -> List all SKUs",
+                  "title": "Create a new internal order",
+                  "fullTitle": "Test Internal Order CRUD features  post /api/internalOrders Create a new internal order",
+                  "timedOut": false,
+                  "duration": 1158,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "let idskus = ids.getIdSku();\nlet customerId;\nlet currentIntOrd;\nlet currentProducts = [];\nagent.get('/api/users')\n.then(function(res){\n    for(let i=0; i<res.body.length;i++){\n        if(res.body[i].type === \"customer\"){\n            customerId = res.body[i].id;\n        }\n    }\n    for(let i=0; i<myintord.products.length ; i++){\n        currentProducts[i] = restockorders.newProduct(idskus[myintord.products[i].SKUId], myintord.products[i].description, myintord.products[i].price, myintord.products[i].qty );\n    }\n    currentIntOrd = newInternalOrder(myintord.issueDate, currentProducts, customerId);\n    agent.post('/api/internalOrders')\n    .send(currentIntOrd)\n    .then(function(res2){\n        res2.should.have.status(expCode);\n        done();\n    }).catch(err => done(err));\n}).catch(err => done(err));;",
+                  "err": {},
+                  "uuid": "9888c860-9271-4cc7-a060-253044cda60f",
+                  "parentUUID": "b8afe1f3-956b-420c-82cb-4e8f1100da94",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "9888c860-9271-4cc7-a060-253044cda60f"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 1158,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            },
+            {
+              "uuid": "76c5cca8-e66d-46af-a8cb-538258a435d3",
+              "title": " post /api/internalOrders",
+              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+              "file": "\\acceptanceTest\\testEzWhAPI.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "Create a new internal order",
+                  "fullTitle": "Test Internal Order CRUD features  post /api/internalOrders Create a new internal order",
+                  "timedOut": false,
+                  "duration": 7,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "//console.log(currentInternalOrders[ith]);\nagent.post('/api/internalOrders')\n.send(intord)\n.then(function(res) {\n    console.log(res.body);\n    res.should.have.status(expCode);\n    done();\n}).catch(err => done(err));",
+                  "err": {},
+                  "uuid": "8a9b5c44-0ed6-4715-a1fa-1a216522ff88",
+                  "parentUUID": "76c5cca8-e66d-46af-a8cb-538258a435d3",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "8a9b5c44-0ed6-4715-a1fa-1a216522ff88"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 7,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            },
+            {
+              "uuid": "929fbfe0-7e82-4986-85b1-226ee9a050cd",
+              "title": " get /api/internalOrders",
+              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+              "file": "\\acceptanceTest\\testEzWhAPI.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "Getting all internal orders",
+                  "fullTitle": "Test Internal Order CRUD features  get /api/internalOrders Getting all internal orders",
                   "timedOut": false,
                   "duration": 10,
                   "state": "passed",
@@ -1536,17 +483,17 @@
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "agent.get('/api/skus')\n.then(function (res) {\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    res.body.length.should.be.eql(size);\n    let id = [];\n    if (size > 0) {\n        for (let i = 0; i < size; i++) {\n            id[i] = res.body[i].id;\n            res.body[i].description.should.equal(sku[i].description);\n            res.body[i].weight.should.equal(sku[i].weight);\n            res.body[i].volume.should.equal(sku[i].volume);\n            res.body[i].notes.should.equal(sku[i].notes);\n            res.body[i].availableQuantity.should.equal(sku[i].availableQuantity);\n            res.body[i].price.should.equal(sku[i].price);\n        }\n        ids.setIdSku(id);\n    }             \n    done();\n}).catch(err=>done(err));",
+                  "code": "agent.get('/api/internalOrders')\n.then(function(res){\n    //console.log(res.body);\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    res.body.length.should.be.eql(size);\n    console.log('body length', res.body.length);\n    for(let i=0; i<res.body.length; i++){\n        console.log(res.body[i]);\n    }\n    done();\n}).catch(err=>done(err));",
                   "err": {},
-                  "uuid": "f4948893-29f0-4401-b871-dc7e183f3da6",
-                  "parentUUID": "18df813e-186d-4bf9-9d81-166bd9ecac7d",
+                  "uuid": "a9a41e8a-31de-4ed2-9db7-aa1e99982528",
+                  "parentUUID": "929fbfe0-7e82-4986-85b1-226ee9a050cd",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "f4948893-29f0-4401-b871-dc7e183f3da6"
+                "a9a41e8a-31de-4ed2-9db7-aa1e99982528"
               ],
               "failures": [],
               "pending": [],
@@ -1557,211 +504,133 @@
               "_timeout": 10000
             },
             {
-              "uuid": "83cceb26-80bf-4c12-bf10-0260c5d9871d",
-              "title": " post /api/newUser",
+              "uuid": "26f81334-b9af-470e-9a30-6aa7ff4d25d8",
+              "title": " get /api/internalOrdersIssued",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
               "beforeHooks": [],
               "afterHooks": [],
               "tests": [
                 {
-                  "title": "FR 1.1 a -> Define a new user",
-                  "fullTitle": "Testing Functional requirements  post /api/newUser FR 1.1 a -> Define a new user",
+                  "title": "Retrieve all internal order in state issued",
+                  "fullTitle": "Test Internal Order CRUD features  get /api/internalOrdersIssued Retrieve all internal order in state issued",
                   "timedOut": false,
-                  "duration": 229,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/newUser')\n.send(myuser)\n.then(function(res){\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "5f68b04e-1b9d-4e14-b23c-452b4ced18f1",
-                  "parentUUID": "83cceb26-80bf-4c12-bf10-0260c5d9871d",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "5f68b04e-1b9d-4e14-b23c-452b4ced18f1"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 229,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "21323b52-2cfa-4d89-8cbd-2c4756d5b8fd",
-              "title": " post /api/newUser",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 1.1 a -> Define a new user",
-                  "fullTitle": "Testing Functional requirements  post /api/newUser FR 1.1 a -> Define a new user",
-                  "timedOut": false,
-                  "duration": 440,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/newUser')\n.send(myuser)\n.then(function(res){\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "a17143d4-4383-46d1-857c-5cd1e977570c",
-                  "parentUUID": "21323b52-2cfa-4d89-8cbd-2c4756d5b8fd",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "a17143d4-4383-46d1-857c-5cd1e977570c"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 440,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "4c28a951-8210-422c-9ea6-4fd2ef2ff3a6",
-              "title": " get /api/users/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "FR 1.3 -> List all users",
-                  "fullTitle": "Testing Functional requirements  get /api/users/ FR 1.3 -> List all users",
-                  "timedOut": false,
-                  "duration": 4,
+                  "duration": 6,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "agent.get('/api/users')\n.then(function(res){\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    for(let i=0; i<res.body.length; i++){\n        //console.log(res.body[i]);\n    }\n    done();\n}).catch(err=>done(err));",
+                  "code": "agent.get('/api/internalOrdersIssued')\n.then(function(res){\n    res.should.have.status(expcode);\n    res.body.should.be.a('array');\n    for(let i=0; i<res.body.length; i++){\n        console.log('inside get order issued', res.body[i]);\n    }\n    done();\n}).catch(err=>done(err));",
                   "err": {},
-                  "uuid": "77594096-e367-4f11-833b-c299f318776b",
-                  "parentUUID": "4c28a951-8210-422c-9ea6-4fd2ef2ff3a6",
+                  "uuid": "18d5ae6a-c8b3-4a4f-8664-f29186786833",
+                  "parentUUID": "26f81334-b9af-470e-9a30-6aa7ff4d25d8",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "77594096-e367-4f11-833b-c299f318776b"
+                "18d5ae6a-c8b3-4a4f-8664-f29186786833"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 4,
+              "duration": 6,
               "root": false,
               "rootEmpty": false,
               "_timeout": 10000
             },
             {
-              "uuid": "49919355-acf6-411c-9fcd-9d2001a0ad01",
-              "title": "post /api/skuitem/",
+              "uuid": "8ffe8509-b4e4-466c-9774-4d27e9bc2dcc",
+              "title": " put /api/internalOrders/:id",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
               "beforeHooks": [],
               "afterHooks": [],
               "tests": [
                 {
-                  "title": "Adding skuitem details",
-                  "fullTitle": "Testing Functional requirements post /api/skuitem/ Adding skuitem details",
+                  "title": "Modify the state of an IO",
+                  "fullTitle": "Test Internal Order CRUD features  put /api/internalOrders/:id Modify the state of an IO",
                   "timedOut": false,
-                  "duration": 110,
+                  "duration": 7,
                   "state": "passed",
-                  "speed": "slow",
+                  "speed": "fast",
                   "pass": true,
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "let id = ids.getIdSku();\nlet skuitem;\nif(myskuitem.SKUId > id.length || myskuitem.SKUId === null){\n    skuitem = newSkuItem(myskuitem.RFID, myskuitem.SKUId , myskuitem.DateOfStock); \n}\nelse{\n    skuitem = newSkuItem(myskuitem.RFID, id[myskuitem.SKUId] , myskuitem.DateOfStock);\n}\nagent.post('/api/skuitem/')\n.send(skuitem)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
+                  "code": "agent.get('/api/internalOrders')\n.then(function(res){\n    agent.put('/api/internalOrders/'+res.body[0].id)\n    .send({\"newState\":newState, \"products\":[{\"SkuID\":1,\"RFID\":\"12345678901234567890123456789016\"},{\"SkuID\":1,\"RFID\":\"12345678901234567890123456789038\"}]})\n    .then(function(res2){\n        res2.should.have.status(expCode);\n        done();\n    }).catch(err=>done(err));\n});",
                   "err": {},
-                  "uuid": "25bb614a-1d1e-490e-89dd-8d1bfef7badb",
-                  "parentUUID": "49919355-acf6-411c-9fcd-9d2001a0ad01",
+                  "uuid": "c4d7211d-7d8f-42e0-8c4b-b4c778bd8df5",
+                  "parentUUID": "8ffe8509-b4e4-466c-9774-4d27e9bc2dcc",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "25bb614a-1d1e-490e-89dd-8d1bfef7badb"
+                "c4d7211d-7d8f-42e0-8c4b-b4c778bd8df5"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 110,
+              "duration": 7,
               "root": false,
               "rootEmpty": false,
               "_timeout": 10000
             },
             {
-              "uuid": "26bdfea1-8e76-42b8-bf43-9ac204a704dd",
-              "title": "post /api/skuitem/",
+              "uuid": "cc0cd878-0f0a-4388-aeb7-4b448bc00463",
+              "title": " get /api/internalOrdersIssued",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
               "beforeHooks": [],
               "afterHooks": [],
               "tests": [
                 {
-                  "title": "Adding skuitem details",
-                  "fullTitle": "Testing Functional requirements post /api/skuitem/ Adding skuitem details",
+                  "title": "Retrieve all internal order in state issued",
+                  "fullTitle": "Test Internal Order CRUD features  get /api/internalOrdersIssued Retrieve all internal order in state issued",
                   "timedOut": false,
-                  "duration": 341,
+                  "duration": 6,
                   "state": "passed",
-                  "speed": "slow",
+                  "speed": "fast",
                   "pass": true,
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "let id = ids.getIdSku();\nlet skuitem;\nif(myskuitem.SKUId > id.length || myskuitem.SKUId === null){\n    skuitem = newSkuItem(myskuitem.RFID, myskuitem.SKUId , myskuitem.DateOfStock); \n}\nelse{\n    skuitem = newSkuItem(myskuitem.RFID, id[myskuitem.SKUId] , myskuitem.DateOfStock);\n}\nagent.post('/api/skuitem/')\n.send(skuitem)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
+                  "code": "agent.get('/api/internalOrdersIssued')\n.then(function(res){\n    res.should.have.status(expcode);\n    res.body.should.be.a('array');\n    for(let i=0; i<res.body.length; i++){\n        console.log('inside get order issued', res.body[i]);\n    }\n    done();\n}).catch(err=>done(err));",
                   "err": {},
-                  "uuid": "541f835a-6c67-4eaf-ab82-167e7a9eb75d",
-                  "parentUUID": "26bdfea1-8e76-42b8-bf43-9ac204a704dd",
+                  "uuid": "0cc60264-f2d2-4eb6-aebd-23611408f596",
+                  "parentUUID": "cc0cd878-0f0a-4388-aeb7-4b448bc00463",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "541f835a-6c67-4eaf-ab82-167e7a9eb75d"
+                "0cc60264-f2d2-4eb6-aebd-23611408f596"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 341,
+              "duration": 6,
               "root": false,
               "rootEmpty": false,
               "_timeout": 10000
             },
             {
-              "uuid": "6e20cc68-56c9-4676-b386-5f270dd8afe3",
-              "title": " get /api/suppliers",
+              "uuid": "0f305686-c753-497f-acbd-32492c40e60c",
+              "title": " get /api/internalOrdersIssued",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
               "beforeHooks": [],
               "afterHooks": [],
               "tests": [
                 {
-                  "title": " get all suppliers",
-                  "fullTitle": "Testing Functional requirements  get /api/suppliers  get all suppliers",
+                  "title": "Retrieve all internal order in state issued",
+                  "fullTitle": "Test Internal Order CRUD features  get /api/internalOrdersIssued Retrieve all internal order in state issued",
                   "timedOut": false,
                   "duration": 3,
                   "state": "passed",
@@ -1770,17 +639,17 @@
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "let idsupp = [];\nagent.get('/api/suppliers')\n.then(function(res){\n    for(let i=0; i<res.body.length; i++){\n        idsupp[i] = res.body[i].id;\n    }\n    ids.setIdSuppliers(idsupp);\n    //console.log(res.body);\n    done();\n}).catch(err=>done(err));",
+                  "code": "agent.get('/api/internalOrdersAccepted')\n.then(function(res){\n    res.should.have.status(expcode);\n    res.body.should.be.a('array');\n    for(let i=0; i<res.body.length; i++){\n        console.log('inside get order accepted', res.body[i]);\n    }\n    done();\n}).catch(err=>done(err));",
                   "err": {},
-                  "uuid": "8bbd7c41-5415-4128-bed3-42a72ae435cd",
-                  "parentUUID": "6e20cc68-56c9-4676-b386-5f270dd8afe3",
+                  "uuid": "ac623b80-f091-45db-99d5-93c90a1b61f2",
+                  "parentUUID": "0f305686-c753-497f-acbd-32492c40e60c",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "8bbd7c41-5415-4128-bed3-42a72ae435cd"
+                "ac623b80-f091-45db-99d5-93c90a1b61f2"
               ],
               "failures": [],
               "pending": [],
@@ -1791,586 +660,819 @@
               "_timeout": 10000
             },
             {
-              "uuid": "ad488ac9-7264-476e-8117-cb8e99504104",
-              "title": "post /api/restockOrder",
+              "uuid": "3631ccad-34cd-4809-a4c7-e14d2e1e0637",
+              "title": " put /api/internalOrders/:id",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
               "beforeHooks": [],
               "afterHooks": [],
               "tests": [
                 {
-                  "title": " Create a restock order",
-                  "fullTitle": "Testing Functional requirements post /api/restockOrder  Create a restock order",
+                  "title": "Modify the state of an IO",
+                  "fullTitle": "Test Internal Order CRUD features  put /api/internalOrders/:id Modify the state of an IO",
                   "timedOut": false,
-                  "duration": 226,
+                  "duration": 363,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "let idskus = ids.getIdSku();\nlet idsupp = ids.getIdSuppliers();\nlet currentProducts = [];\nlet currentRestock;\nagent.get('/api/suppliers')\n.then(function(res){\n    currentSupplierId = res.body[0].id\n    for(let i=0; i<myrestock.products.length ; i++){\n        currentProducts[i] = newProduct(idskus[myrestock.products[i].SKUId], myrestock.products[i].description, myrestock.products[i].price, myrestock.products[i].qty );\n    }\n    currentRestock = newRestockOrder(myrestock.issueDate, currentProducts, idsupp[myrestock.supplierId]);\n    agent.post('/api/restockOrder')\n    .send(currentRestock)\n    .then(function(res2){\n        res2.should.have.status(expCode);\n        done();\n    }).catch(err=>done(err));\n});",
+                  "code": "agent.get('/api/internalOrders')\n.then(function(res){\n    agent.put('/api/internalOrders/'+res.body[0].id)\n    .send({\"newState\":newState, \"products\":[{\"SkuID\":1,\"RFID\":\"12345678901234567890123456789016\"},{\"SkuID\":1,\"RFID\":\"12345678901234567890123456789038\"}]})\n    .then(function(res2){\n        res2.should.have.status(expCode);\n        done();\n    }).catch(err=>done(err));\n});",
                   "err": {},
-                  "uuid": "27ff3576-fa7e-449a-a616-21154e4f3c88",
-                  "parentUUID": "ad488ac9-7264-476e-8117-cb8e99504104",
+                  "uuid": "8f1c4254-e7bc-4b2b-9f2d-ff5c6ae7c9f8",
+                  "parentUUID": "3631ccad-34cd-4809-a4c7-e14d2e1e0637",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "27ff3576-fa7e-449a-a616-21154e4f3c88"
+                "8f1c4254-e7bc-4b2b-9f2d-ff5c6ae7c9f8"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 226,
+              "duration": 363,
               "root": false,
               "rootEmpty": false,
               "_timeout": 10000
             },
             {
-              "uuid": "b024e2bb-6a89-4b24-8f72-850998592b5d",
-              "title": "post /api/skuitem/",
+              "uuid": "ab4682c1-237c-4541-90af-5aced4f5f528",
+              "title": " get /api/internalOrders",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
               "beforeHooks": [],
               "afterHooks": [],
               "tests": [
                 {
-                  "title": "Adding skuitem details",
-                  "fullTitle": "Testing Functional requirements post /api/skuitem/ Adding skuitem details",
+                  "title": "Getting all internal orders",
+                  "fullTitle": "Test Internal Order CRUD features  get /api/internalOrders Getting all internal orders",
                   "timedOut": false,
-                  "duration": 325,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "let id = ids.getIdSku();\nlet skuitem;\nif(myskuitem.SKUId > id.length || myskuitem.SKUId === null){\n    skuitem = newSkuItem(myskuitem.RFID, myskuitem.SKUId , myskuitem.DateOfStock); \n}\nelse{\n    skuitem = newSkuItem(myskuitem.RFID, id[myskuitem.SKUId] , myskuitem.DateOfStock);\n}\nagent.post('/api/skuitem/')\n.send(skuitem)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "3e84f97c-beed-4dc8-ab78-727bcbb9aa8d",
-                  "parentUUID": "b024e2bb-6a89-4b24-8f72-850998592b5d",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "3e84f97c-beed-4dc8-ab78-727bcbb9aa8d"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 325,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "353d9f23-197f-4c1b-b35a-d89a879b0ed3",
-              "title": "post /api/skuitem/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Adding skuitem details",
-                  "fullTitle": "Testing Functional requirements post /api/skuitem/ Adding skuitem details",
-                  "timedOut": false,
-                  "duration": 237,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "let id = ids.getIdSku();\nlet skuitem;\nif(myskuitem.SKUId > id.length || myskuitem.SKUId === null){\n    skuitem = newSkuItem(myskuitem.RFID, myskuitem.SKUId , myskuitem.DateOfStock); \n}\nelse{\n    skuitem = newSkuItem(myskuitem.RFID, id[myskuitem.SKUId] , myskuitem.DateOfStock);\n}\nagent.post('/api/skuitem/')\n.send(skuitem)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "2791156c-1aaf-4a48-8814-4822cf3c1f7a",
-                  "parentUUID": "353d9f23-197f-4c1b-b35a-d89a879b0ed3",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "2791156c-1aaf-4a48-8814-4822cf3c1f7a"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 237,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "fa4e0343-503b-4af1-8990-c75083bb4e6b",
-              "title": "put /api/restockOrder/:id",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Change a state of a restock order",
-                  "fullTitle": "Testing Functional requirements put /api/restockOrder/:id Change a state of a restock order",
-                  "timedOut": false,
-                  "duration": 333,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/restockOrders')\n.then(function(res){\n    id = res.body[0].id;\n    agent.put('/api/restockOrder/'+id)\n    .send(changestate)\n    .then(function(res){\n        res.should.have.status(expCode);\n        done();\n    }).catch(err=>done(err));\n});",
-                  "err": {},
-                  "uuid": "7ce18eef-3e92-4121-b539-210b5f7f948c",
-                  "parentUUID": "fa4e0343-503b-4af1-8990-c75083bb4e6b",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "7ce18eef-3e92-4121-b539-210b5f7f948c"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 333,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "8c91486d-2320-43fb-801d-31ecb3de8bd3",
-              "title": "put /api/restockOrder/:id/skuItems",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Change a state of a restock order",
-                  "fullTitle": "Testing Functional requirements put /api/restockOrder/:id/skuItems Change a state of a restock order",
-                  "timedOut": false,
-                  "duration": 217,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "let idsku = ids.getIdSku();\nlet thisskuitems = addskuitems;\nthisskuitems[0].SKUId = idsku[thisskuitems[0].SKUId];\nthisskuitems[1].SKUId = idsku[thisskuitems[1].SKUId];\nconsole.log(thisskuitems);\nagent.get('/api/restockOrders')\n.then(function(res){\n    idsearch = res.body[0].id;\n    //console.log(\"this is skuitems \", thisskuitems);\n    agent.put('/api/restockOrder/'+idsearch+'/skuItems')\n    .send({\"skuItems\":thisskuitems})\n    .then(function(res2){\n        //console.log(res2)\n        res2.should.have.status(expCode);\n        done();\n    }).catch(err=>done(err));                 \n});",
-                  "err": {},
-                  "uuid": "cb80c627-8add-4a8b-967b-a7797b504f3e",
-                  "parentUUID": "8c91486d-2320-43fb-801d-31ecb3de8bd3",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "cb80c627-8add-4a8b-967b-a7797b504f3e"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 217,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "dbb82511-76e5-4bec-977f-48f3942f865c",
-              "title": "removing all skuitems",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Getting SKUitems",
-                  "fullTitle": "Testing Functional requirements removing all skuitems Getting SKUitems",
-                  "timedOut": false,
-                  "duration": 1183,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "const res = await agent.get('/api/skuitems');\nconsole.log(res.body);\nres.should.have.status(200);\nif (res.body.length !==0) {\n    let res2;\n    for (let i = 0; i < res.body.length; i++) {\n        res2 = await\n        agent.delete('/api/skuitems/'+res.body[i].RFID);\n        res2.should.have.status(204);\n        console.log(\"Deleted \"+ res.body[i].RFID);\n    }\n}\nconsole.log(\"done!\");",
-                  "err": {},
-                  "uuid": "f6a0ad4e-c1dd-48a9-932b-e842bc05e85a",
-                  "parentUUID": "dbb82511-76e5-4bec-977f-48f3942f865c",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "f6a0ad4e-c1dd-48a9-932b-e842bc05e85a"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 1183,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "91a08418-6e00-4d7f-ac31-dd7507c22f61",
-              "title": "removing all skus",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
-                {
-                  "title": "Getting SKUs",
-                  "fullTitle": "Testing Functional requirements removing all skus Getting SKUs",
-                  "timedOut": false,
-                  "duration": 10,
+                  "duration": 11,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
                   "fail": false,
                   "pending": false,
                   "context": null,
-                  "code": "agent.get('/api/skus')\n.then(function (res) {\n    res.should.have.status(200);\n    if (res.body.length !==0) {\n        for (let i = 0; i < res.body.length; i++) {\n            agent.delete('/api/skus/'+res.body[i].id)\n            .then(function (res2) {\n                res2.should.have.status(204);\n            });\n        }\n    } \n    done();\n}).catch(err => done(err));",
+                  "code": "agent.get('/api/internalOrders')\n.then(function(res){\n    //console.log(res.body);\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    res.body.length.should.be.eql(size);\n    console.log('body length', res.body.length);\n    for(let i=0; i<res.body.length; i++){\n        console.log(res.body[i]);\n    }\n    done();\n}).catch(err=>done(err));",
                   "err": {},
-                  "uuid": "efd55f20-16fa-4904-b17d-8b4886f6b0f4",
-                  "parentUUID": "91a08418-6e00-4d7f-ac31-dd7507c22f61",
+                  "uuid": "99b7e12e-fb47-4c99-b90a-6966441dc21a",
+                  "parentUUID": "ab4682c1-237c-4541-90af-5aced4f5f528",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "efd55f20-16fa-4904-b17d-8b4886f6b0f4"
+                "99b7e12e-fb47-4c99-b90a-6966441dc21a"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 10,
+              "duration": 11,
               "root": false,
               "rootEmpty": false,
               "_timeout": 10000
-            },
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "9631cf34-cb6b-43ab-a197-c0534dddf8c6",
+          "title": "Testing Functional requirements pt2",
+          "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+          "file": "\\acceptanceTest\\testEzWhAPI.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
             {
-              "uuid": "e55604d8-067a-4d22-a6cd-2da7cc75bdfd",
-              "title": "removing all test descriptors",
+              "uuid": "d1e025c5-58ae-4184-a3f3-ebc46e0f77d6",
+              "title": "Test Internal Order CRUD features",
               "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
               "file": "\\acceptanceTest\\testEzWhAPI.js",
               "beforeHooks": [],
               "afterHooks": [],
-              "tests": [
+              "tests": [],
+              "suites": [
                 {
-                  "title": "Getting test descriptors",
-                  "fullTitle": "Testing Functional requirements removing all test descriptors Getting test descriptors",
-                  "timedOut": false,
+                  "uuid": "12989f48-10bc-43af-aadd-458e6d1b355d",
+                  "title": "Removing all Internal Orders",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Getting Interna Orders",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features Removing all Internal Orders Getting Interna Orders",
+                      "timedOut": false,
+                      "duration": 6,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.get('/api/internalOrders')\n.then(function(res){\n    res.should.have.status(200);\n    if(res.body.length !==0) {\n        for (let i = 0; i< res.body.length; i++){\n            agent.delete('/api/internalOrders/'+res.body[i].id)\n            .then(function(res2){\n                res2.should.have.status(204);\n            });\n        }\n    }\n    done();\n}).catch(err => done(err));",
+                      "err": {},
+                      "uuid": "90cc9cf6-d6c4-4c9e-9217-deb7e3b37a80",
+                      "parentUUID": "12989f48-10bc-43af-aadd-458e6d1b355d",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "90cc9cf6-d6c4-4c9e-9217-deb7e3b37a80"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 6,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
+                {
+                  "uuid": "bcbbd437-5a24-4268-99bc-c2d95896c18a",
+                  "title": "removing all skuitems",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Getting SKUitems",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features removing all skuitems Getting SKUitems",
+                      "timedOut": false,
+                      "duration": 789,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "const res = await agent.get('/api/skuitems');\nconsole.log(res.body);\nres.should.have.status(200);\nif (res.body.length !==0) {\n    let res2;\n    for (let i = 0; i < res.body.length; i++) {\n        res2 = await\n        agent.delete('/api/skuitems/'+res.body[i].RFID);\n        res2.should.have.status(204);\n        console.log(\"Deleted \"+ res.body[i].RFID);\n    }\n}\nconsole.log(\"done!\");",
+                      "err": {},
+                      "uuid": "53b4eea9-0349-4c00-9130-b1ecc2aa8a59",
+                      "parentUUID": "bcbbd437-5a24-4268-99bc-c2d95896c18a",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "53b4eea9-0349-4c00-9130-b1ecc2aa8a59"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 789,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
+                {
+                  "uuid": "b99b5195-9f0c-4c80-a69f-6754c0527faf",
+                  "title": "removing all skus",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Getting SKUs",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features removing all skus Getting SKUs",
+                      "timedOut": false,
+                      "duration": 8,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.get('/api/skus')\n.then(function (res) {\n    res.should.have.status(200);\n    if (res.body.length !==0) {\n        for (let i = 0; i < res.body.length; i++) {\n            agent.delete('/api/skus/'+res.body[i].id)\n            .then(function (res2) {\n                res2.should.have.status(204);\n            });\n        }\n    } \n    done();\n}).catch(err => done(err));",
+                      "err": {},
+                      "uuid": "13edd4c9-42fe-449a-896e-2a2225c0a61f",
+                      "parentUUID": "b99b5195-9f0c-4c80-a69f-6754c0527faf",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "13edd4c9-42fe-449a-896e-2a2225c0a61f"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 8,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
+                {
+                  "uuid": "8745d5e5-eb07-4c8d-ad16-c7572108add0",
+                  "title": " Delete all not manager",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Cleaning db user util",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features  Delete all not manager Cleaning db user util",
+                      "timedOut": false,
+                      "duration": 4,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.get('/api/users')\n.then(function(res){\n    for(let i=0; i<res.body.length; i++){\n        //console.log(res.body[i].email);\n        agent.delete('/api/users/'+res.body[i].email+'/'+res.body[i].type)\n        .then(function(res2){\n            res2.should.have.status(204);\n        });\n    }\n    done();\n}).catch(err=>done(err));",
+                      "err": {},
+                      "uuid": "ac3bb4bc-bffc-486a-b451-43e7b1ea34bb",
+                      "parentUUID": "8745d5e5-eb07-4c8d-ad16-c7572108add0",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "ac3bb4bc-bffc-486a-b451-43e7b1ea34bb"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
                   "duration": 4,
-                  "state": "passed",
-                  "speed": "fast",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/testDescriptors')\n.then(function(res){\n    res.should.have.status(200);\n    if(res.body.length !==0){\n        for (let i=0; i<res.body.length; i++){\n            agent.delete('/api/testDescriptor/'+res.body[i].id)\n            .then(function(res2){\n                res2.should.have.status(204);\n            });\n        }\n    }\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "49ea7b51-ee63-4e0a-8347-496488712758",
-                  "parentUUID": "e55604d8-067a-4d22-a6cd-2da7cc75bdfd",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "49ea7b51-ee63-4e0a-8347-496488712758"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 4,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "4f49a88b-cb53-4988-a6e4-3c9c4bee8dad",
-              "title": "post /api/sku/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
                 {
-                  "title": "FR 2.1 a -> Define a new SKU",
-                  "fullTitle": "Testing Functional requirements post /api/sku/ FR 2.1 a -> Define a new SKU",
-                  "timedOut": false,
-                  "duration": 1583,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/sku/')\n.send(thesku)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "6d8b04ab-9169-4200-b1ef-e96996f4c08b",
-                  "parentUUID": "4f49a88b-cb53-4988-a6e4-3c9c4bee8dad",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "6d8b04ab-9169-4200-b1ef-e96996f4c08b"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 1583,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "6980ff3c-a02c-46fc-89a3-575b0635054e",
-              "title": "post /api/sku/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
+                  "uuid": "cac672ee-388c-4b7e-b711-1b70462ab052",
+                  "title": "post /api/sku/",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "FR 2.1 a -> Define a new SKU",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features post /api/sku/ FR 2.1 a -> Define a new SKU",
+                      "timedOut": false,
+                      "duration": 1387,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.post('/api/sku/')\n.send(thesku)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
+                      "err": {},
+                      "uuid": "f8a0d523-3980-4c69-a4fd-5a61220fb861",
+                      "parentUUID": "cac672ee-388c-4b7e-b711-1b70462ab052",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "f8a0d523-3980-4c69-a4fd-5a61220fb861"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 1387,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
                 {
-                  "title": "FR 2.1 a -> Define a new SKU",
-                  "fullTitle": "Testing Functional requirements post /api/sku/ FR 2.1 a -> Define a new SKU",
-                  "timedOut": false,
-                  "duration": 284,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.post('/api/sku/')\n.send(thesku)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "04885429-c692-4aa4-81f7-e899e54004fa",
-                  "parentUUID": "6980ff3c-a02c-46fc-89a3-575b0635054e",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "04885429-c692-4aa4-81f7-e899e54004fa"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 284,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "10fef77b-bc16-45d8-8d55-a1c03e5e57b2",
-              "title": "get /api/skus",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
+                  "uuid": "7a3d95e5-b169-4721-96be-06c3d91487e0",
+                  "title": "post /api/sku/",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "FR 2.1 a -> Define a new SKU",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features post /api/sku/ FR 2.1 a -> Define a new SKU",
+                      "timedOut": false,
+                      "duration": 297,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.post('/api/sku/')\n.send(thesku)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
+                      "err": {},
+                      "uuid": "61da45ab-c9dc-4fd4-9e3f-716a2768d901",
+                      "parentUUID": "7a3d95e5-b169-4721-96be-06c3d91487e0",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "61da45ab-c9dc-4fd4-9e3f-716a2768d901"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 297,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
                 {
-                  "title": "FR 2.3 -> List all SKUs",
-                  "fullTitle": "Testing Functional requirements get /api/skus FR 2.3 -> List all SKUs",
-                  "timedOut": false,
-                  "duration": 2,
-                  "state": "passed",
-                  "speed": "fast",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "agent.get('/api/skus')\n.then(function (res) {\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    res.body.length.should.be.eql(size);\n    let id = [];\n    if (size > 0) {\n        for (let i = 0; i < size; i++) {\n            id[i] = res.body[i].id;\n            res.body[i].description.should.equal(sku[i].description);\n            res.body[i].weight.should.equal(sku[i].weight);\n            res.body[i].volume.should.equal(sku[i].volume);\n            res.body[i].notes.should.equal(sku[i].notes);\n            res.body[i].availableQuantity.should.equal(sku[i].availableQuantity);\n            res.body[i].price.should.equal(sku[i].price);\n        }\n        ids.setIdSku(id);\n    }             \n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "decd7e53-cf6a-4615-8707-aaeca26be7f8",
-                  "parentUUID": "10fef77b-bc16-45d8-8d55-a1c03e5e57b2",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "decd7e53-cf6a-4615-8707-aaeca26be7f8"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 2,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "10bb012b-9e27-46a4-b641-de8808474d01",
-              "title": "post /api/skuitem/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
+                  "uuid": "caf4061f-98d0-4da6-bdcb-3013866716fc",
+                  "title": "get /api/skus",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "FR 2.3 -> List all SKUs",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features get /api/skus FR 2.3 -> List all SKUs",
+                      "timedOut": false,
+                      "duration": 3,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.get('/api/skus')\n.then(function (res) {\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    res.body.length.should.be.eql(size);\n    let id = [];\n    if (size > 0) {\n        for (let i = 0; i < size; i++) {\n            id[i] = res.body[i].id;\n            res.body[i].description.should.equal(sku[i].description);\n            res.body[i].weight.should.equal(sku[i].weight);\n            res.body[i].volume.should.equal(sku[i].volume);\n            res.body[i].notes.should.equal(sku[i].notes);\n            res.body[i].availableQuantity.should.equal(sku[i].availableQuantity);\n            res.body[i].price.should.equal(sku[i].price);\n        }\n        ids.setIdSku(id);\n    }             \n    done();\n}).catch(err=>done(err));",
+                      "err": {},
+                      "uuid": "28f334e3-d7c7-4024-87b1-68051d77ba8b",
+                      "parentUUID": "caf4061f-98d0-4da6-bdcb-3013866716fc",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "28f334e3-d7c7-4024-87b1-68051d77ba8b"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 3,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
                 {
-                  "title": "Adding skuitem details",
-                  "fullTitle": "Testing Functional requirements post /api/skuitem/ Adding skuitem details",
-                  "timedOut": false,
-                  "duration": 384,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "let id = ids.getIdSku();\nlet skuitem;\nif(myskuitem.SKUId > id.length || myskuitem.SKUId === null){\n    skuitem = newSkuItem(myskuitem.RFID, myskuitem.SKUId , myskuitem.DateOfStock); \n}\nelse{\n    skuitem = newSkuItem(myskuitem.RFID, id[myskuitem.SKUId] , myskuitem.DateOfStock);\n}\nagent.post('/api/skuitem/')\n.send(skuitem)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "e95b37e6-c027-43bd-aa49-9ec5d444abeb",
-                  "parentUUID": "10bb012b-9e27-46a4-b641-de8808474d01",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "e95b37e6-c027-43bd-aa49-9ec5d444abeb"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 384,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "46d86ef3-2fe6-4173-9697-54ed0f8b1498",
-              "title": "post /api/skuitem/",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
+                  "uuid": "841201c0-2b97-490a-ba98-8d47c8cbdc35",
+                  "title": " post /api/newUser",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "FR 1.1 a -> Define a new user",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features  post /api/newUser FR 1.1 a -> Define a new user",
+                      "timedOut": false,
+                      "duration": 235,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.post('/api/newUser')\n.send(myuser)\n.then(function(res){\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
+                      "err": {},
+                      "uuid": "cf4c157f-c47c-4451-8bb1-17e378ae5d0c",
+                      "parentUUID": "841201c0-2b97-490a-ba98-8d47c8cbdc35",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "cf4c157f-c47c-4451-8bb1-17e378ae5d0c"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 235,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
                 {
-                  "title": "Adding skuitem details",
-                  "fullTitle": "Testing Functional requirements post /api/skuitem/ Adding skuitem details",
-                  "timedOut": false,
-                  "duration": 222,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "let id = ids.getIdSku();\nlet skuitem;\nif(myskuitem.SKUId > id.length || myskuitem.SKUId === null){\n    skuitem = newSkuItem(myskuitem.RFID, myskuitem.SKUId , myskuitem.DateOfStock); \n}\nelse{\n    skuitem = newSkuItem(myskuitem.RFID, id[myskuitem.SKUId] , myskuitem.DateOfStock);\n}\nagent.post('/api/skuitem/')\n.send(skuitem)\n.then(function (res) {\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "c2e4e20e-4ee4-4af6-9af1-533d67ee32aa",
-                  "parentUUID": "46d86ef3-2fe6-4173-9697-54ed0f8b1498",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "c2e4e20e-4ee4-4af6-9af1-533d67ee32aa"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 222,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "3b668720-25b0-4f67-bca1-2eb8675d7a22",
-              "title": "test adding a test descriptor with post",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
+                  "uuid": "fa23ce02-be5e-43b7-8811-55ccf7e21bbe",
+                  "title": " post /api/internalOrders",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Create a new internal order",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features  post /api/internalOrders Create a new internal order",
+                      "timedOut": false,
+                      "duration": 918,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "let idskus = ids.getIdSku();\nlet customerId;\nlet currentIntOrd;\nlet currentProducts = [];\nagent.get('/api/users')\n.then(function(res){\n    for(let i=0; i<res.body.length;i++){\n        if(res.body[i].type === \"customer\"){\n            customerId = res.body[i].id;\n        }\n    }\n    for(let i=0; i<myintord.products.length ; i++){\n        currentProducts[i] = restockorders.newProduct(idskus[myintord.products[i].SKUId], myintord.products[i].description, myintord.products[i].price, myintord.products[i].qty );\n    }\n    currentIntOrd = newInternalOrder(myintord.issueDate, currentProducts, customerId);\n    agent.post('/api/internalOrders')\n    .send(currentIntOrd)\n    .then(function(res2){\n        res2.should.have.status(expCode);\n        done();\n    }).catch(err => done(err));\n}).catch(err => done(err));;",
+                      "err": {},
+                      "uuid": "85ca3ad9-3068-484e-8fe1-4f6f4d8a1f4a",
+                      "parentUUID": "fa23ce02-be5e-43b7-8811-55ccf7e21bbe",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "85ca3ad9-3068-484e-8fe1-4f6f4d8a1f4a"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 918,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
                 {
-                  "title": "Creating a test descriptor",
-                  "fullTitle": "Testing Functional requirements test adding a test descriptor with post Creating a test descriptor",
-                  "timedOut": false,
-                  "duration": 699,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "let id = ids.getIdSku();\nlet testdescriptor;\nif(mytd.idSKU > id.length || mytd.idSKU === null){\n    testdescriptor = newTestDescriptor(mytd.name, mytd.procedureDescription, mytd.idSKU);\n} \nelse {\n    testdescriptor = newTestDescriptor(mytd.name, mytd.procedureDescription, id[mytd.idSKU]);\n}\n//console.log(testdescriptor);\nagent.post('/api/testDescriptor')\n.send(testdescriptor)\n.then(res2 => {\n    assert.equal(res2.status, expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "7e41f90a-cb53-4331-89a1-816b15f87a21",
-                  "parentUUID": "3b668720-25b0-4f67-bca1-2eb8675d7a22",
-                  "isHook": false,
-                  "skipped": false
-                }
-              ],
-              "suites": [],
-              "passes": [
-                "7e41f90a-cb53-4331-89a1-816b15f87a21"
-              ],
-              "failures": [],
-              "pending": [],
-              "skipped": [],
-              "duration": 699,
-              "root": false,
-              "rootEmpty": false,
-              "_timeout": 10000
-            },
-            {
-              "uuid": "58cff2bd-4e73-465b-8a1c-c2008fedaf2b",
-              "title": "put /api/skutems/:rfid",
-              "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
-              "file": "\\acceptanceTest\\testEzWhAPI.js",
-              "beforeHooks": [],
-              "afterHooks": [],
-              "tests": [
+                  "uuid": "289b3d67-094a-482f-9d03-4162befa0d0a",
+                  "title": " post /api/internalOrders",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Create a new internal order",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features  post /api/internalOrders Create a new internal order",
+                      "timedOut": false,
+                      "duration": 961,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "let idskus = ids.getIdSku();\nlet customerId;\nlet currentIntOrd;\nlet currentProducts = [];\nagent.get('/api/users')\n.then(function(res){\n    for(let i=0; i<res.body.length;i++){\n        if(res.body[i].type === \"customer\"){\n            customerId = res.body[i].id;\n        }\n    }\n    for(let i=0; i<myintord.products.length ; i++){\n        currentProducts[i] = restockorders.newProduct(idskus[myintord.products[i].SKUId], myintord.products[i].description, myintord.products[i].price, myintord.products[i].qty );\n    }\n    currentIntOrd = newInternalOrder(myintord.issueDate, currentProducts, customerId);\n    agent.post('/api/internalOrders')\n    .send(currentIntOrd)\n    .then(function(res2){\n        res2.should.have.status(expCode);\n        done();\n    }).catch(err => done(err));\n}).catch(err => done(err));;",
+                      "err": {},
+                      "uuid": "0d38d012-c8e5-4864-9f2f-609912f8fcd2",
+                      "parentUUID": "289b3d67-094a-482f-9d03-4162befa0d0a",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "0d38d012-c8e5-4864-9f2f-609912f8fcd2"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 961,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
                 {
-                  "title": "Editing SKUitems details passing its rfid",
-                  "fullTitle": "Testing Functional requirements put /api/skutems/:rfid Editing SKUitems details passing its rfid",
-                  "timedOut": false,
-                  "duration": 557,
-                  "state": "passed",
-                  "speed": "slow",
-                  "pass": true,
-                  "fail": false,
-                  "pending": false,
-                  "context": null,
-                  "code": "console.log(newskuitem);\nagent.put('/api/skuitems/'+newskuitem.newRFID)\n.send(newskuitem)\n.then(function (res) {\n    console.log(res.body);\n    res.should.have.status(expCode);\n    done();\n}).catch(err=>done(err));",
-                  "err": {},
-                  "uuid": "5d953723-f435-48a5-98bf-c226a5fb26fc",
-                  "parentUUID": "58cff2bd-4e73-465b-8a1c-c2008fedaf2b",
-                  "isHook": false,
-                  "skipped": false
+                  "uuid": "f716b058-0f02-4da3-9641-5650d6884c6e",
+                  "title": " post /api/internalOrders",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Create a new internal order",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features  post /api/internalOrders Create a new internal order",
+                      "timedOut": false,
+                      "duration": 4,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "//console.log(currentInternalOrders[ith]);\nagent.post('/api/internalOrders')\n.send(intord)\n.then(function(res) {\n    console.log(res.body);\n    res.should.have.status(expCode);\n    done();\n}).catch(err => done(err));",
+                      "err": {},
+                      "uuid": "b36eaad7-6d82-429a-9a83-479ccb4ed473",
+                      "parentUUID": "f716b058-0f02-4da3-9641-5650d6884c6e",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "b36eaad7-6d82-429a-9a83-479ccb4ed473"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 4,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
+                {
+                  "uuid": "271bcad7-5923-4d08-87d4-b1c464b99a50",
+                  "title": " get /api/internalOrders",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Getting all internal orders",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features  get /api/internalOrders Getting all internal orders",
+                      "timedOut": false,
+                      "duration": 9,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.get('/api/internalOrders')\n.then(function(res){\n    //console.log(res.body);\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    res.body.length.should.be.eql(size);\n    console.log('body length', res.body.length);\n    for(let i=0; i<res.body.length; i++){\n        console.log(res.body[i]);\n    }\n    done();\n}).catch(err=>done(err));",
+                      "err": {},
+                      "uuid": "32b9cdd3-6da7-4776-b7d3-359bcc5fbfd0",
+                      "parentUUID": "271bcad7-5923-4d08-87d4-b1c464b99a50",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "32b9cdd3-6da7-4776-b7d3-359bcc5fbfd0"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 9,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
+                {
+                  "uuid": "6508637b-9cb6-420f-9999-a351ff9f5d7a",
+                  "title": " get /api/internalOrdersIssued",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Retrieve all internal order in state issued",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features  get /api/internalOrdersIssued Retrieve all internal order in state issued",
+                      "timedOut": false,
+                      "duration": 5,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.get('/api/internalOrdersIssued')\n.then(function(res){\n    res.should.have.status(expcode);\n    res.body.should.be.a('array');\n    for(let i=0; i<res.body.length; i++){\n        console.log('inside get order issued', res.body[i]);\n    }\n    done();\n}).catch(err=>done(err));",
+                      "err": {},
+                      "uuid": "e4074bf3-ee69-41a9-9e0e-37aa684c5513",
+                      "parentUUID": "6508637b-9cb6-420f-9999-a351ff9f5d7a",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "e4074bf3-ee69-41a9-9e0e-37aa684c5513"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 5,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
+                {
+                  "uuid": "73c2e17f-c984-4220-944d-5285ce5409ba",
+                  "title": " put /api/internalOrders/:id",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Modify the state of an IO",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features  put /api/internalOrders/:id Modify the state of an IO",
+                      "timedOut": false,
+                      "duration": 7,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.get('/api/internalOrders')\n.then(function(res){\n    agent.put('/api/internalOrders/'+res.body[0].id)\n    .send({\"newState\":newState, \"products\":[{\"SkuID\":1,\"RFID\":\"12345678901234567890123456789016\"},{\"SkuID\":1,\"RFID\":\"12345678901234567890123456789038\"}]})\n    .then(function(res2){\n        res2.should.have.status(expCode);\n        done();\n    }).catch(err=>done(err));\n});",
+                      "err": {},
+                      "uuid": "85a70956-54a2-4444-b41c-58c956cc8846",
+                      "parentUUID": "73c2e17f-c984-4220-944d-5285ce5409ba",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "85a70956-54a2-4444-b41c-58c956cc8846"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 7,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
+                {
+                  "uuid": "40bc08ea-6790-47e3-b833-8b3d39ca6d00",
+                  "title": " get /api/internalOrdersIssued",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Retrieve all internal order in state issued",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features  get /api/internalOrdersIssued Retrieve all internal order in state issued",
+                      "timedOut": false,
+                      "duration": 5,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.get('/api/internalOrdersIssued')\n.then(function(res){\n    res.should.have.status(expcode);\n    res.body.should.be.a('array');\n    for(let i=0; i<res.body.length; i++){\n        console.log('inside get order issued', res.body[i]);\n    }\n    done();\n}).catch(err=>done(err));",
+                      "err": {},
+                      "uuid": "805f9746-e62a-4b3f-aee8-c2a61c6c71b8",
+                      "parentUUID": "40bc08ea-6790-47e3-b833-8b3d39ca6d00",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "805f9746-e62a-4b3f-aee8-c2a61c6c71b8"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 5,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
+                {
+                  "uuid": "34ec6a6a-c7f5-4a72-b058-5a4bac980d21",
+                  "title": " get /api/internalOrdersIssued",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Retrieve all internal order in state issued",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features  get /api/internalOrdersIssued Retrieve all internal order in state issued",
+                      "timedOut": false,
+                      "duration": 3,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.get('/api/internalOrdersAccepted')\n.then(function(res){\n    res.should.have.status(expcode);\n    res.body.should.be.a('array');\n    for(let i=0; i<res.body.length; i++){\n        console.log('inside get order accepted', res.body[i]);\n    }\n    done();\n}).catch(err=>done(err));",
+                      "err": {},
+                      "uuid": "036563bd-a283-4b10-a417-a73a477b2472",
+                      "parentUUID": "34ec6a6a-c7f5-4a72-b058-5a4bac980d21",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "036563bd-a283-4b10-a417-a73a477b2472"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 3,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
+                {
+                  "uuid": "29c9d22d-0995-4600-bb1b-cbf5273c3f82",
+                  "title": " put /api/internalOrders/:id",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Modify the state of an IO",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features  put /api/internalOrders/:id Modify the state of an IO",
+                      "timedOut": false,
+                      "duration": 334,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.get('/api/internalOrders')\n.then(function(res){\n    agent.put('/api/internalOrders/'+res.body[0].id)\n    .send({\"newState\":newState, \"products\":[{\"SkuID\":1,\"RFID\":\"12345678901234567890123456789016\"},{\"SkuID\":1,\"RFID\":\"12345678901234567890123456789038\"}]})\n    .then(function(res2){\n        res2.should.have.status(expCode);\n        done();\n    }).catch(err=>done(err));\n});",
+                      "err": {},
+                      "uuid": "58a422c6-ed8a-4ad4-9e76-e64c3c8446d0",
+                      "parentUUID": "29c9d22d-0995-4600-bb1b-cbf5273c3f82",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "58a422c6-ed8a-4ad4-9e76-e64c3c8446d0"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 334,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
+                },
+                {
+                  "uuid": "18b61361-08ba-416b-9566-68e6638165a8",
+                  "title": " get /api/internalOrders",
+                  "fullFile": "D:\\Documenti\\EzWarehouse\\Code\\EzWh\\code\\server\\acceptanceTest\\testEzWhAPI.js",
+                  "file": "\\acceptanceTest\\testEzWhAPI.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Getting all internal orders",
+                      "fullTitle": "Testing Functional requirements pt2 Test Internal Order CRUD features  get /api/internalOrders Getting all internal orders",
+                      "timedOut": false,
+                      "duration": 11,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "agent.get('/api/internalOrders')\n.then(function(res){\n    //console.log(res.body);\n    res.should.have.status(expCode);\n    res.body.should.be.a('array');\n    res.body.length.should.be.eql(size);\n    console.log('body length', res.body.length);\n    for(let i=0; i<res.body.length; i++){\n        console.log(res.body[i]);\n    }\n    done();\n}).catch(err=>done(err));",
+                      "err": {},
+                      "uuid": "287ce3b8-918d-48cf-8183-c41f215a1ece",
+                      "parentUUID": "18b61361-08ba-416b-9566-68e6638165a8",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "287ce3b8-918d-48cf-8183-c41f215a1ece"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 11,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 10000
                 }
               ],
-              "suites": [],
-              "passes": [
-                "5d953723-f435-48a5-98bf-c226a5fb26fc"
-              ],
+              "passes": [],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 557,
+              "duration": 0,
               "root": false,
               "rootEmpty": false,
               "_timeout": 10000

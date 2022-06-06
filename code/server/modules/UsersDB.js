@@ -45,7 +45,10 @@ class UsersDB {
                     reject(err);
                     return;
                 } else {
-                    resolve(row);
+                    if(!row)
+                        resolve(null);
+                    else
+                        resolve(row);
                 }
             });
         });

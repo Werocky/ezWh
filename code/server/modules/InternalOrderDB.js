@@ -91,7 +91,8 @@ module.exports = class InternalOrderDB{
                     resolve(null);
                 }else{
                     const internalOrder = new InternalOrder(row.id, row.issueDate, row.state, row.products, row.customerId);
-                    resolve(this.parseInternalOrder(internalOrder));
+                    const pInternalOrder = await this.parseInternalOrder(internalOrder)
+                    resolve(pInternalOrder);
                 }
             });
         });

@@ -120,7 +120,7 @@ module.exports=function(app){
                     await items.createItemTable();
                     const item = await items.getItemById(id);
                     if(!item)
-                        return res.status(404).end();
+                        return res.status(204).end();
                     await items.deleteItem(id);
                 }
                 catch(err){

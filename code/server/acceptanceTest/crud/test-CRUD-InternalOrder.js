@@ -33,7 +33,7 @@ function testInternalOrderCRUD(){
     myinternalorders[0] = internalorders.newInternalOrder("2021/11/29 09:30", myproducts, 0);
     myinternalorders[1] = internalorders.newInternalOrder("2021/11/30 21:30", myproducts, 0);
 
-    describe('Test Internal Order CRUD features', () =>{
+    describe.only('Test Internal Order CRUD features', () =>{
         internalorders.deleteAllInternalOrders(agent);
         skuitems.deleteAllSkuItems(agent);      
         skus.deleteAllSkus(agent);

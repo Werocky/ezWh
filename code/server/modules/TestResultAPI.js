@@ -128,7 +128,7 @@ module.exports = function(app){
             }
             testResult = new TestResultDB('WarehouseDB');
             await testResult.createTestResultTable();
-            await testResult.createTestResult(req.body.rfid, req.body.idTestDescriptor, req.body.date, req.body.result);
+            await testResult.createTestResult(req.body.rfid, req.body.idTestDescriptor, req.body.Date, req.body.Result);
         }catch(err){
             //service unavailable, generic error
             return res.status(503).end();
@@ -195,7 +195,7 @@ module.exports = function(app){
             await testResults.createTestResultTable();
             const testResult = await testResults.getTestResultsByIdAndRfid(req.params.id,req.params.rfid);
             if(!testResult){
-                return res.status(404).end();
+                return res.status(204).end();
             }
             await testResults.deleteTestResult(req.params.id, req.params.rfid);
         }catch(err){

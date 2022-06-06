@@ -239,7 +239,7 @@ module.exports = function (app) {
                 await internalOrders.deleteInternalOrder(req.params.id);
                 if (Object.keys(internalOrders).length === 0) {
                     //not found, no internal order associated to the id = :id
-                    return res.status(404).end();
+                    return res.status(204).end();
                 }
             } catch (err) {
                 //service unavailable, generic error
