@@ -100,7 +100,7 @@ module.exports = function(app) {
             restockOrders = new RestockOrdersDB('WarehouseDB'); 
             await restockOrders.createRestockTable();
             if (! await restockOrders.getRestockOrder(req.body.restockOrderId)) {
-                res.status(404).json();
+                return res.status(404).json();
             }
             returnOrders = new ReturnOrdersDB('WarehouseDB');
             await returnOrders.createReturnOrdersTable();
