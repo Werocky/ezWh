@@ -25,7 +25,7 @@ module.exports = function(app) {
          * 500 -> Internal Server Error (generic error) 
          */
         
-        return getRestockOrders(res);
+        return await getRestockOrders(res);
     });
 
     //GET ALL ISSUED RESTOCK ORDERS
@@ -34,7 +34,7 @@ module.exports = function(app) {
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 500 -> Internal Server Error (generic error) 
          */
-        return getRestockOrders(res, true);
+        return await getRestockOrders(res, true);
     });
 
     //GET AN ORDER BY ID

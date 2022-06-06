@@ -76,6 +76,7 @@ module.exports = function(app){
                 return res.status(404).end();
             }
             testResult = new TestResultDB('WarehouseDB');
+            await testResult.createTestResultTable();
             testResult = await testResult.getTestResultsByIdAndRfid(req.params.id, req.params.rfid);
             if(!testResult)
                 //not found, no test result associatd to rfid = :rfid and id = :id
@@ -158,6 +159,7 @@ module.exports = function(app){
         let testResults
         try{
             testResults = new TestResultDB('WarehouseDB');
+            await testResults.createTestResultTable();
             const testResult = await testResults.getTestResultsByIdAndRfid(req.params.id, req.params.rfid);
             if(!testResult)
                 //not found, no test results associated to rfid = :rfid and id = :id
@@ -190,6 +192,7 @@ module.exports = function(app){
         let testResults;
         try{
             testResults = new TestResultDB('WarehouseDB');
+            await testResults.createTestResultTable();
             const testResult = await testResults.getTestResultsByIdAndRfid(req.params.id,req.params.rfid);
             if(!testResult){
                 return res.status(404).end();

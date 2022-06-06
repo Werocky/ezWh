@@ -57,8 +57,8 @@ class RestockOrdersDB {
         });
     }
 
-    getRestockOrder(id) {
-        return new Promise((resolve, reject) => {
+    async getRestockOrder(id) {
+        let restockOrder = await new Promise((resolve, reject) => {
             const sql = 'SELECT issueDate as issueDate, state as state, products as products, supplierId as supplierId, transportNote as transportNote, skuItems as skuItems FROM RESTOCKORDERS WHERE id=?';
             this.db.get(sql, [id], (err, row) => {
                 if (err) {
@@ -70,10 +70,16 @@ class RestockOrdersDB {
                 }
                 else {
                     let restockOrder = new RestockOrder(row.issueDate, row.state, row.products, row.supplierId, row.transportNote, row.skuItems, id)
-                    resolve(this.parseRestockOrder(restockOrder));
+                    resolve(restockOrder);
                 }
             });
         });
+
+        if (restockOrder) {
+            return await this.parseRestockOrder(restockOrder);
+
+        }
+        return null;
     }
 
     async parseRestockOrder(restockOrder) {

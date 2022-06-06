@@ -104,8 +104,9 @@ module.exports = function (app) {
         if (!sku)
             return 404;
         if (sku.getPositionId() && (sku.getAvailableQuantity() !== newAvailableQuantity || sku.getWeight() !== newWeight || sku.getVolume() !== newVolume)) {
-            const positions = new PositionDB('WarehouseDB');
-            const position = positions.getPosition(sku.getPositionId());
+            let positions = new PositionDB('WarehouseDB');
+            await positions.createPositionTable();
+            const position = await positions.getPosition(sku.getPositionId());
             if (!position)
                 return 404;
             //The following operation will raise an exception if the modified SKU doesn't fit the position
@@ -157,7 +158,7 @@ module.exports = function (app) {
             return 404
         }
         let positions = new PositionDB('WarehouseDB');
-        //await positions.createPositionTable();
+        await positions.createPositionTable();
         if (positionId) {
             let position = await positions.getPosition(positionId);
             if (!position) {
@@ -216,6 +217,7 @@ module.exports = function (app) {
         }
         if (sku.getPositionId()) {
             let positions = new PositionDB('WarehouseDB');
+            await positions.createPositionTable();
             let position = await positions.getPosition(sku.getPositionId());
             await positions.changePosition(position.getPositionID(), position.getAisleID(), position.getRow(), position.getCol(), position.getMaxWeight(), position.getMaxVolume(), 0, 0);
         }

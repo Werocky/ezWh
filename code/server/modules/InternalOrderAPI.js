@@ -204,7 +204,7 @@ module.exports = function (app) {
                     for (let i = 0; i < req.body.products.length; i++) {
                         //skuItem = await skuItems.getAvailableSKUItemsBySKUId(req.body.products[i].SkuID);
                         //skuItems.modifySKUItem(skuItem[0].RFID, 0, null, skuItem[0].RFID)
-                        skuItems.modifySKUItem(req.body.products[i].RFID, 0, null, req.body.products[i].RFID)
+                        await skuItems.modifySKUItem(req.body.products[i].RFID, 0, null, req.body.products[i].RFID)
                     }
                     await internalOrders.changeState(req.params.id, req.body.newState, req.body.products);
                 }
