@@ -111,8 +111,11 @@ module.exports = function (app) {
             //The following operation will raise an exception if the modified SKU doesn't fit the position
             await positions.changePosition(sku.getPositionId(), position.getAisleID(), positions.getRow(), position.getCol(), position.getMaxWeight(), position.getMaxVolume(), sku.getTotalWeight(), sku.getTotalVolume());
         }
-        await skus.modifySKU(new SKU(newDescription, newWeight, newVolume, newNotes, newAvailableQuantity, newPrice, newTestDescriptors, sku.getPositionID(), id));
-        return 201;
+        let newTD = newTestDescriptors;
+        if(!newTestDescriptors)
+            newTD = sku.getTestDescriptors();
+        await skus.modifySKU(new SKU(newDescription, newWeight, newVolume, newNotes, newAvailableQuantity, newPrice, newTD, sku.getPositionId(), id));
+        return 200;
     }
     //CHANGE SKU INFORMATION
     app.put('/api/sku/:id', [
@@ -123,7 +126,7 @@ module.exports = function (app) {
         body('newNotes').isString(),
         body('newPrice').isFloat({ min: 0 }),
         body('newAvailableQuantity').isInt({ min: 0 }),
-        body('newTestDescriptors').isArray()
+        //body('newTestDescriptors').isArray().optional({nullable: true})
     ],
         async (req, res) => {
 
@@ -137,7 +140,7 @@ module.exports = function (app) {
             }
             let response
             try {
-                response = await modifySKU(req.body.newDescription, req.body.newWeight, req.body.newVolume, req.body.newNotes, req.body.newAvailableQuantity, req.body.newPrice, newTestDescriptors);
+                response = await modifySKU(req.body.newDescription, req.body.newWeight, req.body.newVolume, req.body.newNotes, req.body.newAvailableQuantity, req.body.newPrice, req.body.newTestDescriptors,id);
             }
             catch (err) {
                 return res.status(503).end();
@@ -209,7 +212,7 @@ module.exports = function (app) {
         await skus.createSKUTable();
         let sku = await skus.getSKUById(id);
         if (!sku) {
-            return 404;
+            return 204;
         }
         if (sku.getPositionId()) {
             let positions = new PositionDB('WarehouseDB');
