@@ -108,10 +108,8 @@ module.exports = function (app) {
             skuItems = new SKUItemsDB('WarehouseDB');
             await skuItems.createSKUItemsTable();
             await skuItems.createSKUItem(req.body.RFID, req.body.SKUId, 0, req.body.DateOfStock);
-            console.log(req.body.RFID);
         }
         catch (err) {
-            console.log(err);
             return res.status(503).end();
 
         }
@@ -176,7 +174,6 @@ module.exports = function (app) {
             await skuItems.modifySKUItem(req.body.newRFID, req.body.newAvailable, req.body.newDateOfStock, skuItem.getRfid())
         }
         catch (err) {
-            console.log(err);
             return res.status(503).end();
         }
         return res.status(200).end();
@@ -204,15 +201,14 @@ module.exports = function (app) {
                     skus = new SKUDB('WarehouseDB');
                     await skus.createSKUTable();
                     sku = await skus.getSKUById(skuItem.getSKUId());
-                    if (!sku)
-                        return res.status(503).end();
+                    if (sku){
                     sku.setAvailableQuantity(sku.getAvailableQuantity() - 1);
                     await skus.modifySKU(sku);
+                    }
                 }
                 await skuItems.deleteSKUItem(rfid);
             }
             catch (err) {
-                console.log(err);
                 return res.status(503).end();
             }
             return res.status(204).end();

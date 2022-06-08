@@ -117,7 +117,7 @@ module.exports = function (app) {
             let testDescriptor;
             let skus;
             let sku;
-            let oldSku = [];
+            let oldSku;
             try {
                 testDescriptors = new TestDescriptorDB('WarehouseDB');
                 await testDescriptors.createTestDescriptorTable();
@@ -136,9 +136,9 @@ module.exports = function (app) {
                 //if the id of the sku is update, remove from the old sku and add it to the new one
                 if (testDescriptor.idSKU !== req.params.id) {
                     //update old sku descriptor's list
-                    oldSku.map(async e => { await e.getSKUById(req.params.id) });
+                    oldSku = await skus.getSKUById(req.params.id);
 
-                    if (oldSku.testDescriptors) {
+                    if (oldSku && oldSku.testDescriptors) {
                         let descriptors = oldSku.testDescriptors;
                         oldSku.setTestDescriptors(descriptors.filter(e => e !== testDescriptor.idSKU));
                         await skus.modifySKU(oldSku);
@@ -152,6 +152,7 @@ module.exports = function (app) {
                 await testDescriptors.changeIdSKU(req.body.newIdSKU, req.params.id);
             } catch (err) {
                 //service unavailable, generic error
+                console.log(err);
                 return res.status(503).end();
             }
             //success, test descriptor updated

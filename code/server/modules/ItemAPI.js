@@ -99,7 +99,6 @@ module.exports=function(app){
                     let items = new ItemDB('WarehouseDB');
                     await items.createItemTable();
                     let item = await items.getItemById(id);
-                    console.log(item);
                     if(!item)
                         return res.status(404).end();
                     await items.modifyItem(id,req.body.newDescription,req.body.newPrice,item.getSKUId(),item.getSupplierId(),id);

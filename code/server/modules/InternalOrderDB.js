@@ -106,6 +106,7 @@ module.exports = class InternalOrderDB{
         for (let i = 0; i < productsID.length; i++) {
             let sku = await skus.getSKUById(productsID[i].SKUId);
             let product = {};
+            if(sku){
             product['SKUId'] = sku.id;
             product['description'] = sku.description;
             product['price'] = sku.price;
@@ -114,6 +115,7 @@ module.exports = class InternalOrderDB{
             }else {
                 product['qty'] = productsID[i].qty;
             }
+        }
             products.push(product);
         }
             
