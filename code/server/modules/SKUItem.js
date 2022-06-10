@@ -6,39 +6,39 @@ const dayjs = require('dayjs');
 
 class SKUItem{
     
-    constructor(rfid, SKUid, available, stockDate){ //TODO: correct design
-        this.rfid = rfid;
-        this.SKUid = SKUid;
-        this.available = available;
-        this.stockDate = stockDate
+    constructor(RFID, SKUId, Available, DateOfStock){ //TODO: correct design
+        this.RFID = RFID;
+        this.SKUId = SKUId;
+        this.Available = Available;
+        this.DateOfStock = DateOfStock;
     }
 
     getRfid(){
-        return this.rfid;
+        return this.RFID;
     }
 
-    setRfid(rfid){
-        this.rfid = rfid;
+    setRfid(RFID){
+        this.RFID = RFID;
     }
 
     getSKUId(){
-        return this.SKUid;
+        return this.SKUId;
     }
 
     getAvailable(){
-        return this.available;
+        return this.Available;
     }
     
-    setAvailable(available){
-        this.available = available;
+    setAvailable(Available){
+        this.Available = Available;
     }
 
     getStockDate(){
-        return this.stockDate;
+        return this.DateOfStock;
     }
 
-    setStockDate(stockDate){
-        this.stockDate = stockDate;
+    setStockDate(DateOfStock){
+        this.DateOfStock = DateOfStock;
     }
     
 }

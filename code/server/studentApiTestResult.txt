@@ -1,0 +1,131 @@
+Server listening at http://localhost:3001
+
+
+  test manage internal orders creation and acceptance
+    1) "before each" hook for "accepting internal an order"
+    2) "after all" hook for "delivering internal an order"
+
+  test acceptance of SKU items of a restock order
+    3) "before each" hook for "stock all"
+    4) "after all" hook for "stock some"
+
+  test issue restock order use cases
+[Error: SQLITE_BUSY: database is locked] {
+  errno: 5,
+  code: 'SQLITE_BUSY'
+}
+    ✔ issuing a restock order (596ms)
+
+  test manage login and logout scenarios
+    ✔ hello
+    ✔ login (656ms)
+    ✔ logout (558ms)
+
+  test item use case
+    ✔ create a new item (608ms)
+    ✔ change description and price (622ms)
+
+  test manage positions scenarios
+    ✔ adding a new position (592ms)
+    ✔ change id of a position (526ms)
+    ✔ changing position data (584ms)
+    ✔ deleting a position (483ms)
+
+  test manage reception of SKU items of a restock order
+    ✔ test recording of restock order arrival (544ms)
+[Error: SQLITE_BUSY: database is locked] {
+  errno: 5,
+  code: 'SQLITE_BUSY'
+}
+    5) "after all" hook for "test recording of restock order arrival"
+
+  test manage test descriptors scenarios
+[Error: SQLITE_BUSY: database is locked] {
+  errno: 5,
+  code: 'SQLITE_BUSY'
+}
+    ✔ adding a new test descriptor (851ms)
+    ✔ update test descriptor (468ms)
+    ✔ deleting a test descriptor (581ms)
+
+  test manage users and rights scenarios
+    ✔ adding a new user (550ms)
+    ✔ modify user rights (416ms)
+    ✔ deleting a user (608ms)
+
+  test return order of SKU items use cases
+    6) "before each" hook for "return order of SKU items that failed quality test"
+[Error: SQLITE_BUSY: database is locked] {
+  errno: 5,
+  code: 'SQLITE_BUSY'
+}
+[Error: SQLITE_BUSY: database is locked] {
+  errno: 5,
+  code: 'SQLITE_BUSY'
+}
+
+  test SKU scenarios
+    ✔ adding a new sku (629ms)
+    ✔ placing an sku (392ms)
+    ✔ changing weight and volume (529ms)
+
+  test testing of SKU items of a restock order
+    7) "before each" hook for "all test results are positive"
+[Error: SQLITE_BUSY: database is locked] {
+  errno: 5,
+  code: 'SQLITE_BUSY'
+}
+    8) "after all" hook for "some tests are positive some are negative"
+
+
+  20 passing (42s)
+  8 failing
+
+  1) test manage internal orders creation and acceptance
+       "before each" hook for "accepting internal an order":
+     Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (D:\Documenti\EzWarehouse\Code\EzWh\code\server\test\testAcceptanceInternalOrders.js)
+      at listOnTimeout (node:internal/timers:559:17)
+      at processTimers (node:internal/timers:502:7)
+
+  2) test manage internal orders creation and acceptance
+       "after all" hook for "delivering internal an order":
+     Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (D:\Documenti\EzWarehouse\Code\EzWh\code\server\test\testAcceptanceInternalOrders.js)
+      at listOnTimeout (node:internal/timers:559:17)
+      at processTimers (node:internal/timers:502:7)
+
+  3) test acceptance of SKU items of a restock order
+       "before each" hook for "stock all":
+     Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (D:\Documenti\EzWarehouse\Code\EzWh\code\server\test\testAcceptanceofTestedSKUItems.js)
+      at listOnTimeout (node:internal/timers:559:17)
+      at processTimers (node:internal/timers:502:7)
+
+  4) test acceptance of SKU items of a restock order
+       "after all" hook for "stock some":
+     Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (D:\Documenti\EzWarehouse\Code\EzWh\code\server\test\testAcceptanceofTestedSKUItems.js)
+      at listOnTimeout (node:internal/timers:559:17)
+      at processTimers (node:internal/timers:502:7)
+
+  5) test manage reception of SKU items of a restock order
+       "after all" hook for "test recording of restock order arrival":
+     Error: SQLITE_BUSY: database is locked
+  
+
+  6) test return order of SKU items use cases
+       "before each" hook for "return order of SKU items that failed quality test":
+     Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (D:\Documenti\EzWarehouse\Code\EzWh\code\server\test\testReturnOrders.js)
+      at listOnTimeout (node:internal/timers:559:17)
+      at processTimers (node:internal/timers:502:7)
+
+  7) test testing of SKU items of a restock order
+       "before each" hook for "all test results are positive":
+     Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (D:\Documenti\EzWarehouse\Code\EzWh\code\server\test\testTestingSKUItems.js)
+      at listOnTimeout (node:internal/timers:559:17)
+      at processTimers (node:internal/timers:502:7)
+
+  8) test testing of SKU items of a restock order
+       "after all" hook for "some tests are positive some are negative":
+     Error: SQLITE_BUSY: database is locked
+  
+
+
+

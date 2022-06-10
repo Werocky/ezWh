@@ -1,12 +1,15 @@
 'use strict';
 
 const dayjs = require('dayjs');
+const CustomParseFormat = require('dayjs/plugin/CustomParseFormat');
 const { body, param, check, validationResult } = require('express-validator');
 
 const ReturnOrdersDB = require('./ReturnOrdersDB');
 const ReturnOrder = require('./ReturnOrder');
 
 const RestockOrdersDB = require('./RestockOrdersDB');
+
+dayjs.extend(CustomParseFormat);
 
 let currentUser = undefined;
 
@@ -97,13 +100,14 @@ module.exports = function(app) {
             restockOrders = new RestockOrdersDB('WarehouseDB'); 
             await restockOrders.createRestockTable();
             if (! await restockOrders.getRestockOrder(req.body.restockOrderId)) {
-                res.status(404).json();
+                return res.status(404).json();
             }
             returnOrders = new ReturnOrdersDB('WarehouseDB');
             await returnOrders.createReturnOrdersTable();
             await returnOrders.createReturnOrder(req.body.returnDate, req.body.products, req.body.restockOrderId);
         } catch (err) {
             // generic error
+            console.log(err);
             return res.status(503).json(); // Service Unavailable
         }
         return res.status(201).json();

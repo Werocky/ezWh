@@ -11,13 +11,13 @@ class ItemDB{
             if (err)
                 throw err;
         });
-       this.db.run("PRAGMA foreign_keys = ON;");
+       //this.db.run("PRAGMA foreign_keys = ON;");
 
     }
 
     createItemTable(){
         return new Promise((resolve,reject)=>{
-            const sql = 'CREATE TABLE IF NOT EXISTS ITEMS(id INTEGER, description VARCHAR(50), price FLOAT, SKUId INTEGER, supplierId INTEGER,PRIMARY KEY(id,supplierId), CHECK(price >= 0),FOREIGN KEY(SKUId) REFERENCES SKUS(id) ON UPDATE CASCADE ON DELETE RESTRICT,FOREIGN KEY(supplierId) REFERENCES USERS(ID) ON UPDATE CASCADE ON DELETE RESTRICT);';
+            const sql = 'CREATE TABLE IF NOT EXISTS ITEMS(id INTEGER, description VARCHAR(50), price FLOAT, SKUId INTEGER, supplierId INTEGER,PRIMARY KEY(id,supplierId), CHECK(price >= 0));';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -41,7 +41,7 @@ class ItemDB{
                     resolve([]);
                 else {
                     let items = [];
-                    rows.forEach(item => {
+                    rows.forEach(row => {
                         items.push(new Item(row.id, row.description, row.price, row.SKUId, row.supplierId));
                     });
                     resolve(items);

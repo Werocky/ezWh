@@ -1,6 +1,7 @@
 'use strict';
 
 const dayjs = require('dayjs');
+const CustomParseFormat = require('dayjs/plugin/CustomParseFormat');
 const { body, param, check, validationResult } = require('express-validator');
 
 const STATES = ['ISSUED', 'DELIVERY', 'DELIVERED'];
@@ -9,6 +10,8 @@ const RestockOrdersDB = require('./RestockOrdersDB');
 const RestockOrder = require('./RestockOrder');
 const TestResultDB = require('./TestResultDB');
 const SKUDB = require('./SKUsDB');
+
+dayjs.extend(CustomParseFormat);
 
 
 let currentUser = undefined;
@@ -22,7 +25,7 @@ module.exports = function(app) {
          * 500 -> Internal Server Error (generic error) 
          */
         
-        return getRestockOrders(res);
+        return await getRestockOrders(res);
     });
 
     //GET ALL ISSUED RESTOCK ORDERS
@@ -31,7 +34,7 @@ module.exports = function(app) {
          * 401 -> Unauthorized (not logged in or wrong permissions),
          * 500 -> Internal Server Error (generic error) 
          */
-        return getRestockOrders(res, true);
+        return await getRestockOrders(res, true);
     });
 
     //GET AN ORDER BY ID
@@ -142,9 +145,11 @@ module.exports = function(app) {
         if (!err.isEmpty()) {
             return res.status(422).json();
         }
+        
         if(!req.body.issueDate || !dayjs(req.body.issueDate,['YYYY/MM/DD','YYYY/MM/DD HH:mm'],true).isValid()){
             return res.status(422).end();
         }
+        
         
         let restockOrders;
         try {
@@ -198,6 +203,7 @@ module.exports = function(app) {
 
     //ADD SKUITEMS TO AN ORDER
     app.put('/api/restockOrder/:id/skuItems',
+            check('skuItems').exists(),
             check('skuItems.*.SKUId').isInt({ min: 0}),
             check('skuItems.*.rfid').isLength({min:32, max: 32}),
             param('id').isInt(),
@@ -243,7 +249,7 @@ module.exports = function(app) {
 
     //ADD A TRANSPORT NOTE TO AN ORDER
     app.put('/api/restockOrder/:id/transportNote',
-            check('transportNote.*.deliveryDate').isDate(),
+            //check('transportNote.*.deliveryDate').isDate(),
             param('id').isInt(),
             async (req,res)=>{
         /**Error responses: 
@@ -276,7 +282,7 @@ module.exports = function(app) {
             let issueDate = dayjs(restockOrder.issueDate, 'YYYY/MM/DD HH:mm');
             let deliveryDate = dayjs(req.body.transportNote.deliveryDate, 'YYYY/MM/DD');
 
-            if (restockOrder.state !== 'DELIVERED' || deliveryDate.isBefore(issueDate)) {
+            if (restockOrder.state !== 'DELIVERY' || deliveryDate.isBefore(issueDate)) {
                 return res.status(422).json();
             }
 
@@ -327,6 +333,7 @@ async function getRestockOrders(res, onlyIssued=false) {
         restockOrders = await restockOrders.getRestockOrders();
     } catch (err) {
         // generic error
+        console.log(err);
         return res.status(500).json();
     }
     for (let restockOrder of restockOrders) {

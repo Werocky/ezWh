@@ -13,7 +13,7 @@ module.exports = class TestDescriptorDB{
 
     createTestDescriptorTable(){
         return new Promise((resolve, reject) =>{
-            const query = 'CREATE TABLE IF NOT EXISTS TESTDESCRIPTOR(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, procedureDescription VARCHAR, idSKU INTEGER)';
+            const query = 'CREATE TABLE IF NOT EXISTS TESTDESCRIPTOR(id INTEGER PRIMARY KEY, name VARCHAR, procedureDescription VARCHAR, idSKU INTEGER)';
             this.db.run(query, (err) =>{
                 if(err){
                     reject(err);

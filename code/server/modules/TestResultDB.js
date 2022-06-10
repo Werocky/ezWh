@@ -13,7 +13,7 @@ class TestResultDB{
 
     createTestResultTable(){
         return new Promise((resolve, reject) => {
-            const query = 'CREATE TABLE IF NOT EXISTS TESTRESULT(ID INTEGER PRIMARY KEY AUTOINCREMENT, rfid VARCHAR, idTestDescriptor INTEGER, date VARCHAR, result BOOLEAN)';
+            const query = 'CREATE TABLE IF NOT EXISTS TESTRESULT(ID INTEGER PRIMARY KEY, rfid VARCHAR, idTestDescriptor INTEGER, date VARCHAR, result BOOLEAN)';
             this.db.run(query, (err) =>{
                 if(err){
                     reject(err);
@@ -88,6 +88,7 @@ class TestResultDB{
                 }
                 if(!rows){
                     resolve([]);
+                    return;
                 }else{
                     let result = [];
                     rows.forEach(row => {
@@ -119,7 +120,7 @@ class TestResultDB{
 
     changeTestResult(id, rfid, testDescriptor, date, result){
         return new Promise((resolve, reject) =>{
-            const query = 'UPDATE TESTRESULT SET testDescriptor = ?, date = ?, result = ? WHERE id = ? AND rfid = ?';
+            const query = 'UPDATE TESTRESULT SET idTestDescriptor = ?, date = ?, result = ? WHERE id = ? AND rfid = ?';
             this.db.run(query, [testDescriptor, date, result, id, rfid], (err) =>{
                 if(err){
                     reject(err);

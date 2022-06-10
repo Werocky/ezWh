@@ -36,7 +36,7 @@ module.exports=function(app){
         try{
             items = new ItemDB('WarehouseDB');
             await items.createItemTable();
-            item = await item.getItemById(id);
+            item = await items.getItemById(id);
         }
         catch(err){
             return res.status(500).json();
@@ -70,21 +70,20 @@ module.exports=function(app){
             const sku = await skus.getSKUById(req.body.SKUId);
             if(!sku)
                 return res.status(404).end();
-            const alreadySupplies = await alreadySells(req.body.supplierId,req.body.id,req.body.SKUId);
+            const alreadySupplies = await items.alreadySells(req.body.supplierId,req.body.id,req.body.SKUId);
             if(alreadySupplies)
                 return res.status(422).end();
-            await createItem(req.body.id,req.body.description,req.body.price,req.body.SKUId,req.body.supplierId);
+            await items.createItem(req.body.id,req.body.description,req.body.price,req.body.SKUId,req.body.supplierId);
         }
         catch(err){
             return res.status(503).end();
         }
-        return res.status(401).end();
+        return res.status(201).end();
         });
 
         //MODIFY AN ITEM
-        app.put('api/item/:id',[
-            body('id').isInt({min: 0}),
-            body('newId').isInt({min: 0}),
+        app.put('/api/item/:id',[
+            check('id').isInt({min: 0}),
             body('newDescription').isString(),
             body('newPrice').isFloat({min: 0})],
             async (req,res)=>{
@@ -93,7 +92,7 @@ module.exports=function(app){
                     return res.status(422).end();
                 }
                 const id = req.params.id;
-                if(!id || Object.keys(req.body).length !== 3){
+                if(!id || Object.keys(req.body).length !== 2){
                     return res.status(422).json();
                 }
                 try{
@@ -102,7 +101,7 @@ module.exports=function(app){
                     let item = await items.getItemById(id);
                     if(!item)
                         return res.status(404).end();
-                    await items.modifyItem(req.body.id,req.body.newDescription,req.body.newPrice,item.getSKUId(),item.getSupplierId(),id);
+                    await items.modifyItem(id,req.body.newDescription,req.body.newPrice,item.getSKUId(),item.getSupplierId(),id);
                 }
                 catch(err){
                     return res.status(503).end();
@@ -120,7 +119,7 @@ module.exports=function(app){
                     await items.createItemTable();
                     const item = await items.getItemById(id);
                     if(!item)
-                        return res.status(404).end();
+                        return res.status(204).end();
                     await items.deleteItem(id);
                 }
                 catch(err){

@@ -23,15 +23,27 @@ module.exports = function(app){
             return res.status(422).end();
         }
 
+        let skuItems;
+        let skuItem;
         let testResult;
-        try{
-            testResult = new TestResultDB('WarehouseDB');
-            testResult = await testResult.getTestResultsByRfid(req.params.rfid);
-            if(!testResult)
-                //not found, no test result associated to rfid = :rfid
+        try {
+            skuItems = new SKUItemsDB('WarehouseDB');
+            await skuItems.createSKUItemsTable();
+            skuItem = await skuItems.getSKUItemByRFID(req.params.rfid);
+            if (!skuItem) {
+                //no sku item associated to rfid
                 return res.status(404).end();
+            }
+            testResult = new TestResultDB('WarehouseDB');
+            await testResult.createTestResultTable();
+            testResult = await testResult.getTestResultsByRfid(req.params.rfid);
+            //if(!testResult) {
+                //not found, no test result associated to rfid = :rfid
+                //return res.status(404).end();
+            //}
         }catch(err){
             //service unavailable, generic error
+            console.log(err);
             return res.status(500).end();
         }
         //sucess, data retrieved
@@ -52,10 +64,20 @@ module.exports = function(app){
             return res.status(422).end();
         }
 
+        let skuItems;
+        let skuItem;
         let testResult;
-        try{
+        try {
+            skuItems = new SKUItemsDB('WarehouseDB');
+            await skuItems.createSKUItemsTable();
+            skuItem = await skuItems.getSKUItemByRFID(req.params.rfid);
+            if (!skuItem) {
+                //no sku item associated to rfid
+                return res.status(404).end();
+            }
             testResult = new TestResultDB('WarehouseDB');
-            testResult = await testResult.getTestResultsByIdAndRfid(req.param.id, req.param.rfid);
+            await testResult.createTestResultTable();
+            testResult = await testResult.getTestResultsByIdAndRfid(req.params.id, req.params.rfid);
             if(!testResult)
                 //not found, no test result associatd to rfid = :rfid and id = :id
                 return res.status(404).end();
@@ -64,7 +86,7 @@ module.exports = function(app){
             return res.status(500).end();
         }
         //success, data retrieved
-        return res.stauts(200).json(testResult[0]);
+        return res.status(200).json(testResult[0]);
     })
 
 
@@ -106,7 +128,7 @@ module.exports = function(app){
             }
             testResult = new TestResultDB('WarehouseDB');
             await testResult.createTestResultTable();
-            await testResult.createTestResult(req.body.rfid, req.body.idTestDescriptor, req.body.date, req.body.result);
+            await testResult.createTestResult(req.body.rfid, req.body.idTestDescriptor, req.body.Date, req.body.Result);
         }catch(err){
             //service unavailable, generic error
             return res.status(503).end();
@@ -137,11 +159,12 @@ module.exports = function(app){
         let testResults
         try{
             testResults = new TestResultDB('WarehouseDB');
-            testResults = await testResults.getTestResultsByIdAndRfid(req.param.id, req.param.rfid);
-            if(Object.keys(testResults).length === 0)
+            await testResults.createTestResultTable();
+            const testResult = await testResults.getTestResultsByIdAndRfid(req.params.id, req.params.rfid);
+            if(!testResult)
                 //not found, no test results associated to rfid = :rfid and id = :id
                 return res.status(404).end();
-            await testResults.changeTestResult(req.params.id, req.param.rfid, req.body.testDescriptor, req.body.date, req.body.result);
+            await testResults.changeTestResult(req.params.id, req.params.rfid, req.body.newIdTestDescriptor, req.body.newDate, req.body.newResult);
         }catch(err){
             //service unavailable, generic error
             return res.status(503).end();
@@ -168,7 +191,12 @@ module.exports = function(app){
 
         let testResults;
         try{
-            testResults = testResults('WarehouseDB');
+            testResults = new TestResultDB('WarehouseDB');
+            await testResults.createTestResultTable();
+            const testResult = await testResults.getTestResultsByIdAndRfid(req.params.id,req.params.rfid);
+            if(!testResult){
+                return res.status(204).end();
+            }
             await testResults.deleteTestResult(req.params.id, req.params.rfid);
         }catch(err){
             //service unavailable, generic error

@@ -10,15 +10,15 @@ class SKUDB {
             if (err)
                 throw err;
         });
-       this.db.run("PRAGMA foreign_keys = ON;");
+       //this.db.run("PRAGMA foreign_keys = ON;");
 
     }
 
 
-    async createSKUTable() {
+    createSKUTable() {
         return new Promise((resolve, reject) => {
             //Update and delete policy: changes to positionId are propagated but a position can't be deleted as long as an SKU is stored in it
-            const sql = "CREATE TABLE IF NOT EXISTS SKUS(ID INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(50), weight FLOAT, volume FLOAT, notes VARCHAR(100), positionId VARCHAR(12), quantity INTEGER, price FLOAT, testDescriptors VARCHAR(30), CHECK(quantity >= 0), FOREIGN KEY (positionId) REFERENCES POSITIONS (positionID) ON UPDATE CASCADE ON DELETE RESTRICT);";
+            const sql = "CREATE TABLE IF NOT EXISTS SKUS(ID INTEGER PRIMARY KEY, description VARCHAR(50), weight FLOAT, volume FLOAT, notes VARCHAR(100), positionId VARCHAR(12), quantity INTEGER, price FLOAT, testDescriptors VARCHAR(30));";
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -29,7 +29,7 @@ class SKUDB {
         });
     }
 
-    async getSKUs() {
+    getSKUs() {
         return new Promise((resolve, reject) => {
             const sql = "SELECT * FROM SKUS;"
             this.db.all(sql, (err, rows) => {
@@ -69,7 +69,7 @@ class SKUDB {
         });
     }
 
-    async createSKU(description, weight, volume, notes, price, availableQuantity) {
+    createSKU(description, weight, volume, notes, price, availableQuantity) {
         return new Promise((resolve, reject) => {
             const sql = "INSERT INTO SKUS(description,weight,volume,notes,price,quantity,testDescriptors, positionId) VALUES(?,?,?,?,?,?,?,?);";
             this.db.run(sql, [description, weight, volume, notes,price, availableQuantity, '[]', null], (err) => {
@@ -95,7 +95,7 @@ class SKUDB {
         });
     }
 
-    async setSKUPosition(id, positionId) {
+    setSKUPosition(id, positionId) {
         return new Promise((resolve, reject) => {
             const sql = "UPDATE SKUS SET positionId=? WHERE ID=?;";
             this.db.run(sql, [positionId, id], (err) => {
@@ -108,7 +108,7 @@ class SKUDB {
         });
     }
 
-    async deleteSKU(id) {
+    deleteSKU(id) {
         return new Promise((resolve, reject) => {
             const sql = "DELETE FROM SKUS WHERE ID=?";
             this.db.run(sql, [id], (err) => {
@@ -120,7 +120,8 @@ class SKUDB {
             });
         });
     }
-    async occupiedByOthers(positionId, ID) {
+    
+    occupiedByOthers(positionId, ID) {
         return new Promise((resolve, reject) => {
             const sql = "SELECT positionId FROM SKUS WHERE ID<>? AND positionId=?";
             this.db.run(sql, [ID, positionId], (err, rows) => {

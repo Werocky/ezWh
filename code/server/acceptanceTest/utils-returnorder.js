@@ -120,7 +120,7 @@ function testGetReturnOrderById(agent, myretord, id, expCode){
     describe(' get /api/returnOrders/:id', function(){
         it(' get return order by id', function(done){
             let idsret = ids.getIdReturnOrders();
-            //console.log(idsret[id]);
+            console.log(idsret[id]);
             agent.get('/api/returnOrders/'+idsret[id])
             .then(function(res){
                 res.should.have.status(expCode);

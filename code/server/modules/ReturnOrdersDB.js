@@ -16,7 +16,7 @@ class ReturnOrdersDB {
 
     createReturnOrdersTable() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS RETURNORDERS(ID INTEGER PRIMARY KEY AUTOINCREMENT,returnDate VARCHAR, products VARCHAR, restockOrderId INTEGER)';
+            const sql = 'CREATE TABLE IF NOT EXISTS RETURNORDERS(ID INTEGER PRIMARY KEY,returnDate VARCHAR, products VARCHAR, restockOrderId INTEGER)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -58,8 +58,9 @@ class ReturnOrdersDB {
         });
     }
 
-    getReturnOrder(id) {
-        return new Promise((resolve, reject) => {
+    async getReturnOrder(id) {
+
+        let returnOrder = await new Promise((resolve, reject) => {
             const sql = 'SELECT id as id, returnDate as returnDate, products as products, restockOrderId as restockOrderId FROM RETURNORDERS WHERE id=?';
             this.db.get(sql, [id], (err, row) => {
                 if (err) {
@@ -71,10 +72,16 @@ class ReturnOrdersDB {
                 }
                 else {
                     const returnOrder = new ReturnOrder(row.returnDate, row.products, row.restockOrderId, row.id);
-                    resolve(this.parseReturnOrder(returnOrder));
+                    resolve(returnOrder);
                 }
             });
         });
+
+        if (returnOrder) {
+            return await this.parseReturnOrder(returnOrder);
+
+        }
+        return null;
     }
 
     async parseReturnOrder(returnOrder) {
@@ -84,12 +91,14 @@ class ReturnOrdersDB {
         let products = [];
         for (let i = 0; i < productsID.length; i++) {
             let sku = await skus.getSKUById(productsID[i]);
-            let product = {};
-            product['SKUId'] = sku.id;
-            product['description'] = sku.description;
-            product['price'] = sku.price;
-            product['RFID'] = JSON.parse(returnOrder.products)[i].RFID;
-            products.push(product);
+            if (sku) {
+                let product = {};
+                product['SKUId'] = sku.id;
+                product['description'] = sku.description;
+                product['price'] = sku.price;
+                product['RFID'] = JSON.parse(returnOrder.products)[i].RFID;
+                products.push(product);
+            }
         }
 
         returnOrder.products = products;

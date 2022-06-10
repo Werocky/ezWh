@@ -14,7 +14,7 @@ module.exports = class InternalOrderDB{
 
     createInternalTable(){
         return new Promise((resolve, reject) =>{
-            const query = 'CREATE TABLE IF NOT EXISTS INTERNALORDERS(id INTEGER PRIMARY KEY AUTOINCREMENT, issueDate VARCHAR, state VARCHAR, products VARCHAR, customerId INTEGER)';
+            const query = 'CREATE TABLE IF NOT EXISTS INTERNALORDERS(id INTEGER PRIMARY KEY, issueDate VARCHAR, state VARCHAR, products VARCHAR, customerId INTEGER)';
             this.db.run(query, (err) =>{
                 if(err){
                     reject(err);
@@ -91,7 +91,8 @@ module.exports = class InternalOrderDB{
                     resolve(null);
                 }else{
                     const internalOrder = new InternalOrder(row.id, row.issueDate, row.state, row.products, row.customerId);
-                    resolve(this.parseInternalOrder(internalOrder));
+                    const pInternalOrder = await this.parseInternalOrder(internalOrder)
+                    resolve(pInternalOrder);
                 }
             });
         });
@@ -105,6 +106,7 @@ module.exports = class InternalOrderDB{
         for (let i = 0; i < productsID.length; i++) {
             let sku = await skus.getSKUById(productsID[i].SKUId);
             let product = {};
+            if(sku){
             product['SKUId'] = sku.id;
             product['description'] = sku.description;
             product['price'] = sku.price;
@@ -113,6 +115,7 @@ module.exports = class InternalOrderDB{
             }else {
                 product['qty'] = productsID[i].qty;
             }
+        }
             products.push(product);
         }
             
@@ -133,7 +136,7 @@ module.exports = class InternalOrderDB{
                 
                 let productsID = JSON.stringify(products.map(product => {
                     let productsID = {};
-                    productsID['SKUId'] = product.SKUId;
+                    productsID['SKUId'] = product.SkuID;
                     productsID['RFID'] = product.RFID;
                     return productsID;
                 }));                

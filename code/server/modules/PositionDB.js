@@ -2,7 +2,7 @@
 
 const sqlite = require('sqlite3');
 const Position = require('./Position');
-const SKUsDB = require('./SKUsDB');
+const SKUDB = require('./SKUsDB');
 
 class PositionDB {
 
@@ -10,7 +10,7 @@ class PositionDB {
       this.db = new sqlite.Database(dbName, (err) => {
           if(err) throw err;
       });
-      this.db.run("PRAGMA foreign_keys = ON;");
+      //this.db.run("PRAGMA foreign_keys = ON;");
   }
 
   createPositionTable() {
@@ -97,17 +97,17 @@ class PositionDB {
 
   changePositionID(positionID, newPositionID) {
     return new Promise((resolve, reject) => {
-        let skus = new SKUsDB('WarehouseDB');
-        skus.createSKUTable();
-        skus = skus.getSKUs();
+        /*let skus = new SKUDB('WarehouseDB');
+        await skus.createSKUTable();
+        const skusL = await skus.getSKUs();
         let i = 0;
-        while (i < skus.length) {
-            if (skus[i].positionID === positionID) {
-                skus.setSKUPosition(skus[i].id,newPositionID);
+        while (i < skusL.length) {
+            if (skusL[i].positionID === positionID) {
+                await skus.setSKUPosition(skusL[i].id,newPositionID);
             }
             i++;
         }
-        const aisleID = newPositionID.substring(0,4);
+        */const aisleID = newPositionID.substring(0,4);
         const row = newPositionID.substring(4,8);
         const col = newPositionID.substring(8,12);
         const sql = 'UPDATE POSITIONS SET positionID=?, aisleID=?, row=?, col=? WHERE positionID=?';
@@ -122,7 +122,7 @@ class PositionDB {
   }
 
   async modifyPosition(position) {
-    return changePosition(position.positionID, position.aisleID, position.row, position.col, position.maxWeight, position.maxVolume, position.occupiedWeight, position.occupiedVolume);
+    return await changePosition(position.positionID, position.aisleID, position.row, position.col, position.maxWeight, position.maxVolume, position.occupiedWeight, position.occupiedVolume);
   }
 
   deletePosition(positionID) {

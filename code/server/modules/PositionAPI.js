@@ -111,7 +111,7 @@ module.exports = function (app) {
       positions = new PositionDB('WarehouseDB');
       await positions.createPositionTable();
 
-      if (!await positions.getPosition(id)) {
+      if (!(await positions.getPosition(id))) {
         //restock order not found
         return res.status(404).json();
       }
@@ -149,7 +149,7 @@ module.exports = function (app) {
       positions = new PositionDB('WarehouseDB');
       await positions.createPositionTable();
 
-      if (!await positions.getPosition(id)) {
+      if (!(await positions.getPosition(id))) {
         //restock order not found
         return res.status(404).json();
       }
@@ -185,7 +185,7 @@ module.exports = function (app) {
       await positions.createPositionTable();
       const position = await positions.getPosition(id);
       if(!position)
-        return res.status(404).end();
+        return res.status(204).end();
       await positions.deletePosition(id);
     } catch (err) {
       // generic error
