@@ -68,6 +68,24 @@ class ItemDB{
         });
     }
 
+    getItemBySKUIdAndSupplier(SKUId,supplierId){
+        return new Promise((resolve, reject) => {
+            const sql = "SELECT * FROM ITEMS WHERE SKUId=? AND supplierId=?";
+            this.db.get(sql, [SKUId,supplierId], (err, row) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                if (!row)
+                    resolve(null);
+                else {
+                    const item = new Item(row.id, row.description, row.price, row.SKUId, row.supplierId);
+                    resolve(item);
+                }
+            });
+        });
+    }
+
     createItem(id,description,price,SKUId,supplierId){
         return new Promise((resolve, reject) => {
             const sql = "INSERT INTO ITEMS(id,description,price,SKUId,supplierId) VALUES(?,?,?,?,?);";
