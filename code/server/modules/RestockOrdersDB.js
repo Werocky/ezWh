@@ -30,7 +30,7 @@ class RestockOrdersDB {
 
     async getRestockOrders() {
         const rows = await this.getRawRestockOrders();
-
+        
         let restockOrders = [];
         for (let i = 0; i < rows.length; i++) {
             let restockOrder = new RestockOrder(rows[i].issueDate, rows[i].state, rows[i].products, rows[i].supplierId, rows[i].transportNote, rows[i].skuItems, rows[i].id)
@@ -90,7 +90,7 @@ class RestockOrdersDB {
         let productsID = JSON.parse(restockOrder.products);
         let products = [];
         for (let i = 0; i < productsID.length; i++) {
-            let item = await items.getItemById(productsID.itemId,restockOrder.supplierId);
+            let item = await items.getItemById(productsID[i].itemId,restockOrder.supplierId);
             if (item) {
                 let product = {};
                 product['SKUId'] = item.getSKUId();
