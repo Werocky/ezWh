@@ -135,6 +135,7 @@ class RestockOrdersDB {
         let productsID = JSON.stringify(products.map(product => {
             let productsID = {};
             productsID['SKUId'] = product.SKUId;
+            productsID['itemId'] = product.itemId;
             productsID['qty'] = product.qty;
             return productsID;
         }));
