@@ -11,6 +11,7 @@ chai.use(chaiHttp);
 chai.should();
 
 const app = require('../server');
+const ItemDB = require('../modules/ItemDB');
 var agent = chai.request.agent(app);
 
 describe('test manage reception of SKU items of a restock order', () => {
@@ -19,12 +20,21 @@ describe('test manage reception of SKU items of a restock order', () => {
 
         let restockOrders = new RestockOrdersDB('WarehouseDB');
         await restockOrders.deleteAllRestockOrders();
+        let items = new ItemDB('WarehouseDB');
+        await items.deleteAllItems();
         let skuItems = new SKUItemDB('WarehouseDB');
         await skuItems.deleteAllSKUItems();
         let skus = new SKUDB('WarehouseDB');
         await skus.deleteAllSKUs();
         let positions = new PositionDB('WarehouseDB');
         await positions.deleteAllPositions();
+
+        await skus.createSKUTable();
+        await skus.createSKU('an sku',10,50,'first sku',10.99,1);
+        await skus.createSKU('another sku',10,50,'second sku',9.99,1);
+        await items.createItemTable();
+        await items.createItem(1,'item',10.99,1,1);
+        await items.createItem(2,'item',10.99,2,1);
 
     })
 
@@ -35,6 +45,8 @@ describe('test manage reception of SKU items of a restock order', () => {
         await restockOrders.deleteAllRestockOrders();
         let skuItems = new SKUItemDB('WarehouseDB');
         await skuItems.deleteAllSKUItems();
+        let items = new ItemDB('WarehouseDB');
+        await items.deleteAllItems();
         let skus = new SKUDB('WarehouseDB');
         await skus.deleteAllSKUs();
         let positions = new PositionDB('WarehouseDB');
@@ -50,19 +62,14 @@ describe('test manage reception of SKU items of a restock order', () => {
 function recordRestockOrderArrival() {
     it('test recording of restock order arrival', function (done) {
 
-        let products = [{ SKUId: 1, description: "a product", price: 10.99, qty: 3 },
-        { SKUId: 1, description: "another product", price: 10.99, qty: 2 }]
+        let products = [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 3 },
+        { SKUId: 2, itemId: 2, description: "another product", price: 9.99, qty: 2 }]
 
         let restockOrder = { issueDate: "2021/11/29 09:33", products: products, supplierId: 1 };
         agent.post('/api/restockOrder')
             .send(restockOrder)
             .then(function (res) {
                 res.should.have.status(201);
-                let sku = { description: "an sku", weight: 10, volume: 50, notes: "first sku", price: 10.99, availableQuantity: 1 }
-                agent.post('/api/sku/')
-                    .send(sku)
-                    .then(function (res) {
-                        res.should.have.status(201);
                         let position = { positionID: "800234543412", aisleID: "8002", row: "3454", col: "3412", maxWeight: 1000, maxVolume: 1000 }
                         agent.post('/api/position')
                             .send(position)
@@ -107,8 +114,6 @@ function recordRestockOrderArrival() {
                                             })
                                     })
                             })
-
-                    })
 
             })
             .then(() => done(), done)

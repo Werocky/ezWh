@@ -10,6 +10,8 @@ const RestockOrdersDB = require('./RestockOrdersDB');
 const RestockOrder = require('./RestockOrder');
 const TestResultDB = require('./TestResultDB');
 const SKUDB = require('./SKUsDB');
+const ItemDB = require('./ItemDB');
+const Item = require('./Item');
 
 dayjs.extend(CustomParseFormat);
 
@@ -150,7 +152,16 @@ module.exports = function(app) {
         if(!req.body.issueDate || !dayjs(req.body.issueDate,['YYYY/MM/DD','YYYY/MM/DD HH:mm'],true).isValid()){
             return res.status(422).end();
         }
-        
+
+        const items = new ItemDB('WarehouseDB');
+        await items.createItemTable();
+        for(let prod of req.body.products){
+            let item = await items.getItemById(prod.itemId,req.body.supplierId);
+            if(!item)
+                return res.status(422).end();
+            if(item.getSKUId() !== prod.SKUId)
+                return res.status(422).end();
+        }
         
         let restockOrders;
         try {
