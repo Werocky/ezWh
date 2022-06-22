@@ -77,8 +77,7 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 | 2.1         |     FR3.1.1              |    createPosition()      |             
 | 2.2         |          FR3.1.1     |        changePositionID()    | 
 | 2.3         |         FR3.1.4         |     modifyPosition()        | 
-|   2.5           |    FR3.1.2          |     deletePosition()         | 
-|    3.1          |    FR5.1       |     issueRestockOrder()         |            
+|   2.5           |    FR3.1.2          |     deletePosition()         |           
 |    3.2          |   FR5.1       |     issueRestockOrder()         |            
 |     4.1         |     FR1.1         |      createUser()        |            
 |     4.2       |      FR1.5        |    changeUserRights()          |            
