@@ -9,6 +9,7 @@ Version:
 
 
  1.1 : Updated class diagram, "DatabaseHelper" renamed as "WarehouseDB", "DataImpl" renamed as "server" 
+ 1.2 : Updated class diagram and sequence diagrams to better align to the recent changes
 
 
 # Contents
