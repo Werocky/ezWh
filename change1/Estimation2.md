@@ -45,7 +45,7 @@ Now it is possible to repeat the estimate using values from the past. We can als
 | NC =  Estimated number of classes to be developed                 |           45              |             
 |  A = Estimated average size per class, in LOC                     |            115                | 
 | S_e = Estimated size of project, in LOC (= NC * A)                  |           5175                     |
-| E = Estimated effort, in person hours (here use overall productivity OP)  |               12,82                   |   
+| E = Estimated effort, in person hours (here use overall productivity OP)  |               413                   |   
 | C = Estimated cost, in euro (here use 1 person hour cost = 30 euro)                   |    10020     | 
 | D_e = Estimated number of defects = DD * S_e|284,625|
 | Estimated effort for non quality = D_e * D_fix |53,50|
