@@ -22,8 +22,10 @@ module.exports=function(app){
         return res.status(200).json(items);
     });
     //GET AN ITEM GIVEN THE ID
-    app.get('/api/items/:id',
-    param('id').isInt({min: 0}), 
+    app.get('/api/items/:id/:supplierId',[
+    param('id').isInt({min: 0}),
+    param('supplierId').isInt({min: 0}),
+    ], 
     async(req,res)=>{
 
         const errors = validationResult(req);
@@ -31,12 +33,13 @@ module.exports=function(app){
               return res.status(422).end();
         }
         let id=req.params.id;
+        let supplierId = req.params.supplierId;
         let items;
         let item;
         try{
             items = new ItemDB('WarehouseDB');
             await items.createItemTable();
-            item = await items.getItemById(id);
+            item = await items.getItemById(id,supplierId);
         }
         catch(err){
             return res.status(500).json();
@@ -82,8 +85,9 @@ module.exports=function(app){
         });
 
         //MODIFY AN ITEM
-        app.put('/api/item/:id',[
+        app.put('/api/item/:id/:supplierId',[
             check('id').isInt({min: 0}),
+            check('supplierId').isInt({min: 0}),
             body('newDescription').isString(),
             body('newPrice').isFloat({min: 0})],
             async (req,res)=>{
@@ -92,16 +96,17 @@ module.exports=function(app){
                     return res.status(422).end();
                 }
                 const id = req.params.id;
+                const supplierId = req.params.supplierId;
                 if(!id || Object.keys(req.body).length !== 2){
                     return res.status(422).json();
                 }
                 try{
                     let items = new ItemDB('WarehouseDB');
                     await items.createItemTable();
-                    let item = await items.getItemById(id);
+                    let item = await items.getItemById(id,supplierId);
                     if(!item)
                         return res.status(404).end();
-                    await items.modifyItem(id,req.body.newDescription,req.body.newPrice,item.getSKUId(),item.getSupplierId(),id);
+                    await items.modifyItem(id,req.body.newDescription,req.body.newPrice,item.getSKUId(),supplierId,id);
                 }
                 catch(err){
                     return res.status(503).end();
@@ -110,17 +115,18 @@ module.exports=function(app){
             });
 
             //DELETE AN ITEM
-            app.delete('/api/items/:id',async (req,res)=>{
+            app.delete('/api/items/:id/:supplierId',async (req,res)=>{
                 const id = req.params.id;
-                if(!id)
+                const supplierId = req.params.supplierId;
+                if(!id || !supplierId)
                     return res.status(422).end();
                 try{
                     let items = new ItemDB('WarehouseDB');
                     await items.createItemTable();
-                    const item = await items.getItemById(id);
+                    const item = await items.getItemById(id,supplierId);
                     if(!item)
                         return res.status(204).end();
-                    await items.deleteItem(id);
+                    await items.deleteItem(id,supplierId);
                 }
                 catch(err){
                     return res.status(503).end();

@@ -2,7 +2,7 @@
 
 const ReturnOrder = require('./ReturnOrder');
 const RestockOrdersDB = require('./RestockOrdersDB');
-const SKUDB = require('./SKUsDB');
+const ItemDB = require('./ItemDB');
 
 
 class ReturnOrdersDB {
@@ -85,17 +85,21 @@ class ReturnOrdersDB {
     }
 
     async parseReturnOrder(returnOrder) {
-        let skus = new SKUDB('WarehouseDB');
-        await skus.createSKUTable();
-        let productsID = JSON.parse(returnOrder.products).map(product => product.SKUId);
+        let items = new ItemDB('WarehouseDB');
+        const RestockOrder = new RestockOrdersDB('WarehouseDB');
+        await items.createItemTable();
+        await RestockOrder.createRestockTable();
+        let productsID = JSON.parse(returnOrder.products);
+        const restockOrder = await RestockOrder.getRestockOrder(returnOrder.restockOrderId)
         let products = [];
         for (let i = 0; i < productsID.length; i++) {
-            let sku = await skus.getSKUById(productsID[i]);
-            if (sku) {
+            let item = await items.getItemById(productsID[i].itemId, restockOrder.supplierId);
+            if (item) {
                 let product = {};
-                product['SKUId'] = sku.id;
-                product['description'] = sku.description;
-                product['price'] = sku.price;
+                product['SKUId'] = item.getSKUId();
+                product['itemId'] = item.getId();
+                product['description'] = item.getDescription();
+                product['price'] = item.getPrice();
                 product['RFID'] = JSON.parse(returnOrder.products)[i].RFID;
                 products.push(product);
             }
@@ -112,6 +116,7 @@ class ReturnOrdersDB {
             let productsID = JSON.stringify(products.map(product => {
                 let productsID = {};
                 productsID['SKUId'] = product.SKUId;
+                productsID['itemId'] = product.itemId;
                 productsID['RFID'] = product.RFID;
                 return productsID;
             }));

@@ -50,10 +50,28 @@ class ItemDB{
         })
     }
 
-    getItemById(id){
+    getItemById(id,supplierId){
         return new Promise((resolve, reject) => {
-            const sql = "SELECT * FROM ITEMS WHERE id=?";
-            this.db.get(sql, [id], (err, row) => {
+            const sql = "SELECT * FROM ITEMS WHERE id=? AND supplierId=?";
+            this.db.get(sql, [id,supplierId], (err, row) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                if (!row)
+                    resolve(null);
+                else {
+                    const item = new Item(row.id, row.description, row.price, row.SKUId, row.supplierId);
+                    resolve(item);
+                }
+            });
+        });
+    }
+
+    getItemBySKUIdAndSupplier(SKUId,supplierId){
+        return new Promise((resolve, reject) => {
+            const sql = "SELECT * FROM ITEMS WHERE SKUId=? AND supplierId=?";
+            this.db.get(sql, [SKUId,supplierId], (err, row) => {
                 if (err) {
                     reject(err);
                     return;
@@ -81,10 +99,10 @@ class ItemDB{
         });
     }
 
-    modifyItem(id,newDescription,newPrice,newSKUId,newSupplierId,oldId){
+    modifyItem(id,newDescription,newPrice,newSKUId,supplierId,oldId){
         return new Promise((resolve,reject)=>{
-            const sql = 'UPDATE ITEMS SET id=?,description=?,price=?,SKUId=?,supplierId=? WHERE id=?;';
-            this.db.run(sql,[id,newDescription,newPrice,newSKUId,newSupplierId,oldId],(err)=>{
+            const sql = 'UPDATE ITEMS SET id=?,description=?,price=?,SKUId=? WHERE id=? AND supplierId=?;';
+            this.db.run(sql,[id,newDescription,newPrice,newSKUId,oldId,supplierId],(err)=>{
                 if(err){
                     reject(err);
                     return;
@@ -94,10 +112,10 @@ class ItemDB{
         })
     }
 
-    deleteItem(id){
+    deleteItem(id,supplierId){
         return new Promise((resolve, reject) => {
-            const sql = "DELETE FROM ITEMS WHERE ID=?";
-            this.db.run(sql, [id], (err) => {
+            const sql = "DELETE FROM ITEMS WHERE id=? AND supplierId=?";
+            this.db.run(sql, [id,supplierId], (err) => {
                 if (err) {
                     reject(err);
                     return;

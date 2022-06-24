@@ -74,6 +74,7 @@ module.exports = function(app) {
     //CREATE A NEW ORDER
     app.post('/api/returnOrder',
             check('products.*.SKUId').isInt({ min: 0}),
+            check('products.*.itemId').isInt({min: 0}),
             check('products.*.RFID').isLength({ min: 32, max: 32}),
             body('restockOrderId').isInt({ min: 0}),
             async (req,res)=>{

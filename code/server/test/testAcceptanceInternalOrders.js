@@ -62,7 +62,7 @@ describe('test manage internal orders creation and acceptance', () => {
 })
 
 function acceptInternalOrder() {
-    it('accepting internal an order', function (done) {
+    it('accepting an internal order', function (done) {
         let internalOrder = {
             issueDate: "2021/11/29 09:33",
             products: [{ "SKUId": 1, "description": "a product", "price": 10.99, "qty": 3 },

@@ -41,7 +41,7 @@ describe('test item use case', () => {
     //SCENARIO 11-1
     createItem(201, 12, 'a new item', 10.99, 1, 1);
     //SCENARIO 11-2
-    modifyDescriptionAndPrice(200, 12, 'new description', 11.2);
+    modifyDescriptionAndPrice(200, 12, 1, 'new description', 11.2);
 })
 
 function createItem(expectedHTTPStatus, id, description, price, SKUId, supplierId) {
@@ -61,7 +61,7 @@ function createItem(expectedHTTPStatus, id, description, price, SKUId, supplierI
                             .send(item)
                             .then(function (response) {
                                 response.status.should.have(expectedHTTPStatus);
-                                agent.get('/api/items/' + id)
+                                agent.get('/api/items/' + id + '/' + supplierId)
                                     .then(function (r) {
                                         r.should.have.status(200);
                                         r.body.id.should.equal(id);
@@ -81,7 +81,7 @@ function createItem(expectedHTTPStatus, id, description, price, SKUId, supplierI
     })
 }
 
-function modifyDescriptionAndPrice(expectedHTTPStatus, id, newDescription, newPrice) {
+function modifyDescriptionAndPrice(expectedHTTPStatus, id, supplierId, newDescription, newPrice) {
     it('change description and price', function (done) {
         let supplier = { username: "user1@ezwh.com", name: 'John', surname: 'Smith', password: 'testpassword', type: 'supplier' };
         agent.post('/api/newUser')
@@ -93,16 +93,16 @@ function modifyDescriptionAndPrice(expectedHTTPStatus, id, newDescription, newPr
                     .send(sku)
                     .then(function (rs) {
                         rs.should.have.status(201);
-                        let item = { id: id, description, description, price: price, SKUId: SKUId, supplierId: supplierId }
+                        let item = { id: id, description, description, price: price, SKUId: 1, supplierId: supplierId }
                         agent.post('/api/item')
                             .send(item)
                             .then(function (response) {
                                 response.status.should.have(expectedHTTPStatus);
-                                agent.put('/api/item/' + id)
+                                agent.put('/api/item/' + id + '/' + supplierId)
                                     .send({ newDescription: newDescription, newPrice: newPrice })
                                     .then(function (rsp) {
                                         rsp.should.have.status(expectedHTTPStatus);
-                                        agent.get('/api/items/' + id)
+                                        agent.get('/api/items/' + id + '/' + supplierId)
                                             .then(function (r) {
                                                 r.should.have.status(200);
                                                 r.body.description.should.equal(newDescription);

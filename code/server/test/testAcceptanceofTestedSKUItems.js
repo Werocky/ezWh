@@ -47,10 +47,10 @@ describe('test acceptance of SKU items of a restock order',()=>{
         await testDescriptors.createTestDescriptor("test 1","do this...",1);
         await positions.changePosition("800033336486","8000","3333","6486",1000,1000,10*10,10*10);
         await skus.setSKUPosition(1,"800033336486");
-        await restockOrders.createRestockOrder("2021/11/29 09:33",[{"SKUId":1,"description":"a product","price":10.99,"qty":3}],1)
+        await restockOrders.createRestockOrder("2021/11/29 09:33",[{"SKUId":1,"itemId": 1, "description":"a product","price":10.99,"qty":3}],1)
         await restockOrders.changeState(1,"DELIVERED");
         let rO = await restockOrders.getRestockOrder(1);
-        await restockOrders.addSKUItems(1,[{SKUId: 1, rfid: "12345678901234567890123456789015"},{SKUId: 1, rfid: "12345678901234567890123456789016"},{SKUId: 1, rfid: "12345678901234567890123456789017"}],rO);
+        await restockOrders.addSKUItems(1,[{SKUId: 1, itemId: 1,rfid: "12345678901234567890123456789015"},{SKUId: 1, itemId: 1,rfid: "12345678901234567890123456789016"},{SKUId: 1,itemId: 1, rfid: "12345678901234567890123456789017"}],rO);
 
     })
 

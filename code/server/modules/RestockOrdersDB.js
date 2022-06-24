@@ -3,6 +3,8 @@
 const RestockOrder = require('./RestockOrder');
 const SKUItemsDB = require('./SKUItemsDB');
 const SKUDB = require('./SKUsDB');
+const ItemDB = require('./ItemDB');
+const Item = require('./Item');
 
 class RestockOrdersDB {
     sqlite = require('sqlite3');
@@ -28,7 +30,7 @@ class RestockOrdersDB {
 
     async getRestockOrders() {
         const rows = await this.getRawRestockOrders();
-
+        
         let restockOrders = [];
         for (let i = 0; i < rows.length; i++) {
             let restockOrder = new RestockOrder(rows[i].issueDate, rows[i].state, rows[i].products, rows[i].supplierId, rows[i].transportNote, rows[i].skuItems, rows[i].id)
@@ -83,17 +85,18 @@ class RestockOrdersDB {
     }
 
     async parseRestockOrder(restockOrder) {
-        let skus = new SKUDB('WarehouseDB');
-        await skus.createSKUTable();
+        let items = new ItemDB('WarehouseDB');
+        await items.createItemTable();
         let productsID = JSON.parse(restockOrder.products);
         let products = [];
         for (let i = 0; i < productsID.length; i++) {
-            let sku = await skus.getSKUById(productsID[i].SKUId);
-            if (sku) {
+            let item = await items.getItemById(productsID[i].itemId,restockOrder.supplierId);
+            if (item) {
                 let product = {};
-                product['SKUId'] = sku.id;
-                product['description'] = sku.description;
-                product['price'] = sku.price;
+                product['SKUId'] = item.getSKUId();
+                product['itemId'] = item.getId();
+                product['description'] = item.getDescription();
+                product['price'] = item.getPrice();
                 product['qty'] = productsID[i].qty;
                 products.push(product);
             }
@@ -113,9 +116,11 @@ class RestockOrdersDB {
         for (let i = 0; i < rfids.length; i++) {
             let skuItemInfo = await skuItemsDB.getSKUItemByRFID(rfids[i]);
             if (skuItemInfo) {
+                let item = await items.getItemBySKUIdAndSupplier(skuItemInfo.SKUId,restockOrder.supplierId);
                 console.log(skuItemInfo);
                 let skuItem = {};
                 skuItem['SKUId'] = skuItemInfo.SKUId;
+                skuItem['itemId'] = item.getId();
                 skuItem['rfid'] = skuItemInfo.RFID;
                 skuItems.push(skuItem);
             }
@@ -130,6 +135,7 @@ class RestockOrdersDB {
         let productsID = JSON.stringify(products.map(product => {
             let productsID = {};
             productsID['SKUId'] = product.SKUId;
+            productsID['itemId'] = product.itemId;
             productsID['qty'] = product.qty;
             return productsID;
         }));

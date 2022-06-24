@@ -10,6 +10,8 @@ const RestockOrdersDB = require('./RestockOrdersDB');
 const RestockOrder = require('./RestockOrder');
 const TestResultDB = require('./TestResultDB');
 const SKUDB = require('./SKUsDB');
+const ItemDB = require('./ItemDB');
+const Item = require('./Item');
 
 dayjs.extend(CustomParseFormat);
 
@@ -131,6 +133,7 @@ module.exports = function(app) {
     //CREATE A NEW ORDER
     app.post('/api/restockOrder',
             check('products.*.SKUId').isInt({ min: 0}),
+            check('products.*.itemId').isInt({min: 0}),
             check('products.*.qty').isInt({ min: 0}),
             body('supplierId').isInt({ min: 0}),
             async (req,res)=>{
@@ -149,7 +152,16 @@ module.exports = function(app) {
         if(!req.body.issueDate || !dayjs(req.body.issueDate,['YYYY/MM/DD','YYYY/MM/DD HH:mm'],true).isValid()){
             return res.status(422).end();
         }
-        
+
+        const items = new ItemDB('WarehouseDB');
+        await items.createItemTable();
+        for(let prod of req.body.products){
+            let item = await items.getItemById(prod.itemId,req.body.supplierId);
+            if(!item)
+                return res.status(422).end();
+            if(item.getSKUId() !== prod.SKUId)
+                return res.status(422).end();
+        }
         
         let restockOrders;
         try {
@@ -205,6 +217,7 @@ module.exports = function(app) {
     app.put('/api/restockOrder/:id/skuItems',
             check('skuItems').exists(),
             check('skuItems.*.SKUId').isInt({ min: 0}),
+            check('skuItems.*.itemId').isInt({min: 0}),
             check('skuItems.*.rfid').isLength({min:32, max: 32}),
             param('id').isInt(),
             async (req,res)=>{
